@@ -5,7 +5,7 @@ import { TextInput } from '@atoms/TextInput'
 import { useState } from 'react'
 
 export default function Home() {
-  const [input, setInput] = useState<string>('')
+  const [input, setInput] = useState<string | null>(null)
   return (
     <div className="h-[100vh] bg-black">
       <Button label="ATAKUJ" />
