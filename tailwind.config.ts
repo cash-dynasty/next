@@ -8,9 +8,13 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      'goldman': ['Goldman']
+      goldman: ['Goldman'],
     },
-
+    borderWidth: {
+      1: '1px',
+      2: '2px',
+      3: '3px',
+    },
     extend: {
       colors: {
         primary: {
@@ -18,6 +22,7 @@ const config: Config = {
           75: 'rgba(255, 110, 32, .75)',
           50: 'rgba(255, 110, 32, .5)',
           25: 'rgba(255, 110, 32, .25)',
+          5: 'rgba(255, 110, 32, .05)',
         },
         secondary: {
           100: 'rgba(24 , 53, 58, 1)',
@@ -30,7 +35,7 @@ const config: Config = {
           75: 'rgba(204 , 204, 204, .75)',
           50: 'rgba(204 , 204, 204, .5)',
           25: 'rgba(204 , 204, 204, .25)',
-        }
+        },
       },
     },
   },
