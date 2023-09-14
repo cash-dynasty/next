@@ -6,7 +6,7 @@ import { MdPerson } from 'react-icons/md'
 type TextInputProps = {
   placeholder: string
   type: HTMLInputTypeAttribute
-  value: string
+  value: string | undefined
   fullWidth?: boolean
   leftIcon?: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
