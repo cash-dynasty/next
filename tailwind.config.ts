@@ -8,9 +8,8 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      'goldman': ['Goldman']
+      goldman: ['Goldman'],
     },
-
     extend: {
       colors: {
         primary: {
@@ -30,7 +29,7 @@ const config: Config = {
           75: 'rgba(204 , 204, 204, .75)',
           50: 'rgba(204 , 204, 204, .5)',
           25: 'rgba(204 , 204, 204, .25)',
-        }
+        },
       },
     },
   },
