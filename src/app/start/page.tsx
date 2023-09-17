@@ -1,4 +1,4 @@
-export const Start = () => {
+export function Start() {
   return <p>elo</p>
 }
 
