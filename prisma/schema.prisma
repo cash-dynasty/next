@@ -7,18 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
-  MODERATOR
-}
-
 model User {
-  id        Int      @id @default(autoincrement())
   email     String   @unique
   nickname  String
   password  String
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
 }

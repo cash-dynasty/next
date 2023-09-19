@@ -22,16 +22,16 @@ export const options: NextAuthOptions = {
       async authorize(credentials) {
         const user = { id: '6', name: 'Marcin', password: 'elo', role: 'admin' }
 
-        if (
-          credentials?.username === user.name &&
-          credentials?.password === user.password
-        ) {
+        if (credentials?.username === user.name && credentials?.password === user.password) {
           return user
         }
         return null
       },
     }),
   ],
+  pages: {
+    newUser: 'auth/register',
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) token.role = user.role
