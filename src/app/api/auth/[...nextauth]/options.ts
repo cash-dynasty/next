@@ -1,5 +1,8 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { prisma } from '@/utils/db'
+import bcrypt from 'bcrypt'
+import { normalizeText } from '@/utils/textFormatters'
 
 export const options: NextAuthOptions = {
   providers: [
@@ -20,11 +23,34 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const user = { id: '6', name: 'Marcin', password: 'elo', role: 'admin' }
+        if (!credentials) return null
+        const user = await prisma.user.findFirst({
+          where: {
+            OR: [
+              {
+                username: {
+                  equals: normalizeText(credentials.username),
+                },
+              },
+              {
+                email: {
+                  equals: normalizeText(credentials.username),
+                },
+              },
+            ],
+          },
+        })
 
-        if (credentials?.username === user.name && credentials?.password === user.password) {
-          return user
+        if (user) {
+          const checkPassword = await bcrypt.compare(
+            credentials.password,
+            user.password,
+          )
+          if (checkPassword) {
+            return user
+          }
         }
+
         return null
       },
     }),
