@@ -1,34 +1,40 @@
 'use client'
 import { TextInput } from '@/components/atoms/TextInput'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
-import axios from 'axios'
 import { normalizeText } from '@/utils/textFormatters'
-import { verifyCaptcha } from '@/utils/serverActions'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { useRegisterAccountMutation } from '@/api'
+import { cn } from '@/utils/styles'
 
 export default function Register() {
-  const [username, setUsernane] = useState<string | undefined>('')
-  const [password, setPassword] = useState<string | undefined>('')
-  const [email, setEmail] = useState<string | undefined>('')
+  const [username, setUsernane] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [
+    registerAccount,
+    { isLoading, isSuccess, isError, error, reset, isUninitialized },
+  ] = useRegisterAccountMutation()
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
-  const [isVerified, setIsVerified] = useState<boolean>(false)
-  console.log(isVerified, 'test')
+  console.log('isUninitialized', isUninitialized)
 
-  const register = async () =>
-    await axios.post('http://localhost:3000/api/auth/register', {
+  const { executeRecaptcha } = useGoogleReCaptcha()
+
+  const register = async () => {
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available')
+      return
+    }
+    const gReCaptchaToken = await executeRecaptcha('register')
+    await registerAccount({
       username,
       password,
       email,
+      gReCaptchaToken,
     })
-
-  const handleVerifyCaptcha = async (token: string | null) => {
-    console.log(token, 'test')
-    await verifyCaptcha(token)
-      .then(() => setIsVerified(true))
-      .catch(() => setIsVerified(false))
   }
+
+  console.log('error', error)
 
   return (
     <div className="h-screen bg-slate-700">
@@ -58,17 +64,31 @@ export default function Register() {
             value={email}
             onChange={(e) => setEmail(normalizeText(e.target.value))}
           />
-          <ReCAPTCHA
-            sitekey="6LfunUYoAAAAAF6S3ulk74sMe0MoBmIZD27gWMSJ"
-            ref={recaptchaRef}
-            onChange={handleVerifyCaptcha}
-            className="flex justify-center my-4"
-          />
           <Button
-            label="Zarejestruj albo wyjebie cię z serwera"
+            label={
+              isLoading ? 'Proszę czekać...' : 'Zarejestruj konto za darmo'
+            }
             onClick={register}
-            disabled={!isVerified}
           />
+          {isSuccess && (
+            <p
+              className={cn(
+                'p-4 bg-green-600 mt-2 w-full text-center text-white',
+              )}
+            >
+              Konto zarejestrowane pomyślnie! Możesz się zalogować
+            </p>
+          )}
+          {isError && (
+            <p
+              className={cn(
+                'p-4 bg-red-600 mt-2 w-full text-center text-white',
+              )}
+            >
+              Wystąpił błąd podczas rejestracji: {error?.data?.error}
+            </p>
+          )}
+          <Button label="reset" onClick={reset} />
         </div>
       </div>
     </div>
