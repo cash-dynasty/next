@@ -30,15 +30,15 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen bg-slate-700 flex flex-col gap-5">
-      <Button label="ATAKUJ" />
-
-      {/*<MenuBar />*/}
-      <Link href={'/start'}>go to start</Link>
-
-      <Link href={'/auth/register'}>Register nju account</Link>
-      <Button label="send email" onClick={sendMail} />
-      <Posts />
+    <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <Button label="ATAKUJ" />
+        {/*<MenuBar />*/}
+        <Link href={'/start'}>Go to start</Link>
+        <Link href={'/auth/register'}>Register nju account</Link>
+        <Button label="Wyslij email" onClick={sendMail} />
+        <Posts />
+      </div>
     </div>
   )
 }
