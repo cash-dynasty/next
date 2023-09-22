@@ -1,18 +1,20 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Pokemon } from './types'
+import { Post } from '@prisma/client'
+
+type GetPostsApiResponse = Post[]
 
 // Define a service using a base URL and expected endpoints
-export const pokemonApi = createApi({
-  reducerPath: 'pokemonApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/' }),
+export const firstApi = createApi({
+  reducerPath: 'firstApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
   endpoints: (builder) => ({
-    getPokemonByName: builder.query<Pokemon, string>({
-      query: (name) => `pokemon/${name}`,
+    getPosts: builder.query<GetPostsApiResponse, void>({
+      query: () => `/posts`,
     }),
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetPokemonByNameQuery } = pokemonApi
+export const { useGetPostsQuery } = firstApi
