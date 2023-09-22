@@ -33,7 +33,7 @@ export default function Register() {
   return (
     <div className="h-screen bg-slate-700">
       <div className="h-full flex items-center justify-center">
-        <div className="flex flex-col gap-4 bg-slate-800 p-12">
+        <div className="flex flex-col gap-4 bg-slate-800 p-12 w-full max-w-xl">
           <TextInput
             leftIcon
             fullWidth
@@ -62,9 +62,10 @@ export default function Register() {
             sitekey="6LfunUYoAAAAAF6S3ulk74sMe0MoBmIZD27gWMSJ"
             ref={recaptchaRef}
             onChange={handleVerifyCaptcha}
+            className="flex justify-center my-4"
           />
           <Button
-            label="Zarejestruj"
+            label="Zarejestruj albo wyjebie cię z serwera"
             onClick={register}
             disabled={!isVerified}
           />
