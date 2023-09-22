@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
-import bcrypt from 'bcrypt'
-import { prisma } from '@/utils/db'
+import * as bcrypt from 'bcrypt'
 import { Prisma } from '@prisma/client'
 import axios from 'axios'
+import { prisma } from '@/utils/db'
 
 export async function POST(request: Request) {
   const { username, password, email, gReCaptchaToken } = await request.json()
@@ -16,7 +16,10 @@ export async function POST(request: Request) {
     .then((res) => {
       if (!res.data.success || res.data.score < 0.5) {
         return NextResponse.json(
-          { status: 'fail', error: 'Captcha verification failed' },
+          {
+            status: 'fail',
+            error: 'Captcha verification failed',
+          },
           { status: 409 },
         )
       }
@@ -31,14 +34,8 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return NextResponse.json(
-        { status: 'fail', error: error.code },
-        { status: 409 },
-      )
+      return NextResponse.json({ status: 'fail', error: error.code }, { status: 409 })
     }
   }
-  return NextResponse.json(
-    { status: 'ok', message: 'Account created' },
-    { status: 200 },
-  )
+  return NextResponse.json({ status: 'ok', message: 'Account created' }, { status: 200 })
 }

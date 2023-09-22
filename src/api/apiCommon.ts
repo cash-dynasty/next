@@ -11,10 +11,7 @@ export const commonApi = createApi({
     getPosts: builder.query<GetPostsApiResponse, void>({
       query: () => `/posts`,
     }),
-    registerAccount: builder.mutation<
-      RegisterAccountApiResponse,
-      RegisterAccountApiArg
-    >({
+    registerAccount: builder.mutation<RegisterAccountApiResponse, RegisterAccountApiArg>({
       query: (queryArg) => ({
         url: `/auth/register`,
         method: 'POST',

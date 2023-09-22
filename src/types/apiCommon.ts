@@ -1,4 +1,4 @@
-import {ErrorDataResponse, SuccessDataResponse} from './shared';
+import { ErrorDataResponse, SuccessDataResponse } from './shared'
 
 // registerAccount
 export type RegisterAccountApiArg = {

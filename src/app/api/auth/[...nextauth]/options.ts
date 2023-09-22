@@ -1,7 +1,7 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/utils/db'
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 import { normalizeText } from '@/utils/textFormatters'
 
 export const options: NextAuthOptions = {
@@ -42,10 +42,7 @@ export const options: NextAuthOptions = {
         })
 
         if (user) {
-          const checkPassword = await bcrypt.compare(
-            credentials.password,
-            user.password,
-          )
+          const checkPassword = await bcrypt.compare(credentials.password, user.password)
           if (checkPassword) {
             return user
           }

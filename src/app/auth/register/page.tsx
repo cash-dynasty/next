@@ -11,10 +11,8 @@ export default function Register() {
   const [username, setUsernane] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [
-    registerAccount,
-    { isLoading, isSuccess, isError, error, reset, isUninitialized },
-  ] = useRegisterAccountMutation()
+  const [registerAccount, { isLoading, isSuccess, isError, error, reset, isUninitialized }] =
+    useRegisterAccountMutation()
 
   console.log('isUninitialized', isUninitialized)
 
@@ -65,26 +63,16 @@ export default function Register() {
             onChange={(e) => setEmail(normalizeText(e.target.value))}
           />
           <Button
-            label={
-              isLoading ? 'Proszę czekać...' : 'Zarejestruj konto za darmo'
-            }
+            label={isLoading ? 'Proszę czekać...' : 'Zarejestruj konto za darmo'}
             onClick={register}
           />
           {isSuccess && (
-            <p
-              className={cn(
-                'p-4 bg-green-600 mt-2 w-full text-center text-white',
-              )}
-            >
+            <p className={cn('p-4 bg-green-600 mt-2 w-full text-center text-white')}>
               Konto zarejestrowane pomyślnie! Możesz się zalogować
             </p>
           )}
           {isError && (
-            <p
-              className={cn(
-                'p-4 bg-red-600 mt-2 w-full text-center text-white',
-              )}
-            >
+            <p className={cn('p-4 bg-red-600 mt-2 w-full text-center text-white')}>
               Wystąpił błąd podczas rejestracji: {error?.data?.error}
             </p>
           )}
