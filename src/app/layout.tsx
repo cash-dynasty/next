@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { NextAuthProvider } from '@/app/providers'
+import { Button } from '@/components/atoms/Button'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,9 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className + ' relative'}>
         <NextAuthProvider>
-          <Link href="/api/auth/signout">Wyloguj</Link>
+          <Link className="absolute top-0 right-0" href="/api/auth/signout">
+            <Button label="Wyloguj" />
+          </Link>
           {children}
         </NextAuthProvider>
       </body>

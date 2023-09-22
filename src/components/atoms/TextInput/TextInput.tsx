@@ -34,7 +34,7 @@ export const TextInput = ({
         placeholder={placeholder}
         type={type}
         className={cn(
-          'placeholder- text-tertiary-100 bg-tertiary-25 border-1 border-tertiary-100 focus:outline-none p-4 focus:bg-primary-25 focus:border-primary-100',
+          'text-tertiary-100 bg-tertiary-25 border-1 border-tertiary-100 focus:outline-none p-4 focus:bg-primary-25 focus:border-primary-100',
           { 'w-full': fullWidth, 'pl-[30px]': leftIcon },
         )}
       />
