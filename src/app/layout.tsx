@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { NextAuthProvider } from '@/app/providers'
 import { Button } from '@/components/atoms/Button'
+// import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,10 +22,20 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + ' relative'}>
         <NextAuthProvider>
+          {/* <GoogleReCaptchaProvider
+            reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}
+            scriptProps={{
+              async: false,
+              defer: false,
+              appendTo: 'head',
+              nonce: undefined,
+            }}
+          > */}
           <Link className="absolute top-0 right-0" href="/api/auth/signout">
             <Button label="Wyloguj" />
           </Link>
           {children}
+          {/* </GoogleReCaptchaProvider> */}
         </NextAuthProvider>
       </body>
     </html>
