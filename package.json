@@ -8,10 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "email": "email dev --dir src/emails --port 3001"
   },
   "dependencies": {
     "@prisma/client": "^5.3.1",
+    "@react-email/button": "0.0.10",
+    "@react-email/components": "^0.0.7",
+    "@react-email/html": "0.0.4",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
@@ -26,6 +30,7 @@
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-email": "1.9.4",
     "react-google-recaptcha": "^3.1.0",
     "react-google-recaptcha-v3": "^1.10.1",
     "react-icons": "^4.11.0",
@@ -54,7 +59,7 @@
     "prisma": "^5.3.1"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.ts": "eslint --cache --fix"
+    "*.ts": "eslint --cache --fix",
+    "*.tsx": "eslint --cache --fix"
   }
 }

@@ -38,3 +38,6 @@ next-env.d.ts
 
 # linters
 .eslintcache
+
+# react email
+/.react-email
