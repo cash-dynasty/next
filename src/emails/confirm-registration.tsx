@@ -13,11 +13,13 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
-interface KoalaWelcomeEmailProps {
+interface RegistrationConfirmEmailProps {
   userFirstname: string
 }
 
-export const KoalaWelcomeEmail = ({ userFirstname = 'Zeno' }: KoalaWelcomeEmailProps) => (
+export const RegistrationConfirmEmail = ({
+  userFirstname = 'Zeno',
+}: RegistrationConfirmEmailProps) => (
   <Html>
     <Head />
     <Preview>The sales intelligence platform that helps you uncover qualified leads.</Preview>
@@ -51,7 +53,7 @@ export const KoalaWelcomeEmail = ({ userFirstname = 'Zeno' }: KoalaWelcomeEmailP
   </Html>
 )
 
-export default KoalaWelcomeEmail
+export default RegistrationConfirmEmail
 
 const main = {
   backgroundColor: '#ffffff',
