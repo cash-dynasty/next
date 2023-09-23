@@ -1,4 +1,5 @@
 'use client'
+
 import { Button } from '@atoms/Button'
 
 import Link from 'next/link'
@@ -12,7 +13,7 @@ export default function Home() {
 
   const { data, isLoading, refetch } = useGetPostsQuery()
 
-  const Posts = () => {
+  function Posts() {
     if (isLoading) return <div>Loading...</div>
     return (
       <>
@@ -24,21 +25,22 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <Button label={'refetch'} onClick={() => refetch()} />
+        <Button label="refetch" onClick={() => refetch()} />
       </>
     )
   }
 
   return (
-    <div className="h-screen bg-slate-700 flex flex-col gap-5">
-      <Button label="ATAKUJ" />
+    <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <Button label="ATAKUJ" />
+        {/* <MenuBar /> */}
+        <Link href="/start">Go to start</Link>
+        <Link href="/auth/register">Register nju account</Link>
+        <Button label="Wyslij email" onClick={sendMail} />
 
-      {/*<MenuBar />*/}
-      <Link href={'/start'}>go to start</Link>
-
-      <Link href={'/auth/register'}>Register nju account</Link>
-      <Button label="send email" onClick={sendMail} />
-      <Posts />
+        <Posts />
+      </div>
     </div>
   )
 }
