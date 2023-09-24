@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Post } from '@prisma/client'
-import { RegisterAccountApiArg, RegisterAccountApiResponse } from '@types'
+import {
+  RegisterAccountApiArg,
+  RegisterAccountApiResponse,
+  SendConfirmationMailApiArg,
+  SendConfirmationMailApiResponse,
+} from '@types'
 
 type GetPostsApiResponse = Post[]
 
@@ -23,7 +28,23 @@ export const commonApi = createApi({
         },
       }),
     }),
+    sendConfirmationMail: builder.mutation<
+      SendConfirmationMailApiResponse,
+      SendConfirmationMailApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/mailing/confirmationMail`,
+        method: 'POST',
+        body: {
+          mailTo: queryArg.mailTo,
+          confirmationToken: queryArg.confirmationToken,
+          validFor: queryArg.validFor,
+          username: queryArg.username,
+        },
+      }),
+    }),
   }),
 })
 
-export const { useGetPostsQuery, useRegisterAccountMutation } = commonApi
+export const { useGetPostsQuery, useRegisterAccountMutation, useSendConfirmationMailMutation } =
+  commonApi
