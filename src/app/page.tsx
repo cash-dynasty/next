@@ -3,13 +3,14 @@
 import { Button } from '@atoms/Button'
 
 import Link from 'next/link'
-import axios from 'axios'
-import { useGetPostsQuery } from '@/api'
+import { useGetPostsQuery, useSendConfirmationMailMutation } from '@/api'
+import dayjs from 'dayjs'
 
 export default function Home() {
-  const sendMail = async () => {
-    await axios.get('http://localhost:3000/api/sendMail')
-  }
+  const [sendMail] = useSendConfirmationMailMutation()
+  // const sendMail = async () => {
+  //   await axios.get('http://localhost:3000/api/sendMail')
+  // }
 
   const { data, isLoading, refetch } = useGetPostsQuery()
 
@@ -37,7 +38,17 @@ export default function Home() {
         {/* <MenuBar /> */}
         <Link href="/start">Go to start</Link>
         <Link href="/auth/register">Register nju account</Link>
-        <Button label="Wyslij email" onClick={sendMail} />
+        <Button
+          label="Wyslij email"
+          onClick={() =>
+            sendMail({
+              confirmationToken: 'test',
+              mailTo: 'demorhul@gmail.com',
+              username: 'vezo',
+              validFor: dayjs().toDate(),
+            })
+          }
+        />
 
         <Posts />
       </div>

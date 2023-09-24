@@ -8,14 +8,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email     String   @unique
-  username  String   @unique
-  password  String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  postsList Post[]
+  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                 String              @unique
+  username              String              @unique
+  password              String
+  role                  Role                @default(USER)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  isConfirmed           Boolean             @default(false)
+  suspendedUntil        DateTime            @default(now())
+  postsList             Post[]
+  confirmationTokenList ConfirmationToken[]
 }
 
 model Post {
@@ -26,6 +29,17 @@ model Post {
   updatedAt DateTime @updatedAt
   authorId  String   @db.Uuid
   author    User     @relation(fields: [authorId], references: [id])
+}
+
+model ConfirmationToken {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token     String
+  createdAt DateTime  @default(now())
+  validFor  DateTime
+  isUsed    Boolean   @default(false)
+  usedAt    DateTime?
+  ownerId   String    @db.Uuid
+  owner     User      @relation(fields: [ownerId], references: [id])
 }
 
 enum Role {

@@ -13,12 +13,14 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
-interface RegistrationConfirmEmailProps {
-  userFirstname: string
+type RegistrationConfirmEmailProps = {
+  username: string
+  confirmationToken: string
 }
 
 export const RegistrationConfirmEmail = ({
-  userFirstname = 'Zeno',
+  username,
+  confirmationToken,
 }: RegistrationConfirmEmailProps) => (
   <Html>
     <Head />
@@ -26,7 +28,7 @@ export const RegistrationConfirmEmail = ({
     <Body style={main}>
       <Container style={container}>
         <Img src="/static/next.svg" width="170" height="50" alt="Next" style={logo} />
-        <Text style={paragraph}>Witaj {userFirstname},</Text>
+        <Text style={paragraph}>Witaj {username},</Text>
         <Text style={paragraph}>
           Konto zostało utworzeone, lecz nie jest jeszcze aktywne. Aby je aktywować, kliknij w
           poniższy link:
@@ -40,7 +42,7 @@ export const RegistrationConfirmEmail = ({
           Jeżeli przycisk nie przekierował Cię automatycznie, skopiuj i wklej poniższy link do
           przeglądarki:
         </Text>
-        <Link href="https://getkoala.com">https://getkoala.com</Link>
+        <Link href="https://getkoala.com">{confirmationToken}</Link>
         <Text style={paragraph}>
           Życzymy miłej gry
           <br />
