@@ -27,5 +27,6 @@ jobs:
           git pull origin master
           git status
           npm install --only=prod
+          npx prisma generate
           npm run build
           npm start
