@@ -8,10 +8,10 @@ export async function POST(request: Request) {
   const { mailTo, confirmationToken, validFor, username } = await request.json()
   try {
     const data = await resend.emails.send({
-      from: 'admin <no-replay@cashdynasty.pl>',
+      from: 'CashDynasty.pl <no-replay@cashdynasty.pl>',
       to: [mailTo],
       subject: 'Potwierdzenie rejestracji w CashDynasty.pl',
-      react: RegistrationConfirmEmail({ username, confirmationToken }),
+      react: RegistrationConfirmEmail({ username, confirmationToken, validFor, email: mailTo }),
     })
 
     return NextResponse.json(data)
