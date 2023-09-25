@@ -35,49 +35,47 @@ export default function Register() {
   console.log('error', error)
 
   return (
-    <div className="h-screen bg-slate-700">
-      <div className="h-full flex items-center justify-center">
-        <div className="flex flex-col gap-4 bg-slate-800 p-12 w-full max-w-xl">
-          <TextInput
-            leftIcon
-            fullWidth
-            placeholder="Username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsernane(normalizeText(e.target.value))}
-          />
-          <TextInput
-            fullWidth
-            leftIcon
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(normalizeText(e.target.value))}
-          />
-          <TextInput
-            fullWidth
-            leftIcon
-            placeholder="Email"
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(normalizeText(e.target.value))}
-          />
-          <Button
-            label={isLoading ? 'Proszę czekać...' : 'Zarejestruj konto za darmo'}
-            onClick={register}
-          />
-          {isSuccess && (
-            <p className={cn('p-4 bg-green-600 mt-2 w-full text-center text-white')}>
-              Konto zarejestrowane pomyślnie! Możesz się zalogować
-            </p>
-          )}
-          {isError && (
-            <p className={cn('p-4 bg-red-600 mt-2 w-full text-center text-white')}>
-              Wystąpił błąd podczas rejestracji: {error?.data?.error}
-            </p>
-          )}
-          <Button label="reset" onClick={reset} />
-        </div>
+    <div className="h-full flex items-center justify-center">
+      <div className="flex flex-col gap-4 bg-slate-800 p-12 w-full max-w-xl">
+        <TextInput
+          leftIcon
+          fullWidth
+          placeholder="Username"
+          type="text"
+          value={username}
+          onChange={(e) => setUsernane(normalizeText(e.target.value))}
+        />
+        <TextInput
+          fullWidth
+          leftIcon
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(normalizeText(e.target.value))}
+        />
+        <TextInput
+          fullWidth
+          leftIcon
+          placeholder="Email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(normalizeText(e.target.value))}
+        />
+        <Button
+          label={isLoading ? 'Proszę czekać...' : 'Zarejestruj konto za darmo'}
+          onClick={register}
+        />
+        {isSuccess && (
+          <p className={cn('p-4 bg-green-600 mt-2 w-full text-center text-white')}>
+            Konto zarejestrowane pomyślnie! Możesz się zalogować
+          </p>
+        )}
+        {isError && (
+          <p className={cn('p-4 bg-red-600 mt-2 w-full text-center text-white')}>
+            Wystąpił błąd podczas rejestracji: {error?.data?.error}
+          </p>
+        )}
+        <Button label="reset" onClick={reset} />
       </div>
     </div>
   )
