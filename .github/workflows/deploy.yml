@@ -26,6 +26,7 @@ jobs:
           cd /var/www/next/
           git pull origin master
           git status
+          nvm use 18.18.0
           npm install --only=prod
           npx prisma generate
           npm run build
