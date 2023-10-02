@@ -11,10 +11,8 @@ export default function Register() {
   const [username, setUsernane] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [registerAccount, { isLoading, isSuccess, isError, error, reset, isUninitialized }] =
+  const [registerAccount, { isLoading, isSuccess, isError, error, reset }] =
     useRegisterAccountMutation()
-
-  console.log('isUninitialized', isUninitialized)
 
   const { executeRecaptcha } = useGoogleReCaptcha()
 
@@ -32,7 +30,7 @@ export default function Register() {
     })
   }
 
-  console.log('error', error)
+  console.log(error)
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -72,7 +70,7 @@ export default function Register() {
         )}
         {isError && (
           <p className={cn('p-4 bg-red-600 mt-2 w-full text-center text-white')}>
-            Wystąpił błąd podczas rejestracji: {error?.data?.error}
+            Wystąpił błąd podczas rejestracji: {error && 'data' in error && error?.data?.error}
           </p>
         )}
         <Button label="reset" onClick={reset} />

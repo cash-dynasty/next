@@ -27,14 +27,14 @@ export async function POST(request: Request) {
         return NextResponse.json(
           {
             status: 'fail',
-            error: 'Captcha verification failed',
+            message: 'Captcha verification failed',
           },
           { status: 409 },
         )
       }
     })
     .catch((err) => {
-      return NextResponse.json({ status: 'fail', error: err }, { status: 400 })
+      return NextResponse.json({ status: 'fail', message: err }, { status: 400 })
     })
 
   try {
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return NextResponse.json({ status: 'fail', error: error.code }, { status: 409 })
+      return NextResponse.json({ status: 'fail', message: error.code }, { status: 409 })
     }
   }
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     }
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return NextResponse.json({ status: 'fail', error: error.code }, { status: 409 })
+      return NextResponse.json({ status: 'fail', message: error.code }, { status: 409 })
     }
   }
 
@@ -74,5 +74,5 @@ export async function POST(request: Request) {
     )
   }
 
-  return NextResponse.json({ status: 'ok', message: 'Account created' }, { status: 200 })
+  return NextResponse.json({ status: 'success', message: 'Account created' }, { status: 200 })
 }
