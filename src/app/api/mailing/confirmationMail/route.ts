@@ -6,6 +6,12 @@ const resend = new Resend(process.env.RESEND_KEY)
 
 export async function POST(request: Request) {
   const { mailTo, confirmationToken, validFor, username } = await request.json()
+  const headers = request.headers
+
+  // console.log(headers)
+
+  NextResponse.next({ headers })
+
   try {
     const data = await resend.emails.send({
       from: 'CashDynasty.pl <no-replay@cashdynasty.pl>',
@@ -14,8 +20,22 @@ export async function POST(request: Request) {
       react: RegistrationConfirmEmail({ username, confirmationToken, validFor, email: mailTo }),
     })
 
-    return NextResponse.json(data)
+    if (data.id) {
+      return NextResponse.json(
+        {
+          status: 'success',
+          message: 'mail_sent',
+        },
+        { status: 200 },
+      )
+    }
   } catch (e) {
-    console.log(e)
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'mail_not_sent',
+      },
+      { status: 409 },
+    )
   }
 }

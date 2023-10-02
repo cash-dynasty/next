@@ -1,21 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Post } from '@prisma/client'
 import {
+  ConfirmAccountRegistrationApiArg,
+  ConfirmAccountRegistrationApiResponse,
+  CreateNewActivationTokenApiArg,
+  CreateNewActivationTokenApiResponse,
   RegisterAccountApiArg,
   RegisterAccountApiResponse,
   SendConfirmationMailApiArg,
   SendConfirmationMailApiResponse,
 } from '@types'
 
-type GetPostsApiResponse = Post[]
-
 export const commonApi = createApi({
   reducerPath: 'commonApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
   endpoints: (builder) => ({
-    getPosts: builder.query<GetPostsApiResponse, void>({
-      query: () => `/posts`,
-    }),
     registerAccount: builder.mutation<RegisterAccountApiResponse, RegisterAccountApiArg>({
       query: (queryArg) => ({
         url: `/auth/register`,
@@ -43,8 +41,40 @@ export const commonApi = createApi({
         },
       }),
     }),
+    confirmAccountRegistration: builder.mutation<
+      ConfirmAccountRegistrationApiResponse,
+      ConfirmAccountRegistrationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/auth/activate`,
+        method: 'POST',
+        body: {
+          email: queryArg.email,
+          confirmationToken: queryArg.confirmationToken,
+        },
+      }),
+    }),
+    createNewActivationToken: builder.mutation<
+      CreateNewActivationTokenApiResponse,
+      CreateNewActivationTokenApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/auth/recreateActivationToken`,
+        method: 'POST',
+        body: {
+          token: queryArg.token,
+          email: queryArg.email,
+          gReCaptchaToken: queryArg.gReCaptchaToken,
+          reason: queryArg.reason,
+        },
+      }),
+    }),
   }),
 })
 
-export const { useGetPostsQuery, useRegisterAccountMutation, useSendConfirmationMailMutation } =
-  commonApi
+export const {
+  useRegisterAccountMutation,
+  useSendConfirmationMailMutation,
+  useConfirmAccountRegistrationMutation,
+  useCreateNewActivationTokenMutation,
+} = commonApi
