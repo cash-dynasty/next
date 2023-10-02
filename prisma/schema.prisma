@@ -42,6 +42,11 @@ model ConfirmationToken {
   owner     User      @relation(fields: [ownerId], references: [id])
 }
 
+model TestMsg {
+  id  String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  msg String
+}
+
 enum Role {
   USER
   ADMIN
