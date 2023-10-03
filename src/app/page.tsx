@@ -14,12 +14,12 @@ const socket = io('http://localhost:3001')
 
 export default function Home() {
   const [sendMail] = useSendConfirmationMailMutation()
-  const [message, setMessage] = useState([])
+  const [message, setMessage] = useState<string[]>([])
   const [newMessage, setNewMessage] = useState('')
 
   const getDbMessages = async () => {
     const data = await axios.get('http://localhost:3000/api/chat').then((res) => {
-      const messagesArray = res.data.data.map((msg) => msg.msg)
+      const messagesArray = res.data.data.map(({ msg }: { msg: string }) => msg)
       console.log('messagesArray', messagesArray)
       setMessage(messagesArray)
     })
@@ -29,7 +29,7 @@ export default function Home() {
   useEffect(() => {
     socket.on('chat', (data) => {
       console.log('data', data)
-      setMessage((prev) => [...prev, data])
+      setMessage((prev: string[]) => [...prev, data])
     })
     getDbMessages()
   }, [])

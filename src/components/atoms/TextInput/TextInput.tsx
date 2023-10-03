@@ -1,6 +1,5 @@
-'use client'
 import { cn } from '@/utils/styles'
-import { HTMLInputTypeAttribute, ChangeEvent } from 'react'
+import { ChangeEvent, HTMLInputTypeAttribute } from 'react'
 import { MdPerson } from 'react-icons/md'
 
 type TextInputProps = {
@@ -38,7 +37,7 @@ export const TextInput = ({
           {
             'w-full': fullWidth,
             'pl-[30px]': leftIcon,
-          }
+          },
         )}
       />
     </label>
