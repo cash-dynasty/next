@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import { TextInput } from '@/components/atoms/TextInput'
+import axios from 'axios'
 
 const socket = io('http://localhost:3001')
 
@@ -16,13 +17,21 @@ export default function Home() {
   const [message, setMessage] = useState([])
   const [newMessage, setNewMessage] = useState('')
 
-  console.log(newMessage)
+  const getDbMessages = async () => {
+    const data = await axios.get('http://localhost:3000/api/chat').then((res) => {
+      const messagesArray = res.data.data.map((msg) => msg.msg)
+      console.log('messagesArray', messagesArray)
+      setMessage(messagesArray)
+    })
+    console.log(data)
+  }
 
   useEffect(() => {
     socket.on('chat', (data) => {
       console.log('data', data)
       setMessage((prev) => [...prev, data])
     })
+    getDbMessages()
   }, [])
 
   const sendMessage = () => {

@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "email": "email dev --dir src/emails --port 3001",
-    "ws": "npx ts-node-esm server/server.ts"
+    "ws": "node --loader ts-node/esm server.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.3.1",
@@ -52,6 +52,7 @@
     "@types/react-google-recaptcha": "^2.1.5",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
+    "bufferutil": "^4.0.7",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.0",
@@ -63,7 +64,8 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "prisma": "^5.3.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "utf-8-validate": "^5.0.10"
   },
   "lint-staged": {
     "*.ts": "eslint --cache --fix",
