@@ -23,6 +23,7 @@ jobs:
         run: |
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/cashdynasty
+          ssh -T git@github.com
       - name: Checkout
         uses: actions/checkout@v2
         with:
