@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { TextInput } from '@/components/atoms/TextInput'
 import axios from 'axios'
 
-const socket = io('https://localhost:3001')
+const socket = io('https://cashdynasty.pl')
 
 export default function Home() {
   const [sendMail] = useSendConfirmationMailMutation()
@@ -19,7 +19,7 @@ export default function Home() {
 
   const getDbMessages = async () => {
     await axios
-      .get('https://localhost:3000/api/chat')
+      .get('https://cashdynasty.pl/api/chat')
       .then((res) => {
         const messagesArray = res.data.data.map(({ msg }: { msg: string }) => msg)
         console.log('messagesArray', messagesArray)
