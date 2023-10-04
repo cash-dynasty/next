@@ -15,17 +15,17 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: setup agent and node
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        mkdir -p ~/.ssh
-        eval "$(ssh-agent -s)"
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-        node -v
-        ssh-add ~/.ssh/cashdynasty
+    #- name: setup agent and node
+    #  env:
+    #    SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+    #  run: |
+    #    mkdir -p ~/.ssh
+    #    eval "$(ssh-agent -s)"
+    #    ssh-keyscan github.com >> ~/.ssh/known_hosts
+    #    ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+    #    ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+    #    node -v
+    #    ssh-add ~/.ssh/cashdynasty
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
