@@ -19,11 +19,13 @@ jobs:
         node-version: [ 18.18.0 ]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Setup keys
         run: |
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/cashdynasty
-          ssh -T git@github.com
       - name: Checkout
         uses: actions/checkout@v2
         with:
