@@ -11,17 +11,38 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
+    strategy:
+      matrix:
+        node-version: [ 18.18.0 ]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Deploy using ssh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /var/www
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Pull git repo
+        run: |
+          cd /var/www/next
+          git checkout master
+          git pull origin master
+          git status
+          node -v
+      - name: Install packages
+        run: |
+          npm i
+      - name: Generate prisma models
+        run: |
+          npx prisma generate
+      - name: Build environment
+        run: |
+          npm run build
+      - name: Restart server
+        run: |
           pm2 stop all
+          pm2 start all
