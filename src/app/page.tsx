@@ -18,12 +18,19 @@ export default function Home() {
   const [newMessage, setNewMessage] = useState('')
 
   const getDbMessages = async () => {
-    const data = await axios.get('http://localhost:3000/api/chat').then((res) => {
-      const messagesArray = res.data.data.map(({ msg }: { msg: string }) => msg)
-      console.log('messagesArray', messagesArray)
-      setMessage(messagesArray)
-    })
-    console.log(data)
+    await axios
+      .get('https://localhost:3000/api/chat')
+      .then((res) => {
+        const messagesArray = res.data.data.map(({ msg }: { msg: string }) => msg)
+        console.log('messagesArray', messagesArray)
+        setMessage(messagesArray)
+      })
+      .then((res) => {
+        console.log('res::::::', res)
+      })
+      .catch((err) => {
+        console.log('error:::::', err)
+      })
   }
 
   useEffect(() => {
