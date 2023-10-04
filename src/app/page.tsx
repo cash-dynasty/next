@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { TextInput } from '@/components/atoms/TextInput'
 import axios from 'axios'
 
-const socket = io('http://localhost:3001')
+const socket = io('https://localhost:3001')
 
 export default function Home() {
   const [sendMail] = useSendConfirmationMailMutation()
@@ -43,8 +43,6 @@ export default function Home() {
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
       <div className="flex flex-col gap-4 w-full max-w-sm">
         <Button label="ATAKUJ" />
-        {/* <MenuBar /> */}
-        <Link href="/start">Go to start</Link>
         <Link href="/auth/register">Register nju account</Link>
         <Button
           label="Wyslij email"

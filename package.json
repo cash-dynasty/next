@@ -9,8 +9,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "format:fix": "prettier --write --ignore-path .gitignore .",
-    "email": "email dev --dir src/emails --port 3001",
-    "ws": "node --loader ts-node/esm server.ts"
+    "email": "email dev --dir src/emails --port 3002"
   },
   "dependencies": {
     "@prisma/client": "^5.3.1",
