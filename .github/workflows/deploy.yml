@@ -41,7 +41,9 @@ jobs:
           git fetch
           git pull origin master
           git status
-          node -v
+      - name: Setup .env
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Install packages
         run: |
           npm i
