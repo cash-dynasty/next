@@ -36,7 +36,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Pull git repo
       run: |
-        cd /var/www/next
+        ls
+        cd /var/www/next/
         git checkout master
         git pull origin master
         git status
