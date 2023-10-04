@@ -23,17 +23,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          source ~/.nvm
-          nvm use 18.18.0
-          node -v
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/cashdynasty
-          cd /var/www/next/
-          git checkout origin master
-          git pull origin master
-          git status
-          npm install --only=prod
-          npx prisma generate
-          npm run build
-          pm2 stop all
-          pm2 start all
+          cd /var/www
+          sh script.sh
