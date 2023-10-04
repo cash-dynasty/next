@@ -6,6 +6,7 @@ import { normalizeText } from '@/utils/textFormatters'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { useRegisterAccountMutation } from '@/api'
 import { cn } from '@/utils/styles'
+import { handleRTKErrors } from '@/utils/api'
 
 export default function Register() {
   const [username, setUsernane] = useState<string>('')
@@ -30,7 +31,7 @@ export default function Register() {
     })
   }
 
-  console.log(error)
+  const errorData = handleRTKErrors(error)
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -70,7 +71,7 @@ export default function Register() {
         )}
         {isError && (
           <p className={cn('p-4 bg-red-600 mt-2 w-full text-center text-white')}>
-            Wystąpił błąd podczas rejestracji: {error && 'data' in error && error?.data?.error}
+            Wystąpił błąd podczas rejestracji: {errorData}
           </p>
         )}
         <Button label="reset" onClick={reset} />

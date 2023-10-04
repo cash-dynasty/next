@@ -17,18 +17,7 @@ model User {
   updatedAt             DateTime            @updatedAt
   isConfirmed           Boolean             @default(false)
   suspendedUntil        DateTime            @default(now())
-  postsList             Post[]
   confirmationTokenList ConfirmationToken[]
-}
-
-model Post {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  authorId  String   @db.Uuid
-  author    User     @relation(fields: [authorId], references: [id])
 }
 
 model ConfirmationToken {
@@ -40,6 +29,12 @@ model ConfirmationToken {
   usedAt    DateTime?
   ownerId   String    @db.Uuid
   owner     User      @relation(fields: [ownerId], references: [id])
+}
+
+model TestMsg {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  msg       String
+  createdAt DateTime @default(now())
 }
 
 enum Role {

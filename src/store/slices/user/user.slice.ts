@@ -1,5 +1,5 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import { SetUserPayload, UserState } from './user.slice.types'
 import { RootState } from '@/store/store'
 
@@ -18,7 +18,7 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-const getUser = (state: RootState) => state.user
+const getUser = (state: RootState) => state.commonApi
 export const selectors = {
   selectUserData: createSelector(getUser, (user) => user),
 }
