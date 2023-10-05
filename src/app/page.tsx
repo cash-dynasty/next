@@ -12,7 +12,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { cn } from '@/utils/styles'
 
-const url = process.env.WS_SERVER_URL || ''
+const url = process.env.WS_SERVER_URL || 'https://130.162.55.95:3001'
 
 const socket = io(url)
 
