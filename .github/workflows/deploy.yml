@@ -46,6 +46,7 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
       - name: Install packages
         run: |
+          ls -la
           npm i
       - name: Generate prisma models
         run: |
