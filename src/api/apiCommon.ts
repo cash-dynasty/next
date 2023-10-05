@@ -12,7 +12,7 @@ import {
 
 export const commonApi = createApi({
   reducerPath: 'commonApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
   endpoints: (builder) => ({
     registerAccount: builder.mutation<RegisterAccountApiResponse, RegisterAccountApiArg>({
       query: (queryArg) => ({

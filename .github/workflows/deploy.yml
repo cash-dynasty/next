@@ -42,8 +42,10 @@ jobs:
           git status
       - name: Setup .env
         run: |
+          echo "{{ vars.NEXT_PUBLIC_BASE_URL }}"
           echo "${{ secrets.ENV_FILE }}" > .env
-          echo "${{ secrets.WS_SERVER_URL }}" >> .env
+          echo "${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "${{ vars.NEXT_PUBLIC_WS_SERVER_URL }}" >> .env
       - name: Install packages
         run: |
           pwd
