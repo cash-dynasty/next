@@ -2,17 +2,13 @@
 import { TextInput } from '@/components/atoms/TextInput'
 import { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
-import axios from 'axios'
+import { signIn } from 'next-auth/react'
 
 export default function Login() {
   const [username, setUsernane] = useState<string | undefined>('')
   const [password, setPassword] = useState<string | undefined>('')
 
-  const handleLogin = async () =>
-    await axios.post('http://localhost:3000/api/auth/login', {
-      username,
-      password,
-    })
+  const handleLogin = async () => await signIn('credentials', { username, password })
 
   return (
     <div className="h-screen bg-slate-700 flex flex-col gap-5">

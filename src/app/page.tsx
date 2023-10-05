@@ -9,19 +9,26 @@ import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import { TextInput } from '@/components/atoms/TextInput'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import { cn } from '@/utils/styles'
 
-const socket = io('https://cashdynasty.pl')
+const socket = io('http://localhost:3001')
 
 export default function Home() {
+  const session = useSession()
+
+  console.log(session)
+
   const [sendMail] = useSendConfirmationMailMutation()
   const [message, setMessage] = useState<string[]>([])
   const [newMessage, setNewMessage] = useState('')
 
   const getDbMessages = async () => {
     await axios
-      .get('https://cashdynasty.pl/api/chat')
+      .get('http://localhost:3000/api/chat')
       .then((res) => {
-        const messagesArray = res.data.data.map(({ msg }: { msg: string }) => msg)
+        console.log('messagesData', res.data.data)
+        const messagesArray = res.data.data.map(({ content }: { content: string }) => content)
         console.log('messagesArray', messagesArray)
         setMessage(messagesArray)
       })
@@ -42,7 +49,11 @@ export default function Home() {
   }, [])
 
   const sendMessage = () => {
-    socket.emit('chat', newMessage)
+    socket.emit('chat', {
+      userId: session.data?.user.id,
+      conversation: 'ec81dd75-2d99-49e2-9148-b710f8677db6',
+      message: newMessage,
+    })
     setNewMessage('')
   }
 
@@ -70,7 +81,9 @@ export default function Home() {
         />
         <Button label="Send message" onClick={sendMessage} />
         {message.map((msg, i) => (
-          <p key={i}>{msg}</p>
+          <p key={i} className={cn({ ['text-right']: session.data?.user.id })}>
+            {msg}
+          </p>
         ))}
       </div>
     </div>

@@ -2,11 +2,15 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/utils/db'
 
 export async function POST(request: Request) {
-  const { message } = await request.json()
+  const { message, userId, conversation } = await request.json()
 
-  await prisma.testMsg.create({
+  console.log(message, userId, conversation)
+
+  await prisma.message.create({
     data: {
-      msg: message,
+      content: message,
+      fromId: userId,
+      conversationId: conversation,
     },
   })
 
@@ -14,7 +18,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  const messages = await prisma.testMsg.findMany({
+  const messages = await prisma.message.findMany({
     orderBy: {
       createdAt: 'asc',
     },
