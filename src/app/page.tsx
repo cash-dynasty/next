@@ -16,9 +16,7 @@ const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 
 console.log('WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
 
-const socket = io(url, {
-  transports: ['websocket'],
-})
+const socket = io(url)
 
 export default function Home() {
   const session = useSession()
@@ -47,10 +45,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    socket.on('chat', (data) => {
-      console.log('data', data)
-      setMessage((prev: string[]) => [...prev, data])
-    })
+    // socket.on('chat', (data) => {
+    //   console.log('data', data)
+    //   setMessage((prev: string[]) => [...prev, data])
+    // })
+
     getDbMessages()
   }, [])
 
