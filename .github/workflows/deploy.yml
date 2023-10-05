@@ -43,6 +43,7 @@ jobs:
       - name: Setup .env
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.ENV_FILE }}" >> .env
       - name: Install packages
         run: |
           pwd

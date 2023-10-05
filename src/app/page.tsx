@@ -12,7 +12,9 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { cn } from '@/utils/styles'
 
-const socket = io('http://localhost:3001')
+const url = process.env.WS_SERVER_URL || ''
+
+const socket = io(url)
 
 export default function Home() {
   const session = useSession()
