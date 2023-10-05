@@ -16,7 +16,11 @@ const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 
 console.log('WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
 
-const socket = io(url)
+const socket = io(url, {
+  extraHeaders: {
+    'Access-Control-Allow-Origin': '*',
+  },
+})
 
 export default function Home() {
   const session = useSession()
