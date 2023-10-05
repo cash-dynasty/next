@@ -74,7 +74,7 @@ export default function Home() {
           }
         />
         <TextInput
-          placeholder="message"
+          placeholder="New message"
           type="text"
           value={newMessage}
           onChange={({ target }) => setNewMessage(target.value)}
