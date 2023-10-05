@@ -29,7 +29,7 @@ export default function Home() {
 
   const getDbMessages = async () => {
     await axios
-      .get('http://localhost:3000/api/chat')
+      .get('https://cashdynasty.pl/api/chat')
       .then((res) => {
         console.log('messagesData', res.data.data)
         const messagesArray = res.data.data.map(({ content }: { content: string }) => content)
