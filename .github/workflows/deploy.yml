@@ -43,7 +43,7 @@ jobs:
       - name: Setup .env
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
-          echo "${{ secrets.ENV_FILE }}" >> .env
+          echo "${{ secrets.WS_SERVER_URL }}" >> .env
       - name: Install packages
         run: |
           pwd
