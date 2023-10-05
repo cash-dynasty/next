@@ -12,7 +12,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { cn } from '@/utils/styles'
 
-const url = process.env.WS_SERVER_URL || 'https://130.162.55.95:3001'
+const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 
 console.log('WS_SERVER_URL', process.env.WS_SERVER_URL)
 
