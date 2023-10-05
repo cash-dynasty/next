@@ -18,6 +18,29 @@ model User {
   isConfirmed           Boolean             @default(false)
   suspendedUntil        DateTime            @default(now())
   confirmationTokenList ConfirmationToken[]
+  isActive              Boolean             @default(false)
+  lastSeen              DateTime            @default(now())
+  BlockedIds            String[]
+  friends               String[]
+  conversations         Conversation[]      @relation("conversations")
+  messages              Message[]           @relation("message")
+}
+
+model Conversation {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  participants User[]    @relation("conversations")
+  messages     Message[] @relation("ConversationMessages")
+  createdAt    DateTime  @default(now())
+}
+
+model Message {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content        String
+  from           User         @relation("message", fields: [fromId], references: [id])
+  fromId         String       @db.Uuid
+  conversation   Conversation @relation("ConversationMessages", fields: [conversationId], references: [id])
+  conversationId String       @db.Uuid
+  createdAt      DateTime     @default(now())
 }
 
 model ConfirmationToken {
@@ -29,12 +52,6 @@ model ConfirmationToken {
   usedAt    DateTime?
   ownerId   String    @db.Uuid
   owner     User      @relation(fields: [ownerId], references: [id])
-}
-
-model TestMsg {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  msg       String
-  createdAt DateTime @default(now())
 }
 
 enum Role {

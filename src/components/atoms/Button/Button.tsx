@@ -12,7 +12,7 @@ export const Button = ({ label, onClick, disabled, ...rest }: ButtonProps) => {
   return (
     <button
       className={cn(
-        'border-2 bg-primary-50 text-tertiary-75 px-[30px] py-[14px] font-goldman border-primary-100 hover:bg-primary-75 hover:text-tertiary-100',
+        'border-2 bg-primary-50 text-white px-[30px] py-[14px] font-goldman border-primary-100 hover:bg-primary-75 hover:text-white',
         rest.className,
       )}
       onClick={onClick}
