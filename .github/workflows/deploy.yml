@@ -46,15 +46,21 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
       - name: Install packages
         run: |
+          pwd
           ls -la
           npm i
+          ls -la
+          pwd
       - name: Generate prisma models
         run: |
+          pwd
           npx prisma generate
       - name: Build environment
         run: |
+          pwd
           npm run build
       - name: Restart server
         run: |
+          pwd
           pm2 stop all
           pm2 start all
