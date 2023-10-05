@@ -36,18 +36,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Pull git repo
         run: |
-          cd /var/www/next
           git checkout master
           git fetch
           git pull origin master
           git status
       - name: Setup .env
         run: |
-          cd /var/www/next
           echo "${{ secrets.ENV_FILE }}" > .env
       - name: Install packages
         run: |
-          cd /var/www/next
           pwd
           ls -la
           npm i
@@ -55,17 +52,14 @@ jobs:
           pwd
       - name: Generate prisma models
         run: |
-          cd /var/www/next
           pwd
           npx prisma generate
       - name: Build environment
         run: |
-          cd /var/www/next
           pwd
           npm run build
       - name: Restart server
         run: |
-          cd /var/www/next
           pwd
           pm2 stop all
           pm2 start all
