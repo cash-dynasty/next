@@ -14,7 +14,7 @@ import { cn } from '@/utils/styles'
 
 const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 
-console.log('WS_SERVER_URL', process.env.WS_SERVER_URL)
+console.log('WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
 
 const socket = io(url)
 
