@@ -1,5 +1,3 @@
-import { TextInput } from '@/components/atoms'
-
 export const Message = () => {
-  return <TextInput placeholder={''} type={'number'} value={undefined} onChange={() => {}} />
+  return <h1>dupa </h1>
 }

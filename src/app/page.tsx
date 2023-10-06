@@ -69,8 +69,7 @@ export default function Home() {
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
       <div className="flex flex-col gap-4 w-full max-w-sm">
-        <Button label="ATAKUJ" onClick={test} />
-        <Link href="/auth/register">Register nju account</Link>
+        <h1 className="text-white">Testowanie wysyłania maila</h1>
         <Button
           label="Wyslij email"
           onClick={() =>
@@ -82,13 +81,16 @@ export default function Home() {
             })
           }
         />
+        <p />
+        <h1 className="text-white">Chat</h1>
         <TextInput
           placeholder="New message"
           type="text"
           value={newMessage}
           onChange={({ target }) => setNewMessage(target.value)}
         />
-        <Button label="Send message" onClick={sendMessage} />
+
+        <Button label="Wyślij wiadomość" onClick={sendMessage} />
         {message.map((msg, i) => (
           <p key={i} className={cn({ ['text-right']: session.data?.user.id })}>
             {msg}

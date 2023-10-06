@@ -1,1 +1,1 @@
-export { TextInput } from './TextInput'
+export { Message } from './Message'
