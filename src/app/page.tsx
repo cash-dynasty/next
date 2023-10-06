@@ -14,7 +14,8 @@ import { cn } from '@/utils/styles'
 
 const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 
-console.log('WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
+console.log('NEXT_PUBLIC_WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
+console.log('NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
 
 const socket = io(url)
 
@@ -27,7 +28,7 @@ export default function Home() {
 
   const getDbMessages = async () => {
     await axios
-      .get('https://cashdynasty.pl/api/chat')
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/chat`)
       .then((res) => {
         console.log('messagesData', res.data.data)
         const messagesArray = res.data.data.map(({ content }: { content: string }) => content)
@@ -60,16 +61,10 @@ export default function Home() {
     setNewMessage('')
   }
 
-  const test = async () => {
-    await axios.post('https://ws.cashdynasty.pl/test').then((res) => {
-      console.log('res', res)
-    })
-  }
-
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
       <div className="flex flex-col gap-4 w-full max-w-sm">
-        <Button label="ATAKUJ" onClick={test} />
+        <Button label="ATAKUJ" />
         <Link href="/auth/register">Register nju account</Link>
         <Button
           label="Wyslij email"
