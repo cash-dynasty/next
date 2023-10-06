@@ -1,8 +1,7 @@
 'use client'
 
-import { Button } from '@atoms/Button'
+import { Button } from '@atoms'
 
-import Link from 'next/link'
 import { useSendConfirmationMailMutation } from '@/api'
 import dayjs from 'dayjs'
 import io from 'socket.io-client'
@@ -14,7 +13,8 @@ import { cn } from '@/utils/styles'
 
 const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 
-console.log('WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
+console.log('NEXT_PUBLIC_WS_SERVER_URL', process.env.NEXT_PUBLIC_WS_SERVER_URL)
+console.log('NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
 
 const socket = io(url)
 
@@ -27,7 +27,7 @@ export default function Home() {
 
   const getDbMessages = async () => {
     await axios
-      .get('https://cashdynasty.pl/api/chat')
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/chat`)
       .then((res) => {
         console.log('messagesData', res.data.data)
         const messagesArray = res.data.data.map(({ content }: { content: string }) => content)
@@ -58,12 +58,6 @@ export default function Home() {
       message: newMessage,
     })
     setNewMessage('')
-  }
-
-  const test = async () => {
-    await axios.post('https://ws.cashdynasty.pl/test').then((res) => {
-      console.log('res', res)
-    })
   }
 
   return (

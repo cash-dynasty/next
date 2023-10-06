@@ -17,30 +17,30 @@ model User {
   updatedAt             DateTime            @updatedAt
   isConfirmed           Boolean             @default(false)
   suspendedUntil        DateTime            @default(now())
-  confirmationTokenList ConfirmationToken[]
-  isActive              Boolean             @default(false)
-  lastSeen              DateTime            @default(now())
   BlockedIds            String[]
   friends               String[]
-  conversations         Conversation[]      @relation("conversations")
+  isActive              Boolean             @default(false)
+  lastSeen              DateTime            @default(now())
+  confirmationTokenList ConfirmationToken[]
   messages              Message[]           @relation("message")
+  conversations         Conversation[]      @relation("conversations")
 }
 
 model Conversation {
   id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  participants User[]    @relation("conversations")
-  messages     Message[] @relation("ConversationMessages")
   createdAt    DateTime  @default(now())
+  messages     Message[] @relation("ConversationMessages")
+  participants User[]    @relation("conversations")
 }
 
 model Message {
   id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content        String
-  from           User         @relation("message", fields: [fromId], references: [id])
-  fromId         String       @db.Uuid
-  conversation   Conversation @relation("ConversationMessages", fields: [conversationId], references: [id])
-  conversationId String       @db.Uuid
   createdAt      DateTime     @default(now())
+  fromId         String       @db.Uuid
+  conversationId String       @db.Uuid
+  conversation   Conversation @relation("ConversationMessages", fields: [conversationId], references: [id])
+  from           User         @relation("message", fields: [fromId], references: [id])
 }
 
 model ConfirmationToken {
