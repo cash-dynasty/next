@@ -17,9 +17,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className + ' relative'}>
         <Providers>
-          <Link className="absolute top-0 right-0" href="/api/auth/signout">
-            <Button label="Wyloguj" />
-          </Link>
+          <div className="absolute top-0 right-0 flex gap-1">
+            <Link href="/">
+              <Button label="Home" />
+            </Link>
+            <Link href="/temp/chat">
+              <Button label="Chat" />
+            </Link>
+            <Link href="/auth/register">
+              <Button label="Rejestracja" />
+            </Link>
+            <Link href="/api/auth/signout">
+              <Button label="Wyloguj" />
+            </Link>
+          </div>
           {children}
         </Providers>
       </body>
