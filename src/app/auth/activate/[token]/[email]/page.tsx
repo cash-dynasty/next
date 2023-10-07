@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@atoms/Button'
+import { Button } from '@atoms'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useConfirmAccountRegistrationMutation, useCreateNewActivationTokenMutation } from '@/api'

@@ -1,15 +1,24 @@
-import { cn } from '@/utils/styles'
+import { Message as MessageType } from '@prisma/client'
 
-export const Message = ({ isMine, message, createdAt, author }) => {
+type MessageProps = {
+  message: MessageType
+}
+
+export const Message = (message: MessageProps) => {
+  // const isAuthor =
+
+  // console.log(message.message)
+
   return (
-    <div
-      className={cn('p-2 bg-slate-400 mt-2 rounded-md', {
-        ['bg-slate-200 text-right']: isMine,
-      })}
-    >
-      <p className="text-xs">{createdAt}</p>
-      <p className="text-l font-bold">{author}</p>
-      <p className="break-words">{message}</p>
-    </div>
+    <p>{message.message.message}</p>
+    // <div
+    //   className={cn('p-2 bg-slate-400 mt-2 rounded-md', {
+    //     ['bg-slate-200 text-right']: isMine,
+    //   })}
+    // >
+    //   <p className="text-xs">{createdAt}</p>
+    //   <p className="text-l font-bold">{author}</p>
+    //   <p className="break-words">{message}</p>
+    // </div>
   )
 }
