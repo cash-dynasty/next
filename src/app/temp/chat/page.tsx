@@ -29,6 +29,7 @@ export default function Chat() {
   useEffect(() => {
     getMessages()
   }, [])
+
   useEffect(() => {
     if (session.status === 'authenticated' && session.data?.user) {
       socket.emit('userConnected', session.data.user.id)

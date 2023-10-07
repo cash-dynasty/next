@@ -3,8 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { Providers } from '@/app/providers'
-import { Button } from '@/components/atoms/Button'
-import { UserId } from '@atoms'
+import { Button, UserId } from '@atoms'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,13 +22,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/">
               <Button label="Home" />
             </Link>
-            <Link href="/temp/chat">
+            <Link
+              href={{
+                pathname: '/temp/chat',
+              }}
+            >
               <Button label="Chat" />
             </Link>
-            <Link href="/auth/register">
+            <Link
+              href={{
+                pathname: '/auth/register',
+              }}
+            >
               <Button label="Rejestracja" />
             </Link>
-            <Link href="/api/auth/signout">
+            <Link
+              href={{
+                pathname: '/api/auth/signout',
+              }}
+            >
               <Button label="Wyloguj" />
             </Link>
           </div>
