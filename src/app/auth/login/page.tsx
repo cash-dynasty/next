@@ -19,21 +19,17 @@ const schema = yup
 type FormData = yup.InferType<typeof schema>
 
 export default function Login() {
-  const handleLogin = async (data: FormData) => {
-    const { userName, password } = data
-    await signIn('credentials', { userName, password })
-  }
-
   const session = useSession()
   if (session?.data?.user) {
     redirect('/')
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
+  const handleLogin = async (data: FormData) => {
+    const { userName, password } = data
+    await signIn('credentials', { userName, password })
+  }
+
+  const { register, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   })
 

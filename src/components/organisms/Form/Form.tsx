@@ -1,8 +1,8 @@
 import React from 'react'
 
-interface FormProps {
+type FormProps = {
   children: React.ReactNode
-}
+} & React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>
 
 const Form = ({ children, ...props }: FormProps) => {
   return (

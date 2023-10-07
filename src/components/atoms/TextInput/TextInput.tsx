@@ -8,7 +8,6 @@ type TextInputProps = {
   value?: string | undefined
   fullWidth?: boolean
   leftIcon?: boolean
-  // onChange?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
