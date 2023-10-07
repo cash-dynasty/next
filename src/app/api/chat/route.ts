@@ -2,19 +2,19 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/utils/db'
 
 export async function POST(request: Request) {
-  const { message, userId, conversation } = await request.json()
+  const { message, fromId, conversation } = await request.json()
 
-  console.log(message, userId, conversation)
+  console.log(message, fromId, conversation)
 
-  await prisma.message.create({
+  const newMessage = await prisma.message.create({
     data: {
-      content: message,
-      fromId: userId,
+      message: message,
+      fromId: fromId,
       conversationId: conversation,
     },
   })
 
-  return NextResponse.json({ status: 'success' }, { status: 200 })
+  return NextResponse.json({ status: 'success', data: newMessage }, { status: 200 })
 }
 
 export async function GET() {

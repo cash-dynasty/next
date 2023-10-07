@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { Providers } from '@/app/providers'
 import { Button } from '@/components/atoms/Button'
+import { UserId } from '@atoms'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className + ' relative'}>
         <Providers>
           <div className="absolute top-0 right-0 flex gap-1">
+            <UserId />
             <Link href="/">
               <Button label="Home" />
             </Link>

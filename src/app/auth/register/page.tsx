@@ -15,6 +15,8 @@ export default function Register() {
   const [registerAccount, { isLoading, isSuccess, isError, error, reset }] =
     useRegisterAccountMutation()
 
+  console.log(isLoading, isSuccess, isError, error)
+
   const { executeRecaptcha } = useGoogleReCaptcha()
 
   const register = async () => {

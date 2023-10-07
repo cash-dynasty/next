@@ -35,7 +35,7 @@ model Conversation {
 
 model Message {
   id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  content        String
+  message        String
   createdAt      DateTime     @default(now())
   fromId         String       @db.Uuid
   conversationId String       @db.Uuid
