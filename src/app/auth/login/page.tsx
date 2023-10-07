@@ -2,15 +2,23 @@
 import { TextInput } from '@/components/atoms/TextInput'
 import { useState } from 'react'
 import { Button } from '@/components/atoms/Button'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Form from '@/components/organisms/Form/Form'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export default function Login() {
   const [username, setUsernane] = useState<string | undefined>('')
   const [password, setPassword] = useState<string | undefined>('')
 
-  const handleLogin = async () => await signIn('credentials', { username, password })
+  const handleLogin = async () => {
+    await signIn('credentials', { username, password })
+  }
+
+  const session = useSession()
+  if (session?.data?.user) {
+    redirect('/')
+  }
 
   return (
     <div className="h-full flex items-center justify-center">

@@ -8,6 +8,8 @@ import { useRegisterAccountMutation } from '@/api'
 import { cn } from '@/utils/styles'
 import { handleRTKErrors } from '@/utils/api'
 import Form from '@/components/organisms/Form/Form'
+import { redirect } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 export default function Register() {
   const [username, setUsernane] = useState<string>('')
@@ -36,6 +38,10 @@ export default function Register() {
 
   const errorData = handleRTKErrors(error)
 
+  const session = useSession()
+  if (session?.data?.user) {
+    redirect('/')
+  }
   return (
     <div className="h-full flex items-center justify-center">
       <Form>
