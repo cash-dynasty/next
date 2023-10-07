@@ -4,7 +4,7 @@ import { MdPerson } from 'react-icons/md'
 
 type TextInputProps = {
   placeholder: string
-  type: HTMLInputTypeAttribute
+  type?: HTMLInputTypeAttribute
   value: string | undefined
   fullWidth?: boolean
   leftIcon?: boolean
@@ -13,7 +13,7 @@ type TextInputProps = {
 
 export const TextInput = ({
   placeholder,
-  type,
+  type = 'text',
   value,
   fullWidth,
   leftIcon,

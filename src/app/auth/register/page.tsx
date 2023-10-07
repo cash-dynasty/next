@@ -7,6 +7,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { useRegisterAccountMutation } from '@/api'
 import { cn } from '@/utils/styles'
 import { handleRTKErrors } from '@/utils/api'
+import Form from '@/components/organisms/Form/Form'
 
 export default function Register() {
   const [username, setUsernane] = useState<string>('')
@@ -37,7 +38,7 @@ export default function Register() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="flex flex-col gap-4 bg-slate-800 p-12 w-full max-w-xl">
+      <Form>
         <TextInput
           leftIcon
           fullWidth
@@ -76,8 +77,8 @@ export default function Register() {
             Wystąpił błąd podczas rejestracji: {errorData}
           </p>
         )}
-        <Button label="reset" onClick={reset} />
-      </div>
+        <Button label="Reset" onClick={reset} />
+      </Form>
     </div>
   )
 }
