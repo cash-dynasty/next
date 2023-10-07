@@ -5,10 +5,11 @@ type ButtonProps = {
   label: string
   onClick?: () => void
   disabled?: boolean
+  type?: 'button' | 'submit' | 'reset'
   // className?: HTMLAttributes<HTMLButtonElement>
 } & HTMLAttributes<HTMLButtonElement>
 
-export const Button = ({ label, onClick, disabled, ...rest }: ButtonProps) => {
+export const Button = ({ label, onClick, disabled, type, ...rest }: ButtonProps) => {
   return (
     <button
       className={cn(
@@ -17,6 +18,7 @@ export const Button = ({ label, onClick, disabled, ...rest }: ButtonProps) => {
       )}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       {label}
     </button>
