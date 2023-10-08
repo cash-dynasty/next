@@ -1,5 +1,6 @@
 import { Button } from '@atoms'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 export const LoggedInNav = () => {
   return (
@@ -14,13 +15,7 @@ export const LoggedInNav = () => {
       >
         <Button label="Chat" />
       </Link>
-      <Link
-        href={{
-          pathname: '/api/auth/signout',
-        }}
-      >
-        <Button label="Wyloguj" />
-      </Link>
+      <Button label="Wyloguj" onClick={() => signOut()} />
     </div>
   )
 }
