@@ -60,6 +60,8 @@ export const options: NextAuthOptions = {
       if (user) {
         token.id = user.id
         token.role = user.role
+        token.username = user.username
+        token.email = user.email
       }
       return token
     },
@@ -68,6 +70,8 @@ export const options: NextAuthOptions = {
       if (session?.user) {
         session.user.id = token.id
         session.user.role = token.role
+        session.user.username = token.username
+        session.user.email = token.email
       }
       return session
     },

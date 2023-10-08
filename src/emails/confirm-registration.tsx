@@ -29,7 +29,7 @@ export const RegistrationConfirmEmail = ({
   validFor,
   email,
 }: RegistrationConfirmEmailProps) => {
-  const url = `${baseUrl}auth/activate/${confirmationToken}/${email}`
+  const url = `${baseUrl}/auth/activate/${confirmationToken}/${email}`
 
   return (
     <Html>
