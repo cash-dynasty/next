@@ -1,11 +1,13 @@
 'use client'
 import { Button, TextInput } from '@atoms'
 import { useEffect, useState } from 'react'
-import { Message as MessageType } from '@prisma/client'
+import { Message as MessageType, User } from '@prisma/client'
 import { Message } from '@molecules'
 import io from 'socket.io-client'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
+
+type MessagesList = MessageType & { from: { username: User['username'] } }
 
 const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 const socket = io(url)
@@ -13,7 +15,7 @@ const socket = io(url)
 export default function Chat() {
   const session = useSession()
   const [newMessage, setNewMessage] = useState<string>('')
-  const [messages, setMessages] = useState<MessageType[]>([])
+  const [messages, setMessages] = useState<MessagesList[]>([])
   const [onlineUsers, setOnlineUsers] = useState(0)
 
   const getMessages = async () => {
@@ -56,7 +58,7 @@ export default function Chat() {
       <h1>Chat</h1>
       <div className="flex flex-col gap-4 w-full max-w-sm ">
         <div>
-          {messages.slice(-5).map((message: MessageType) => (
+          {messages.slice(-5).map((message) => (
             <Message key={message.id} message={message} />
           ))}
         </div>
