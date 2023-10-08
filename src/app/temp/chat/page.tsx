@@ -64,7 +64,7 @@ export default function Chat() {
           placeholder="New message"
           type="text"
           value={newMessage}
-          onChange={({ target }) => setNewMessage(target.value)}
+          onChange={(e) => setNewMessage(e.target.value)}
         />
 
         <Button label="Wyślij wiadomość" onClick={sendMessage} />

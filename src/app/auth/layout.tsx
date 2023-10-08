@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         nonce: undefined,
       }}
     >
-      <div className="h-screen bg-slate-700">{children}</div>
+      <div className="flex justify-center h-screen bg-slate-700">{children}</div>
     </GoogleReCaptchaProvider>
   )
 }
