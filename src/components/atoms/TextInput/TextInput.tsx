@@ -8,12 +8,13 @@ type TextInputProps = {
   value?: string | undefined
   fullWidth?: boolean
   leftIcon?: boolean
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ({ placeholder, type = 'text', value, fullWidth, leftIcon, ...props }, ref) => {
     return (
-      <label className="relative block">
+      <label className={cn('relative block', { ['w-full']: fullWidth })}>
         <span className="sr-only">TextInput</span>
         {leftIcon && (
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -27,8 +28,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           className={cn(
             'text-tertiary-100 bg-tertiary-25 border-1 border-tertiary-100 focus:outline-none p-4 focus:bg-primary-25 focus:border-primary-100',
             {
-              'w-full': fullWidth,
-              'pl-[30px]': leftIcon,
+              ['w-full']: fullWidth,
+              ['pl-[30px]']: leftIcon,
             },
           )}
           ref={ref}
