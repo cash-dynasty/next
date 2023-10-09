@@ -1,5 +1,5 @@
 import { cn } from '@/utils/styles'
-import { forwardRef, HTMLInputTypeAttribute } from 'react'
+import { forwardRef, HTMLInputTypeAttribute, HTMLProps } from 'react'
 import { MdPerson } from 'react-icons/md'
 
 type TextInputProps = {
@@ -9,10 +9,11 @@ type TextInputProps = {
   fullWidth?: boolean
   leftIcon?: boolean
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  className?: HTMLProps<HTMLElement>['className']
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ placeholder, type = 'text', value, fullWidth, leftIcon, ...props }, ref) => {
+  ({ className, placeholder, type = 'text', value, fullWidth, leftIcon, ...props }, ref) => {
     return (
       <label className={cn('relative block', { ['w-full']: fullWidth })}>
         <span className="sr-only">TextInput</span>
@@ -30,6 +31,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             {
               ['w-full']: fullWidth,
               ['pl-[30px]']: leftIcon,
+              className,
             },
           )}
           ref={ref}
