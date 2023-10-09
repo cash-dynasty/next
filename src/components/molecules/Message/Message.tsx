@@ -20,7 +20,7 @@ export const Message = ({ message: { createdAt, fromId, message, from } }: Messa
       <div className={cn('flex justify-between items-center', { ['flex-row-reverse']: isAuthor })}>
         <p className=" font-bold">{from.username}</p>
         <p className={cn('text-xs text-gray-200', { ['text-black-100']: isAuthor })}>
-          {dayjs(createdAt).format('HH:mm')}
+          {dayjs(createdAt).format('HH:mm DD.MM')}
         </p>
       </div>
       <p className="break-words">{message}</p>

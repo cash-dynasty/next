@@ -69,7 +69,8 @@ export default function Chat() {
 
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
-      <h1>Chat</h1>
+      <h1 className="text-white">Chat</h1>
+      <p className="text-white text-xs">Online: {onlineUsers}</p>
       <div className="flex flex-col gap-4 w-full max-w-sm ">
         <div className="max-h-[400px] overflow-y-scroll no-scrollbar">
           {messages.slice(-30).map((message) => (
@@ -89,7 +90,6 @@ export default function Chat() {
             <Button label="Wyślij" type="submit" />
           </div>
         </form>
-        {onlineUsers}
       </div>
     </div>
   )
