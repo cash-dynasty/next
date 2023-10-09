@@ -1,4 +1,4 @@
 export type DataResponse = {
-  status: 'fail'
-  message: string
+  status: 'fail' | 'success'
+  message?: string
 }

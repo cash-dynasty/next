@@ -2,7 +2,7 @@
 import { Button, TextInput } from '@atoms'
 import { useEffect, useState } from 'react'
 import { Message as MessageType } from '@prisma/client'
-import { Message } from '@molecules'
+import { Message, ChatUsersList } from '@molecules'
 import io from 'socket.io-client'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
@@ -70,6 +70,7 @@ export default function Chat() {
         <Button label="Wyślij wiadomość" onClick={sendMessage} />
         {onlineUsers}
       </div>
+      <ChatUsersList />
     </div>
   )
 }

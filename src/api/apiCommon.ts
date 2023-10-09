@@ -4,6 +4,8 @@ import {
   ConfirmAccountRegistrationApiResponse,
   CreateNewActivationTokenApiArg,
   CreateNewActivationTokenApiResponse,
+  GetUsersApiArg,
+  GetUsersApiResponse,
   RegisterAccountApiArg,
   RegisterAccountApiResponse,
   SendConfirmationMailApiArg,
@@ -69,6 +71,11 @@ export const commonApi = createApi({
         },
       }),
     }),
+    getUsers: builder.query<GetUsersApiResponse, GetUsersApiArg>({
+      query: () => ({
+        url: `/user`,
+      }),
+    }),
   }),
 })
 
@@ -77,4 +84,5 @@ export const {
   useSendConfirmationMailMutation,
   useConfirmAccountRegistrationMutation,
   useCreateNewActivationTokenMutation,
+  useGetUsersQuery,
 } = commonApi
