@@ -61,7 +61,6 @@ export default function Chat() {
   }
 
   const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('first', e)
     e.preventDefault()
     if (newMessage !== '') {
       sendMessage()
