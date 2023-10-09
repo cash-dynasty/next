@@ -73,7 +73,7 @@ export default function Chat() {
       <h1>Chat</h1>
       <div className="flex flex-col gap-4 w-full max-w-sm ">
         <div className="max-h-[400px] overflow-y-scroll no-scrollbar">
-          {messages.map((message) => (
+          {messages.slice(-30).map((message) => (
             <Message key={message.id} message={message} />
           ))}
           <div ref={messageBottomRef} />
