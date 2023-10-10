@@ -24,6 +24,7 @@ model User {
   confirmationTokenList ConfirmationToken[]
   messages              Message[]           @relation("message")
   conversations         Conversation[]      @relation("conversations")
+  player                Player?             @relation("player")
 }
 
 model Conversation {
@@ -52,6 +53,19 @@ model ConfirmationToken {
   usedAt    DateTime?
   ownerId   String    @db.Uuid
   owner     User      @relation(fields: [ownerId], references: [id])
+}
+
+model Player {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation("player", fields: [userId], references: [id])
+  userId            String   @unique @db.Uuid
+  moneyBalance      Int      @default(0)
+  income            Int      @default(0)
+  points            Int      @default(0)
+  lastBalanceUpdate DateTime @default(now())
 }
 
 enum Role {
