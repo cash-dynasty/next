@@ -1,8 +1,10 @@
 'use client'
 import { Button, TextInput } from '@atoms'
+
 import { useEffect, useRef, useState } from 'react'
 import { Message as MessageType, User } from '@prisma/client'
-import { Message } from '@molecules'
+import { Message, ChatUsersList } from '@molecules'
+
 import io from 'socket.io-client'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
@@ -91,6 +93,7 @@ export default function Chat() {
           </div>
         </form>
       </div>
+      <ChatUsersList />
     </div>
   )
 }

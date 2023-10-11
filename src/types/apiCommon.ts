@@ -1,3 +1,4 @@
+import { User } from '@prisma/client'
 import { DataResponse } from './shared'
 import { Player } from '@prisma/client'
 
@@ -53,3 +54,11 @@ export type CreateNewActivationTokenApiArg = {
   gReCaptchaToken: string
   reason: 'token_expired' | 'token_lost'
 }
+
+//getUsers
+export type GetUsersApiResponse = {
+  status: number
+  usersList: Partial<User[]>
+  data: DataResponse
+}
+export type GetUsersApiArg = void
