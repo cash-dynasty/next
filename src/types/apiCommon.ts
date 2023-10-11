@@ -12,6 +12,13 @@ export type RegisterAccountApiResponse = {
   data: DataResponse
 }
 
+// GetPlayerInfo
+export type GetPlayerInfoApiResponse = {
+  status: number
+  data: DataResponse
+}
+export type GetPlayerInfoApiArg = void
+
 // sendConfirmationMail
 export type SendConfirmationMailApiArg = {
   mailTo: string
