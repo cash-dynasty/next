@@ -1,19 +1,24 @@
 'use client'
 import { Button, TextInput } from '@atoms'
-import { useEffect, useState } from 'react'
-import { Message as MessageType } from '@prisma/client'
+
+import { useEffect, useRef, useState } from 'react'
+import { Message as MessageType, User } from '@prisma/client'
 import { Message, ChatUsersList } from '@molecules'
+
 import io from 'socket.io-client'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
+
+type MessagesList = MessageType & { from: { username: User['username'] } }
 
 const url = process.env.NEXT_PUBLIC_WS_SERVER_URL || 'http://130.162.55.95:3001'
 const socket = io(url)
 
 export default function Chat() {
+  const messageBottomRef = useRef<HTMLDivElement>(null)
   const session = useSession()
   const [newMessage, setNewMessage] = useState<string>('')
-  const [messages, setMessages] = useState<MessageType[]>([])
+  const [messages, setMessages] = useState<MessagesList[]>([])
   const [onlineUsers, setOnlineUsers] = useState(0)
 
   const getMessages = async () => {
@@ -29,6 +34,12 @@ export default function Chat() {
   useEffect(() => {
     getMessages()
   }, [])
+
+  useEffect(() => {
+    if (messages.length) {
+      messageBottomRef.current?.scrollIntoView({ block: 'end' })
+    }
+  }, [messages])
 
   useEffect(() => {
     if (session.status === 'authenticated' && session.data?.user) {
@@ -51,24 +62,36 @@ export default function Chat() {
     setNewMessage('')
   }
 
+  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (newMessage !== '') {
+      sendMessage()
+    }
+  }
+
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
-      <h1>Chat</h1>
+      <h1 className="text-white">Chat</h1>
+      <p className="text-white text-xs">Online: {onlineUsers}</p>
       <div className="flex flex-col gap-4 w-full max-w-sm ">
-        <div>
-          {messages.slice(-5).map((message: MessageType) => (
+        <div className="max-h-[400px] overflow-y-scroll no-scrollbar">
+          {messages.slice(-30).map((message) => (
             <Message key={message.id} message={message} />
           ))}
+          <div ref={messageBottomRef} />
         </div>
-        <TextInput
-          placeholder="New message"
-          type="text"
-          value={newMessage}
-          onChange={({ target }) => setNewMessage(target.value)}
-        />
-
-        <Button label="Wyślij wiadomość" onClick={sendMessage} />
-        {onlineUsers}
+        <form onSubmit={handleSendMessage}>
+          <div className="flex justify-between gap-2">
+            <TextInput
+              placeholder="New message"
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              fullWidth
+            />
+            <Button label="Wyślij" type="submit" />
+          </div>
+        </form>
       </div>
       <ChatUsersList />
     </div>
