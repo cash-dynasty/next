@@ -1,6 +1,6 @@
+'use client'
 import { ChatUsersListItem } from './parts'
 import { useGetUsersQuery } from '@/api'
-import 'tailwindcss/tailwind.css'
 
 export const ChatUsersList = () => {
   const usersList = useGetUsersQuery()
