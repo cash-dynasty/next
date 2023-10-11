@@ -6,8 +6,6 @@ import { useGetPlayerInfoQuery } from '@/api'
 export default function Player() {
   const { data, isLoading, isError } = useGetPlayerInfoQuery()
 
-  console.log(data)
-
   if (isError) {
     return (
       <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
