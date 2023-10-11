@@ -19,5 +19,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ status: 'fail', data: 'player not found' }, { status: 409 })
   }
 
-  return NextResponse.json({ status: 'success', data: playerData }, { status: 200 })
+  return NextResponse.json({ status: 'success', playerData }, { status: 200 })
 }

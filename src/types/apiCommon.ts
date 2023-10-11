@@ -1,4 +1,5 @@
 import { DataResponse } from './shared'
+import { Player } from '@prisma/client'
 
 // registerAccount
 export type RegisterAccountApiArg = {
@@ -15,7 +16,7 @@ export type RegisterAccountApiResponse = {
 // GetPlayerInfo
 export type GetPlayerInfoApiResponse = {
   status: number
-  data: DataResponse
+  playerData: Partial<Player>
 }
 export type GetPlayerInfoApiArg = void
 
