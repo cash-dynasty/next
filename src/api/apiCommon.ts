@@ -4,6 +4,8 @@ import {
   ConfirmAccountRegistrationApiResponse,
   CreateNewActivationTokenApiArg,
   CreateNewActivationTokenApiResponse,
+  GetPlayerInfoApiArg,
+  GetPlayerInfoApiResponse,
   RegisterAccountApiArg,
   RegisterAccountApiResponse,
   SendConfirmationMailApiArg,
@@ -14,6 +16,11 @@ export const commonApi = createApi({
   reducerPath: 'commonApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api` }),
   endpoints: (builder) => ({
+    getPlayerInfo: builder.query<GetPlayerInfoApiResponse, GetPlayerInfoApiArg>({
+      query: () => ({
+        url: `/player`,
+      }),
+    }),
     registerAccount: builder.mutation<RegisterAccountApiResponse, RegisterAccountApiArg>({
       query: (queryArg) => ({
         url: `/auth/register`,
@@ -77,4 +84,5 @@ export const {
   useSendConfirmationMailMutation,
   useConfirmAccountRegistrationMutation,
   useCreateNewActivationTokenMutation,
+  useGetPlayerInfoQuery,
 } = commonApi

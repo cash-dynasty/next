@@ -1,11 +1,23 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 import { prisma } from '@/utils/db'
-import { NextResponse } from 'next/server'
 
-export async function GET(request: Request) {
-  const headers = request.headers
+export async function GET(req: NextRequest) {
+  const token = await getToken({ req })
 
-  console.log(headers)
+  if (!token) {
+    return NextResponse.json({ status: 'fail', data: 'unauthorized' }, { status: 401 })
+  }
 
-  const playerData = await prisma.player.findMany()
-  return NextResponse.json({ status: 200, body: playerData }, { status: 200 })
+  const playerData = await prisma.player.findUnique({
+    where: {
+      userId: token.id,
+    },
+  })
+
+  if (!playerData) {
+    return NextResponse.json({ status: 'fail', data: 'player not found' }, { status: 409 })
+  }
+
+  return NextResponse.json({ status: 'success', playerData }, { status: 200 })
 }
