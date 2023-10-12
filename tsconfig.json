@@ -26,6 +26,7 @@
       "@atoms": ["./src/components/atoms"],
       "@molecules": ["./src/components/molecules"],
       "@organisms": ["./src/components/organisms"],
+      "@hooks": ["./src/hooks"],
       "@api/*": ["./src/api/*"],
       "@types": ["./src/types"]
     }
