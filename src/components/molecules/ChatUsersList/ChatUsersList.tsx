@@ -10,6 +10,7 @@ export const ChatUsersList = () => {
   if (isError) {
     return <div>Error</div>
   }
+
   return (
     <div className="w-[300px] bg-gray-400 p-2 flex flex-col justify-center ">
       <h2 className="py-2">Chat users list</h2>
@@ -19,7 +20,10 @@ export const ChatUsersList = () => {
           <li className={liStyle}>Friends</li>
         </ul>
       </div>
-      {data?.usersList.map((user) => <ChatUsersListItem user={user} key={user?.id} />)}
+      {data &&
+        data.usersList.map((user) =>
+          user ? <ChatUsersListItem user={user} key={user?.id} /> : null,
+        )}
     </div>
   )
 }

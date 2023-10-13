@@ -3,7 +3,7 @@ import { Button, TextInput } from '@atoms'
 
 import { useEffect, useRef, useState } from 'react'
 import { Message as MessageType, User } from '@prisma/client'
-import { Message, ChatUsersList } from '@molecules'
+import { Message } from '@molecules'
 
 import io from 'socket.io-client'
 import { useSession } from 'next-auth/react'
@@ -26,10 +26,6 @@ export default function Chat() {
       setMessages(res.data.data)
     })
   }
-
-  console.log('socketID', socket.id)
-
-  console.log(messages)
 
   useEffect(() => {
     getMessages()
@@ -69,6 +65,12 @@ export default function Chat() {
     }
   }
 
+  const handleCheck = () => {
+    socket.emit('check', {
+      userId: session.data?.user.id,
+    })
+  }
+
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
       <h1 className="text-white">Chat</h1>
@@ -93,7 +95,8 @@ export default function Chat() {
           </div>
         </form>
       </div>
-      <ChatUsersList />
+      <Button label="Check" onClick={handleCheck} />
+      {/*<ChatUsersList />*/}
     </div>
   )
 }
