@@ -13,7 +13,7 @@ export const useCurrentBalance = (playerData?: Partial<Player>) => {
         dayjs().diff(dayjs(playerData?.lastBalanceUpdate), 'second') * incomePerSecond
       console.log((playerData?.moneyBalance || 0) + currentIncomeAmount)
       setAmount((playerData?.moneyBalance || 0) + currentIncomeAmount)
-    }, 100)
+    }, 1000)
     return () => clearInterval(interval)
   }, [playerData])
 
