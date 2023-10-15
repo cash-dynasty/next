@@ -46,6 +46,7 @@ jobs:
           echo "${{ secrets.WS_AUTH_TOKEN }}" >> .env
           echo "${{ vars.NEXT_PUBLIC_BASE_URL }}" >> .env
           echo "${{ vars.NEXT_PUBLIC_WS_SERVER_URL }}" >> .env
+          echo "${{ vars.NEXTAUTH_URL }}" >> .env
       - name: Install packages
         run: |
           pwd
