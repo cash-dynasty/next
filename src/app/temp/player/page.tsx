@@ -1,14 +1,15 @@
 'use client'
-
 import { useGetPlayerInfoQuery } from '@/api'
-import { calculateIncomePerSecond } from '@/utils/game'
 // import { CurrentBalance } from '@molecules'
-import { useCurrentBalance } from '@hooks'
-import { Button } from '@atoms'
 import axios from 'axios'
+import React from 'react'
+import { calculateIncomePerSecond } from '@/utils/game'
+import { Button } from '@atoms'
+import { useCurrentBalance } from '@hooks'
 // import { Player as PlayerType } from '@prisma/client'
 
 export default function Player() {
+  // const [buildings, setBuildings] = useState(start)
   const { data, isLoading, isError, refetch } = useGetPlayerInfoQuery()
   const { currentBalance } = useCurrentBalance(data?.playerData)
 
@@ -26,6 +27,21 @@ export default function Player() {
       refetch()
     })
   }
+
+  // const handleUpgradeBuilding = (buildingName) => {
+  //   const b = { ...buildings }
+  //   b[buildingName].lvl++
+  //   setBuildings(b)
+  // }
+  //
+  // const hasRequirements = (buildingName) => {
+  //   const req = buildings[buildingName].required
+  //   if (!req) return true
+  //   return Object.entries(req).every(([name, level]) => {
+  //     const check = buildings[name].lvl >= level
+  //     return check
+  //   })
+  // }
 
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
@@ -46,6 +62,15 @@ export default function Player() {
           <Button label={'Zarabiaj'} onClick={handleClick} />
         </div>
       )}
+      {/*{Object.entries(buildings).map(([name, properties]) => (*/}
+      {/*  <Button*/}
+      {/*    label={`${name} (lv. ${properties.lvl === properties.maxLv ? 'MAX' : properties.lvl})`}*/}
+      {/*    key={name}*/}
+      {/*    fullWidth*/}
+      {/*    disabled={!hasRequirements(name) || properties.maxLv === properties.lvl}*/}
+      {/*    onClick={() => handleUpgradeBuilding(name)}*/}
+      {/*  />*/}
+      {/*))}*/}
     </div>
   )
 }
