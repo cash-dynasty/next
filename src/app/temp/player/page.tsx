@@ -13,10 +13,22 @@ export default function Player() {
   const { data, isLoading, isError, refetch } = useGetPlayerInfoQuery()
   const { currentBalance } = useCurrentBalance(data?.playerData)
 
+  const handleTest = async () => {
+    await axios
+      .post('http://localhost:3000/api/game/start', {
+        sector: 'MEDIC',
+        nickname: 'wicherixen',
+      })
+      .then((res) => {
+        console.log(res)
+      })
+  }
+
   if (isError) {
     return (
       <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
         error
+        <Button label={'test'} onClick={handleTest} />
       </div>
     )
   }
@@ -48,20 +60,22 @@ export default function Player() {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div>
-          {data?.playerData &&
-            Object.entries(data?.playerData).map(([key, value]) => (
-              <p key={key}>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/*@ts-ignore*/}
-                {key} - {value}
-              </p>
-            ))}
-          <p>Przychód na sekundę: {calculateIncomePerSecond(data?.playerData.income || 0)}</p>
-          <p>Aktualny stan konta: ${currentBalance}</p>
-          <Button label={'Zarabiaj'} onClick={handleClick} />
+        <div className="max-h-96 overflow-y-scroll">
+          {
+            data?.playerData && <pre>{JSON.stringify(data.playerData, null, 2)}</pre>
+            // Object.entries(data?.playerData).map(([key, value]) => (
+            //   <p key={key}>
+            //     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            //     {/*@ts-ignore*/}
+            //     {key} - {value}
+            //   </p>
+            // ))}
+          }
         </div>
       )}
+      <p>Przychód na sekundę: {calculateIncomePerSecond(data?.playerData.income || 0)}</p>
+      <p>Aktualny stan konta: ${currentBalance}</p>
+      <Button label={'Zarabiaj'} onClick={handleClick} />
       {/*{Object.entries(buildings).map(([name, properties]) => (*/}
       {/*  <Button*/}
       {/*    label={`${name} (lv. ${properties.lvl === properties.maxLv ? 'MAX' : properties.lvl})`}*/}

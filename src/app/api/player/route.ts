@@ -13,6 +13,31 @@ export async function GET(req: NextRequest) {
     where: {
       userId: token.id,
     },
+    include: {
+      properties: {
+        select: {
+          name: true,
+          sector: true,
+          buildings: {
+            select: {
+              configBuildingId: true,
+              level: true,
+              configBuilding: {
+                select: {
+                  maxLevel: true,
+                  requirements: {
+                    select: {
+                      upgradePrice: true,
+                      requiredBuildings: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   })
 
   if (!playerData) {

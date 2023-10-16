@@ -60,32 +60,33 @@ model Player {
   name              String
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
+  user              User       @relation("player", fields: [userId], references: [id], onDelete: Cascade)
   userId            String     @unique @db.Uuid
   moneyBalance      Float      @default(0)
   income            Float      @default(0)
   points            Int        @default(0)
   lastBalanceUpdate DateTime   @default(now())
-  user              User       @relation("player", fields: [userId], references: [id])
   properties        Property[] @relation("property")
 }
 
 model Property {
   id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name      String
+  sector    Sector?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  owner     Player     @relation("property", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String     @db.Uuid
-  buildings Building[]
-  owner     Player     @relation("property", fields: [ownerId], references: [id])
+  buildings Building[] @relation("building")
 }
 
 model Building {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  property         Property         @relation("building", fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId       String           @db.Uuid
   level            Int              @default(0)
   configBuildingId String?
   configBuilding   Config_Building? @relation(fields: [configBuildingId], references: [id])
-  property         Property         @relation(fields: [propertyId], references: [id])
 }
 
 model Config_Building {
