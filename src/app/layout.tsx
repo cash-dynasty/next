@@ -1,10 +1,10 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Saira } from 'next/font/google'
 import { Providers } from '@/app/providers'
 import { Nav } from '@organisms'
 
-const inter = Inter({ subsets: ['latin'] })
+const saira = Saira({ subsets: ['latin'], variable: '--font-saira' })
 
 export const metadata: Metadata = {
   title: 'Cash Dynasty',
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className + ' relative'}>
+    <html lang="en" className={`${saira.variable}`}>
+      <body className="relative">
         <Providers>
           <Nav />
           {children}
