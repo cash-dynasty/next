@@ -8,6 +8,10 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRegisterAccountMutation } from '@/api'
 import { handleRTKErrors } from '@/utils/api'
+import Image from 'next/image'
+import Logo from '@/images/logo.svg'
+import { IoLogoGoogle } from 'react-icons/io5'
+import { CgFacebook } from 'react-icons/cg'
 
 type FormData = yup.InferType<typeof schema>
 
@@ -22,7 +26,7 @@ const schema = yup
 export const RegisterForm = () => {
   const [registerAccount, { isLoading, isSuccess, isError, error }] = useRegisterAccountMutation()
 
-  const { register, handleSubmit, reset } = useForm<FormData>({
+  const { register, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   })
 
@@ -47,21 +51,32 @@ export const RegisterForm = () => {
   const errorData = handleRTKErrors(error)
 
   return (
-    <div className="w-full bg-slate-800 p-8">
+    <div className="w-full backdrop-blur-md bg-[#08152D]/80 py-10 lg:py-16 px-10 lg:px-20 font-saira rounded">
+      <Image src={Logo} alt="Cash Dynasty logo" className="pb-20" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-4 items-center">
-          <TextInput leftIcon fullWidth {...register('username')} placeholder="Nazwa użytkownika" />
-          {/*<p>{errors.username?.message}</p>*/}
-          <TextInput leftIcon fullWidth {...register('password')} placeholder="Hasło" />
-          {/*<p>{errors.password?.message}</p>*/}
-          <TextInput leftIcon fullWidth {...register('email')} placeholder="Adres email" />
-          {/*<p>{errors.email?.message}</p>*/}
+        <div className="flex flex-col gap-6 items-center">
+          <TextInput
+            leftIcon="e-mail"
+            fullWidth
+            {...register('email')}
+            placeholder="Adres email"
+            label="Adres email"
+          />
+          <TextInput
+            leftIcon="password"
+            type="password"
+            rightIcon
+            fullWidth
+            {...register('password')}
+            placeholder="Hasło"
+            label="Hasło"
+          />
           <Button
             fullWidth
             label={isLoading ? 'Proszę czekać...' : 'Zarejestruj konto za darmo'}
             type="submit"
+            className="text-xl mt-4"
           />
-          <Button label="reset" onClick={() => reset()} fullWidth />
         </div>
       </form>
       {isSuccess && (
@@ -74,6 +89,19 @@ export const RegisterForm = () => {
           Wystąpił błąd podczas rejestracji: {errorData}
         </p>
       )}
+      <div className="flex justify-between items-center gap-3 my-10">
+        <p className="h-1 w-full border-t-2 border-primary-100"></p>
+        <p className="text-white whitespace-nowrap">lub zarejestruj się za pomocą</p>
+        <p className="h-1 w-full border-t-2 border-primary-100"></p>
+      </div>
+      <div className="flex flex-col justify-between gap-6 text-white">
+        <div className="flex gap-2 items-center bg-dark p-4 mx-auto">
+          <IoLogoGoogle className="text-secondary-100 w-8 h-8" /> Zarejestruj się z Google
+        </div>
+        <div className="flex gap-2 items-center bg-dark p-4 mx-auto">
+          <CgFacebook className="text-secondary-100 w-8 h-8" /> Zarejestruj się z Facebook
+        </div>
+      </div>
     </div>
   )
 }

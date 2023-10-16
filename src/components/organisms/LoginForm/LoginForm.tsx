@@ -46,9 +46,14 @@ export const LoginForm = () => {
     <div className="w-full bg-slate-800 p-8">
       <form onSubmit={handleSubmit(handleLogin)}>
         <div className="flex flex-col gap-4 items-center">
-          <TextInput leftIcon fullWidth placeholder="Nazwa użytkownika" {...register('username')} />
           <TextInput
-            leftIcon
+            leftIcon="person"
+            fullWidth
+            placeholder="Nazwa użytkownika"
+            {...register('username')}
+          />
+          <TextInput
+            leftIcon="password"
             fullWidth
             placeholder="Hasło"
             {...register('password')}
