@@ -24,7 +24,11 @@ const schema = yup
   })
   .required()
 
-export const RegisterForm = () => {
+type RegisterFormProps = {
+  onClick?: () => void
+}
+
+export const RegisterForm = ({ onClick }: RegisterFormProps) => {
   const [registerAccount, { isLoading, isSuccess, isError, error }] = useRegisterAccountMutation()
 
   const { register, handleSubmit } = useForm<FormData>({
@@ -84,7 +88,9 @@ export const RegisterForm = () => {
                 pathname: '/',
               }}
             >
-              <span className="text-white hover:text-primary-100">Zaloguj się</span>
+              <span className="text-white hover:text-primary-100" onClick={onClick}>
+                Zaloguj się
+              </span>
             </Link>
             {` • `}
             <Link
@@ -92,7 +98,9 @@ export const RegisterForm = () => {
                 pathname: '/',
               }}
             >
-              <span className="text-white hover:text-primary-100">Zapomniałem hasła</span>
+              <span className="text-white hover:text-primary-100" onClick={onClick}>
+                Zapomniałem hasła
+              </span>
             </Link>
           </div>
         </div>

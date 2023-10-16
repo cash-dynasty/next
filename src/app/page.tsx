@@ -1,7 +1,9 @@
 'use client'
-import { LoginForm } from '@organisms'
+import { LoginForm, RegisterForm } from '@organisms'
+import { useState } from 'react'
 
 export default function Home() {
+  const [state, setState] = useState<'login' | 'registration'>('login')
   return (
     <div className="w-full min-h-screen flex justify-center lg:justify-start items-center">
       <div
@@ -9,7 +11,11 @@ export default function Home() {
         style={{ backgroundImage: 'url(/city.png)' }}
       ></div>
       <div className="flex flex-col gap-4 w-full max-w-xl p-2 lg:p-0 lg:ml-20">
-        <LoginForm />
+        {state === 'login' ? (
+          <LoginForm onClick={() => setState('registration')} />
+        ) : (
+          <RegisterForm onClick={() => setState('login')} />
+        )}
       </div>
     </div>
   )
