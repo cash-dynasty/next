@@ -23,8 +23,8 @@ model User {
   lastSeen              DateTime            @default(now())
   confirmationTokenList ConfirmationToken[]
   messages              Message[]           @relation("message")
-  conversations         Conversation[]      @relation("conversations")
   player                Player?             @relation("player")
+  conversations         Conversation[]      @relation("conversations")
 }
 
 model Conversation {
@@ -60,12 +60,12 @@ model Player {
   name              String
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
-  user              User       @relation("player", fields: [userId], references: [id])
   userId            String     @unique @db.Uuid
   moneyBalance      Float      @default(0)
   income            Float      @default(0)
   points            Int        @default(0)
   lastBalanceUpdate DateTime   @default(now())
+  user              User       @relation("player", fields: [userId], references: [id])
   properties        Property[] @relation("property")
 }
 
@@ -74,18 +74,18 @@ model Property {
   name      String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  owner     Player     @relation("property", fields: [ownerId], references: [id])
   ownerId   String     @db.Uuid
   buildings Building[]
+  owner     Player     @relation("property", fields: [ownerId], references: [id])
 }
 
 model Building {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  property         Property         @relation(fields: [propertyId], references: [id])
   propertyId       String           @db.Uuid
   level            Int              @default(0)
-  configBuilding   Config_Building? @relation(fields: [configBuildingId], references: [id])
   configBuildingId String?
+  configBuilding   Config_Building? @relation(fields: [configBuildingId], references: [id])
+  property         Property         @relation(fields: [propertyId], references: [id])
 }
 
 model Config_Building {
@@ -94,27 +94,27 @@ model Config_Building {
   description            String
   sector                 Sector
   maxLevel               Int
+  building               Building[]
   requirements           Config_BuildingRequirement[]
   configRequiredBuilding Config_RequiredBuilding[]
-  building               Building[]
 }
 
 model Config_BuildingRequirement {
   id                String                    @id @unique
   level             Int
   upgradePrice      Float
-  requiredBuildings Config_RequiredBuilding[]
-  configBuilding    Config_Building?          @relation(fields: [configBuildingId], references: [id])
   configBuildingId  String?
+  configBuilding    Config_Building?          @relation(fields: [configBuildingId], references: [id])
+  requiredBuildings Config_RequiredBuilding[]
 }
 
 model Config_RequiredBuilding {
   id                          String                      @id @unique
   buildingId                  String?
-  building                    Config_Building?            @relation(fields: [buildingId], references: [id])
   buildingLevel               Int
-  configBuildingRequirement   Config_BuildingRequirement? @relation(fields: [configBuildingRequirementId], references: [id])
   configBuildingRequirementId String?
+  building                    Config_Building?            @relation(fields: [buildingId], references: [id])
+  configBuildingRequirement   Config_BuildingRequirement? @relation(fields: [configBuildingRequirementId], references: [id])
 }
 
 enum Sector {
