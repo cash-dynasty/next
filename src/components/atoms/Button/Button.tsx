@@ -14,7 +14,7 @@ export const Button = ({ label, onClick, disabled, type, fullWidth, ...rest }: B
   return (
     <button
       className={cn(
-        'border-2 bg-primary-50 text-white px-[30px] py-[14px] font-goldman border-primary-100 hover:bg-primary-75 hover:text-white',
+        'px-4 py-2 text-white font-medium border-2 bg-primary-50 border-primary-100 hover:bg-primary-75 rounded',
         rest.className,
         { [`w-full`]: fullWidth },
       )}
