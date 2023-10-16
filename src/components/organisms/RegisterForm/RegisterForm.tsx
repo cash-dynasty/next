@@ -12,6 +12,7 @@ import Image from 'next/image'
 import Logo from '@/images/logo.svg'
 import { IoLogoGoogle } from 'react-icons/io5'
 import { CgFacebook } from 'react-icons/cg'
+import Link from 'next/link'
 
 type FormData = yup.InferType<typeof schema>
 
@@ -77,6 +78,23 @@ export const RegisterForm = () => {
             type="submit"
             className="text-xl mt-4"
           />
+          <div className="text-white">
+            <Link
+              href={{
+                pathname: '/',
+              }}
+            >
+              <span className="text-white hover:text-primary-100">Zaloguj się</span>
+            </Link>
+            {` • `}
+            <Link
+              href={{
+                pathname: '/',
+              }}
+            >
+              <span className="text-white hover:text-primary-100">Zapomniałem hasła</span>
+            </Link>
+          </div>
         </div>
       </form>
       {isSuccess && (
