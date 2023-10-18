@@ -4,10 +4,12 @@ import {
   ConfirmAccountRegistrationApiResponse,
   CreateNewActivationTokenApiArg,
   CreateNewActivationTokenApiResponse,
-  GetUsersApiArg,
-  GetUsersApiResponse,
+  GameStartApiArg,
+  GameStartApiResponse,
   GetPlayerInfoApiArg,
   GetPlayerInfoApiResponse,
+  GetUsersApiArg,
+  GetUsersApiResponse,
   RegisterAccountApiArg,
   RegisterAccountApiResponse,
   SendConfirmationMailApiArg,
@@ -78,6 +80,16 @@ export const commonApi = createApi({
         },
       }),
     }),
+    gameStart: builder.mutation<GameStartApiResponse, GameStartApiArg>({
+      query: (queryArg) => ({
+        url: `/game/start`,
+        method: 'POST',
+        body: {
+          nickname: queryArg.nickname,
+          sector: queryArg.sector,
+        },
+      }),
+    }),
     getUsers: builder.query<GetUsersApiResponse, GetUsersApiArg>({
       query: () => ({
         url: `/user`,
@@ -93,4 +105,5 @@ export const {
   useCreateNewActivationTokenMutation,
   useGetUsersQuery,
   useGetPlayerInfoQuery,
+  useGameStartMutation,
 } = commonApi
