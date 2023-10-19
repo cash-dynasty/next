@@ -1,14 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { commonApi } from '@/api'
+import { configureStore, Middleware } from '@reduxjs/toolkit'
+import { rootMiddlewares, rootReducer } from '@/store/store.config'
 
-export const store = configureStore({
-  reducer: {
-    [commonApi.reducerPath]: commonApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(commonApi.middleware),
-})
+export const store = (customMiddlewares: Middleware[] = []) =>
+  configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat([...rootMiddlewares, ...customMiddlewares]),
+  })
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+type storeType = ReturnType<typeof store>
+export type RootState = ReturnType<storeType['getState']>
+export type AppDispatch = ReturnType<storeType['dispatch']>
