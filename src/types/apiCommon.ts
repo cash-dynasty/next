@@ -1,6 +1,5 @@
-import { User } from '@prisma/client'
+import { Player, User } from '@prisma/client'
 import { DataResponse } from './shared'
-import { Player } from '@prisma/client'
 
 // registerAccount
 export type RegisterAccountApiArg = {
@@ -62,3 +61,13 @@ export type GetUsersApiResponse = {
   data: DataResponse
 }
 export type GetUsersApiArg = void
+
+//gameStart
+export type GameStartApiResponse = {
+  status: number
+  message: string
+}
+export type GameStartApiArg = {
+  sector: string
+  nickname: string
+}

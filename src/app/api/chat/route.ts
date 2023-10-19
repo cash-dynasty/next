@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/utils/db'
-import { getToken } from 'next-auth/jwt'
 import { RRESPONSES, secureEndpoint } from '@/utils/backend'
 
 export async function POST(req: NextRequest) {
@@ -25,10 +24,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const token = await getToken({ req })
-
-  if (!token) {
-    return NextResponse.json({ status: 'fail', data: 'unauthorized' }, { status: 401 })
+  if (await secureEndpoint(req)) {
+    return RRESPONSES.UNAUTHORIZED
   }
 
   const messages = await prisma.message.findMany({
