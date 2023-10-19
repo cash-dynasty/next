@@ -59,17 +59,17 @@ export const LoginForm = ({ onClick }: LoginProps) => {
             leftIcon="person"
             fullWidth
             placeholder="Nazwa użytkownika"
-            {...register('username')}
             label="Nazwa użytkownika"
+            {...register('username')}
           />
           <TextInput
             leftIcon="password"
             fullWidth
             placeholder="Hasło"
-            {...register('password')}
             type="password"
             label="Hasło"
             rightIcon
+            {...register('password')}
           />
           <Button fullWidth label="Zaloguj" type="submit" className="text-xl mt-4" />
           <div className="text-white">
