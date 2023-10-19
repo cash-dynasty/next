@@ -1,7 +1,7 @@
 import { cn } from '@/utils/styles'
 import { forwardRef, HTMLInputTypeAttribute, HTMLProps, useEffect, useState } from 'react'
-import { MdLockOutline, MdMailOutline, MdPersonOutline } from 'react-icons/md'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
+import { MdLockOutline, MdMailOutline, MdPersonOutline } from 'react-icons/md'
 
 type TextInputProps = {
   placeholder?: string
@@ -81,9 +81,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         {rightIcon && (
           <span
             onClick={() => setShowPassword(!showPassword)}
-            className={`absolute inset-y-0 right-3 ${
-              label ? 'top-6' : 'top-0'
-            } flex items-center cursor-pointer`}
+            className={cn('flex items-center cursor-pointer absolute inset-y-0 right-3', {["top-6"] : label, ["top-0"]: !label})}
           >
             {showPassword ? (
               <FiEye className="text-secondary-100 w-5 h-5" />
