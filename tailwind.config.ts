@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import { fontFamily } from 'tailwindcss/defaultTheme'
 
 const config: Config = {
   content: [
@@ -9,6 +10,7 @@ const config: Config = {
   theme: {
     fontFamily: {
       goldman: ['Goldman'],
+      saira: ['var(--font-saira)', ...fontFamily.sans],
     },
     borderWidth: {
       1: '1px',
@@ -18,24 +20,26 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          100: 'rgba(255, 110, 32, 1)',
-          75: 'rgba(255, 110, 32, .75)',
-          50: 'rgba(255, 110, 32, .5)',
-          25: 'rgba(255, 110, 32, .25)',
-          5: 'rgba(255, 110, 32, .05)',
+          100: 'rgba(222, 143, 116, 1)',
+          75: 'rgba(222, 143, 116, .75)',
+          50: 'rgba(222, 143, 116, .5)',
+          25: 'rgba(222, 143, 116, .25)',
+          5: 'rgba(222, 143, 116, .05)',
         },
         secondary: {
-          100: 'rgba(24 , 53, 58, 1)',
-          75: 'rgba(24 , 53, 58, .75)',
-          50: 'rgba(24 , 53, 58, .5)',
-          25: 'rgba(24 , 53, 58, .25)',
+          100: 'rgba(31, 92, 209, 1)',
+          75: 'rgba(31, 92, 209, .75)',
+          50: 'rgba(31, 92, 209, .5)',
+          25: 'rgba(31, 92, 209, .25)',
         },
-        tertiary: {
-          100: 'rgba(31 , 177, 209, 1)',
-          75: 'rgba(31 , 177, 209, .75)',
-          50: 'rgba(31 , 177, 209, .5)',
-          25: 'rgba(31 , 177, 209, .25)',
-        },
+        // tertiary: {
+        //   100: 'rgba(31 , 177, 209, 1)',
+        //   75: 'rgba(31 , 177, 209, .75)',
+        //   50: 'rgba(31 , 177, 209, .5)',
+        //   25: 'rgba(31 , 177, 209, .25)',
+        // },
+        dark: '#0D1525',
+        gray: '#3A507A',
       },
     },
   },

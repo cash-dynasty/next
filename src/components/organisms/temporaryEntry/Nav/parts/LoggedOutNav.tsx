@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const LoggedOutNav = () => {
   return (
-    <div className="absolute top-0 right-0 flex gap-1">
+    <div className="absolute top-0 right-0 flex gap-1 z-50">
       <Link href="/">
         <Button label="Home" />
       </Link>
