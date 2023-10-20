@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   })
 
   if (createdToken) {
-    await store
+    await store()
       .dispatch(
         commonApi.endpoints?.sendConfirmationMail.initiate({
           mailTo: email,

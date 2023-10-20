@@ -1,9 +1,11 @@
 'use client'
+
 import { LoginForm, RegisterForm } from '@organisms'
 import { useState } from 'react'
 
 export default function Home() {
   const [state, setState] = useState<'login' | 'registration'>('login')
+  console.log('test')
   return (
     <div className="w-full min-h-screen flex justify-center lg:justify-start items-center">
       <div

@@ -64,7 +64,7 @@ export async function POST(request: Request) {
   }
 
   if (createdToken && createdUser) {
-    await store.dispatch(
+    await store().dispatch(
       commonApi.endpoints.sendConfirmationMail.initiate({
         confirmationToken: createdToken.token,
         mailTo: createdUser.email,

@@ -18,7 +18,7 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-const getUser = (state: RootState) => state.commonApi
+const getUser = (state: RootState) => state.user
 export const selectors = {
   selectUserData: createSelector(getUser, (user) => user),
 }

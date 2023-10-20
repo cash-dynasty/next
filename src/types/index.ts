@@ -1,1 +1,1 @@
-export * from './apiCommon'
+export type { DataResponse } from './shared'

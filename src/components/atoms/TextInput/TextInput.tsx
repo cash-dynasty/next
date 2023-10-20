@@ -81,7 +81,10 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         {rightIcon && (
           <span
             onClick={() => setShowPassword(!showPassword)}
-            className={cn('flex items-center cursor-pointer absolute inset-y-0 right-3', {["top-6"] : label, ["top-0"]: !label})}
+            className={cn('flex items-center cursor-pointer absolute inset-y-0 right-3', {
+              ['top-6']: label,
+              ['top-0']: !label,
+            })}
           >
             {showPassword ? (
               <FiEye className="text-secondary-100 w-5 h-5" />
