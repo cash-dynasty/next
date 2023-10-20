@@ -34,4 +34,4 @@ export const selectors = {
 }
 export const { setGameStartNickname, setGameStartSector } = gameSlice.actions
 
-export default gameSlice
+export default gameSlice.reducer

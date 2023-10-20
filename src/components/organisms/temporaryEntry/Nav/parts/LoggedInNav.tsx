@@ -23,7 +23,7 @@ const navigationList = [
 
 export const LoggedInNav = () => {
   return (
-    <div className="absolute top-0 right-0 flex gap-1">
+    <div className="absolute top-0 right-0 flex gap-1 z-50">
       {navigationList.map((item) =>
         item.onClick ? (
           <Button label={item.label} onClick={item.onClick} key={item.label} />

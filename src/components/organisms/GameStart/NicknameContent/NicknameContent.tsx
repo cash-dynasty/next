@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, TextInput } from '@/components/atoms'
+import { Button, TextInput } from '@atoms'
 import { useState } from 'react'
 import { setGameStartNickname } from '@/store/slices/game/game.slice'
 import { useDispatch } from 'react-redux'
