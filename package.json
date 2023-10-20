@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install",
-    "format:fix": "prettier --write --ignore-path .gitignore .",
-    "email": "email dev --dir src/emails --port 3002"
+    "prettier": "prettier --write .",
+    "email": "email dev --dir src/emails --port 3002",
+    "prepare": "husky install"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -65,18 +65,13 @@
     "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2",
-    "utf-8-validate": "^5.0.10"
-  },
-  "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.tsx": "eslint --cache --fix"
+    "utf-8-validate": "^5.0.10",
+    "husky": "^8.0.0"
   }
 }
