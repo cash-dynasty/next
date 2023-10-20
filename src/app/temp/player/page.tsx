@@ -6,10 +6,13 @@ import React from 'react'
 import { calculateIncomePerSecond } from '@/utils/game'
 import { Button } from '@atoms'
 import { useCurrentBalance } from '@hooks'
+import { useSession } from 'next-auth/react'
 // import { Player as PlayerType } from '@prisma/client'
 
 export default function Player() {
   // const [buildings, setBuildings] = useState(start)
+  const session = useSession()
+  console.log(session)
   const { data, isLoading, isError, refetch } = useGetPlayerInfoQuery()
   const { currentBalance } = useCurrentBalance(data?.playerData)
 
@@ -17,7 +20,7 @@ export default function Player() {
     await axios
       .post('http://localhost:3000/api/game/start', {
         sector: 'MEDIC',
-        nickname: 'wicherixen',
+        nickname: 'Vezo',
       })
       .then((res) => {
         console.log(res)

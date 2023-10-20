@@ -13,12 +13,12 @@ export async function POST(req: NextRequest) {
 
   const token = await getToken({ req })
   const { sector, nickname } = await req.json()
-  console.log('token', token?.id, sector, nickname)
+  console.log('token', token, token?.id, sector, nickname)
 
   const data = await prisma.player.create({
     data: {
       name: nickname,
-      userId: token?.id as string,
+      userId: token?.userId as string,
       income: 1000,
       properties: {
         create: {
