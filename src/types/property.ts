@@ -6,7 +6,7 @@ import {
 } from '@prisma/client'
 import { TBuilding } from './building'
 
-export type TPropertyBuildings = {
+export type TPropertyBuilding = {
   buildingId: TBuilding['id']
   level: TBuilding['level']
   building: TBuilding['configBuildingId']
@@ -19,5 +19,5 @@ export type TPropertyBuildings = {
 }
 
 export type TProperty = Partial<Property> & {
-  buildings?: TPropertyBuildings[]
+  buildings?: TPropertyBuilding[]
 }

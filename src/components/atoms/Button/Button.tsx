@@ -2,7 +2,8 @@ import { cn } from '@/utils/styles'
 import { HTMLAttributes } from 'react'
 
 type ButtonProps = {
-  label: string
+  children?: React.ReactNode
+  label?: string
   onClick?: () => void
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
@@ -10,7 +11,15 @@ type ButtonProps = {
   // className?: HTMLAttributes<HTMLButtonElement>
 } & HTMLAttributes<HTMLButtonElement>
 
-export const Button = ({ label, onClick, disabled, type, fullWidth, ...rest }: ButtonProps) => {
+export const Button = ({
+  children,
+  label,
+  onClick,
+  disabled,
+  type,
+  fullWidth,
+  ...rest
+}: ButtonProps) => {
   return (
     <button
       className={cn(
@@ -22,7 +31,7 @@ export const Button = ({ label, onClick, disabled, type, fullWidth, ...rest }: B
       disabled={disabled}
       type={type}
     >
-      {label}
+      {children || label}
     </button>
   )
 }

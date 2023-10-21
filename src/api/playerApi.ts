@@ -1,5 +1,5 @@
 import { api } from './api'
-import { Player } from '@prisma/client'
+import { TPlayer } from '@/types/player'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -14,7 +14,7 @@ const injectedRtkApi = api.injectEndpoints({
 // GetPlayerInfo
 export type GetPlayerInfoApiResponse = {
   status: number
-  playerData: Partial<Player>
+  playerData: TPlayer
 }
 export type GetPlayerInfoApiArg = void
 

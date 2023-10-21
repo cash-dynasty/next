@@ -1,32 +1,67 @@
 'use client'
+import { useGetPlayerInfoQuery, useLazyGetPropertyQuery } from '@/api'
 import { Button } from '@atoms'
-import { useGetPlayerInfoQuery } from '@/api'
+import { cn } from '@/utils/styles'
+import { TPropertyBuilding } from '@/types/property'
+import { useEffect } from 'react'
 
 export default function Headquarter() {
-  const { data, isLoading } = useGetPlayerInfoQuery()
-  if (isLoading) return 'Loading...'
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const availableBuildings = data?.playerData.properties[0].buildings
-  console.log(availableBuildings)
+  const { data: playerData, isLoading: isGetPlayerInfoLoading } = useGetPlayerInfoQuery()
+  const [getProperty, { data, isLoading: isGetPropertyLoading }] = useLazyGetPropertyQuery()
+
+  const { property } = data || {}
+
+  const isLoading = isGetPropertyLoading || isGetPlayerInfoLoading
+
+  useEffect(() => {
+    const propertyId = playerData?.playerData.properties[0].id
+    if (propertyId) {
+      getProperty({ propertyId })
+    }
+  }, [playerData])
+
+  const BuildingRow = ({ building }: { building: TPropertyBuilding }) => {
+    const isBuildingBuild = building.level > 0
+    return (
+      <div
+        className={cn(
+          'grid grid-cols-[2fr_1fr_1fr_2fr] items-center [&>:not(:first-child)]:text-center text-white',
+          { ['text-orange-300']: !isBuildingBuild },
+        )}
+      >
+        <p>
+          {building.buildingName} (Poziom {building.level})
+        </p>
+        <p>Czas rozbudowy</p>
+        <p>{building?.upgrade?.price}</p>
+        {building.level === building.maxLevel ? (
+          <Button disabled>MAX</Button>
+        ) : (
+          <Button>
+            <p>{isBuildingBuild ? `Poziom ${building.level + 1}` : 'Zbuduj'}</p>
+            <p>(10:35)</p>
+          </Button>
+        )}
+      </div>
+    )
+  }
 
   return (
-    <>
+    <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
       <h1>Siedziba firmy</h1>
       <p>Rozbudowa:</p>
 
-      <div className="min-h-screen flex flex-col gap-4 justify-center items-center">
-        {availableBuildings.map((building) => (
-          <div key={building.configBuildingId} className="flex gap-5 items-center">
-            <p>
-              {building.configBuildingId} (Poziom {building.level})
-            </p>
-            <p>Czas rozbudowy</p>
-            <p>koszt</p>
-            <Button label="Rozbuduj" />
-          </div>
-        ))}
+      <div className="h-full flex flex-col gap-4 justify-center items-center">
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            {property?.buildings?.map((building) => (
+              <BuildingRow key={building.buildingId} building={building} />
+            ))}
+          </>
+        )}
       </div>
-    </>
+    </div>
   )
 }
