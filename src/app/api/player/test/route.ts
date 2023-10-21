@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { RRESPONSES, secureEndpoint } from '@/utils/backend'
+import { RESPONSES, secureEndpoint } from '@/utils/backend'
 import { prisma } from '@/utils/db'
 
 export async function GET(req: NextRequest) {
   if (await secureEndpoint(req)) {
-    return RRESPONSES.UNAUTHORIZED
+    return RESPONSES.UNAUTHORIZED
   }
 
   const data = await prisma.config_Building.findMany({

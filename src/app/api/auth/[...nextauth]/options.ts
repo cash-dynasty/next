@@ -55,6 +55,9 @@ export const options: NextAuthOptions = {
   pages: {
     newUser: 'auth/register',
   },
+  session: {
+    strategy: 'jwt',
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

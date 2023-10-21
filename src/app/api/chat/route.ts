@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/utils/db'
-import { RRESPONSES, secureEndpoint } from '@/utils/backend'
+import { RESPONSES, secureEndpoint } from '@/utils/backend'
 
 export async function POST(req: NextRequest) {
   if (await secureEndpoint(req)) {
-    return RRESPONSES.UNAUTHORIZED
+    return RESPONSES.UNAUTHORIZED
   }
 
   const { message, fromId, conversation } = await req.json()
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   if (await secureEndpoint(req)) {
-    return RRESPONSES.UNAUTHORIZED
+    return RESPONSES.UNAUTHORIZED
   }
 
   const messages = await prisma.message.findMany({

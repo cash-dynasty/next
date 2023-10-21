@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/utils/db'
 import { calculateIncomePerSecond } from '@/utils/game'
 import dayjs from 'dayjs'
-import { RRESPONSES, secureEndpoint } from '@/utils/backend'
+import { RESPONSES, secureEndpoint } from '@/utils/backend'
 import { getToken } from 'next-auth/jwt'
 
 export async function PUT(req: NextRequest) {
   const token = await getToken({ req })
   if (await secureEndpoint(req)) {
-    return RRESPONSES.UNAUTHORIZED
+    return RESPONSES.UNAUTHORIZED
   }
 
   const currentBalance = await prisma.player.findUnique({
