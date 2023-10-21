@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
     include: {
       properties: {
         select: {
+          id: true,
           name: true,
           sector: true,
           buildings: {
@@ -29,6 +30,7 @@ export async function GET(req: NextRequest) {
                     select: {
                       upgradePrice: true,
                       requiredBuildings: true,
+                      level: true,
                     },
                   },
                 },
@@ -39,6 +41,8 @@ export async function GET(req: NextRequest) {
       },
     },
   })
+
+  console.log(playerData)
 
   if (!playerData) {
     return NextResponse.json({ status: 'fail', data: 'player not found' }, { status: 409 })

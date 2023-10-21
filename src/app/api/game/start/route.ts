@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { RRESPONSES, secureEndpoint } from '@/utils/backend'
+import { RESPONSES, secureEndpoint } from '@/utils/backend'
 import { getToken } from 'next-auth/jwt'
 import { prisma } from '@/utils/db'
 import { Sector } from '@prisma/client'
@@ -8,14 +8,13 @@ const MEDIC_BUILDINGS = ['medic_hq', 'medic_waitroom', 'medic_registration', 'me
 
 export async function POST(req: NextRequest) {
   if (await secureEndpoint(req)) {
-    return RRESPONSES.UNAUTHORIZED
+    return RESPONSES.UNAUTHORIZED
   }
 
   const token = await getToken({ req })
   const { sector, nickname } = await req.json()
-  console.log('token', token?.id, sector, nickname)
 
-  const data = await prisma.player.create({
+  await prisma.player.create({
     data: {
       name: nickname,
       userId: token?.id as string,
@@ -34,8 +33,6 @@ export async function POST(req: NextRequest) {
       },
     },
   })
-
-  console.log(data)
 
   return NextResponse.json({ status: 'success', data: 'Player created' }, { status: 200 })
 }
