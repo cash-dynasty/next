@@ -1,6 +1,6 @@
 // Ref: https://next-auth.js.org/getting-started/typescript#module-augmentation
 
-import { DefaultSession, DefaultUser } from 'next-auth'
+import { DefaultUser } from 'next-auth'
 import { DefaultJWT } from 'next-auth/jwt'
 
 declare module 'next-auth' {
@@ -10,7 +10,8 @@ declare module 'next-auth' {
       role: string
       username: string
       email: string
-    } & DefaultSession
+    }
+    accessToken: string
   }
 
   interface User extends DefaultUser {
@@ -27,5 +28,6 @@ declare module 'next-auth/jwt' {
     id: string
     username: string
     email: string
+    accessToken: string
   }
 }
