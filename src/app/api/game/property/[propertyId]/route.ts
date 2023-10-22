@@ -59,6 +59,7 @@ export async function GET(
         upgrade: {
           price: requirements?.upgradePrice ?? undefined,
           requiredBuildings: requirements?.requiredBuildings ?? undefined,
+          duration: requirements?.upgradeDuration,
         },
       }
     }),

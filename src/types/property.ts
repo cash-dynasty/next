@@ -15,6 +15,7 @@ export type TPropertyBuilding = {
   upgrade?: {
     price?: Config_BuildingRequirement['upgradePrice']
     requiredBuildings?: Config_RequiredBuilding[]
+    duration?: Config_BuildingRequirement['upgradeDuration']
   }
 }
 

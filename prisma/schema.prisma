@@ -103,7 +103,8 @@ model Config_Building {
 model Config_BuildingRequirement {
   id                String                    @id @unique
   level             Int
-  upgradePrice      Float
+  upgradePrice      Float                     @default(0)
+  upgradeDuration   Int                       @default(0)
   requiredBuildings Config_RequiredBuilding[]
   configBuilding    Config_Building?          @relation(fields: [configBuildingId], references: [id])
   configBuildingId  String?
