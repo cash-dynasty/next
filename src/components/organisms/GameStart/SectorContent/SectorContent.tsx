@@ -8,9 +8,6 @@ import { cn } from '@/utils/styles'
 import { handleRTKErrors } from '@/utils/api'
 
 export const SectorContent = () => {
-  const tailClass =
-    'w-[20vh] h-[20vh] bg-[#DE8F74] hover:bg-primary-50 cursor-pointer m-1 flex justify-center items-center font-semibold text-xl text-white rounded'
-
   const { sector: selectedSector } = useSelector(selectors.selectGameStart)
   const { nickname, sector } = useSelector(selectors.selectGameStart)
 
@@ -37,12 +34,12 @@ export const SectorContent = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       {isSuccess && (
-        <p className={cn('p-4 bg-green-600 mt-2 w-full text-center text-white')}>
+        <p className="p-4 bg-green-600 mt-2 w-full text-center text-white">
           Profil został utworzony pomyślnie
         </p>
       )}
       {isError && (
-        <p className={cn('p-4 bg-red-600 mt-2 w-full text-center text-white')}>
+        <p className="p-4 bg-red-600 mt-2 w-full text-center text-white">
           Wystąpił błąd podczas tworzenia profilu {errorData}
         </p>
       )}
@@ -50,14 +47,19 @@ export const SectorContent = () => {
         {sectors.map((sector, index) => (
           <div
             key={index}
-            className={selectedSector == sector ? `bg-primary-50 ${tailClass}` : tailClass}
+            className={cn(
+              'w-[20vh] h-[20vh] bg-[#DE8F74] hover:bg-primary-50 cursor-pointer m-1 flex justify-center items-center font-semibold text-xl text-white rounded',
+              {
+                ['bg-primary-50']: selectedSector === sector,
+              },
+            )}
             onClick={() => handleSelectSector(sector)}
           >
             {sector}
           </div>
         ))}
       </div>
-      <Button label={'Create'} onClick={handleStartGame} disabled={selectedSector ? false : true} />
+      <Button label="Utwórz" onClick={handleStartGame} disabled={!selectedSector} />
     </div>
   )
 }

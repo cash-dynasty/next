@@ -8,7 +8,7 @@ export default function Start() {
   return (
     <div className="h-screen bg-slate-700 flex flex-col items-center justify-center gap-5">
       {showSectorContent ? (
-        <NicknameContent setSectorShowContnt={setSectorShowContent} />
+        <NicknameContent setSectorShowContent={setSectorShowContent} />
       ) : (
         <SectorContent />
       )}

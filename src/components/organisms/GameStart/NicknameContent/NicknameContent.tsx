@@ -7,10 +7,10 @@ import { useDispatch } from 'react-redux'
 import { useLazyGetPlayerAlreadyExistQuery } from '@/api'
 
 type NicknameContentProp = {
-  setSectorShowContnt: (SectorShowContent: boolean) => void
+  setSectorShowContent: (SectorShowContent: boolean) => void
 }
 
-export const NicknameContent = ({ setSectorShowContnt }: NicknameContentProp) => {
+export const NicknameContent = ({ setSectorShowContent }: NicknameContentProp) => {
   const dispatch = useDispatch()
   const [getPlayerAlreadyExist, { data }] = useLazyGetPlayerAlreadyExistQuery()
   const [nickname, setNickname] = useState('')
@@ -20,7 +20,7 @@ export const NicknameContent = ({ setSectorShowContnt }: NicknameContentProp) =>
     const player = (await getPlayerAlreadyExist({ nickname })).data
     if (player?.canBeCreated) {
       dispatch(setGameStartNickname(nickname))
-      setSectorShowContnt(false)
+      setSectorShowContent(false)
     } else {
       setIsNicknameValid(false)
     }
@@ -38,7 +38,7 @@ export const NicknameContent = ({ setSectorShowContnt }: NicknameContentProp) =>
           <p>Uzytkownik istnieje</p>
         ) : null}
         <span className="text-white text-sm">Create a nickname:</span>
-        <TextInput fullWidth placeholder="Nickname" onChange={(e) => handleNicknameChange(e)} />
+        <TextInput fullWidth placeholder="Nickname" onChange={handleNicknameChange} />
       </div>
 
       <Button
