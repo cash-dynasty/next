@@ -1,4 +1,4 @@
-import { RRESPONSES, secureEndpoint } from '@/utils/backend'
+import { RESPONSES, secureEndpoint } from '@/utils/backend'
 import { prisma } from '@/utils/db'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -7,7 +7,7 @@ export async function GET(
   { params: { nickname } }: { params: { nickname: string } },
 ) {
   if (await secureEndpoint(req)) {
-    return RRESPONSES.UNAUTHORIZED
+    return RESPONSES.UNAUTHORIZED
   }
 
   const isPlayerExist = await prisma.player.findFirst({
