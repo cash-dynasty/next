@@ -8,16 +8,31 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/player`,
       }),
     }),
+    getPlayerAlreadyExist: builder.query<
+      GetPlayerAlreadyExistApiResponse,
+      GetPlayerAlreadyExistApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/player/checkAlreadyExist/${queryArg.nickname}`,
+      }),
+    }),
   }),
 })
 
-// GetPlayerInfo
+// getPlayerInfo
 export type GetPlayerInfoApiResponse = {
   status: number
   playerData: Partial<Player>
 }
 export type GetPlayerInfoApiArg = void
 
+// getPlayerAlreadyExist
+export type GetPlayerAlreadyExistApiResponse = {
+  status: number
+  canBeCreated: boolean
+}
+export type GetPlayerAlreadyExistApiArg = { nickname: Player['name'] }
+
 export const playerApi = injectedRtkApi
 
-export const { useGetPlayerInfoQuery } = injectedRtkApi
+export const { useGetPlayerInfoQuery, useLazyGetPlayerAlreadyExistQuery } = injectedRtkApi

@@ -95,6 +95,7 @@ export type CreateNewActivationTokenApiArg = {
 }
 
 export const userApi = injectedRtkApi
+
 export const {
   useRegisterAccountMutation,
   useConfirmAccountRegistrationMutation,
