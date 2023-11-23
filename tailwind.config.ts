@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     fontFamily: {
       goldman: ['Goldman'],
+      lato: ['Lato'],
       saira: ['var(--font-saira)', ...fontFamily.sans],
     },
     borderWidth: {

@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, TextInput } from '@atoms'
+import { Button, TextInput, Typography } from '@atoms'
 import Link from 'next/link'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
@@ -95,6 +95,9 @@ export const LoginForm = ({ onClick }: LoginProps) => {
           </div>
         </div>
       </form>
+      <Typography variant="h1" size="md">
+        test
+      </Typography>
       <div className="flex justify-between items-center gap-3 my-10">
         <p className="h-1 w-full border-t-2 border-primary-100"></p>
         <p className="text-white whitespace-nowrap">lub zaloguj się za pomocą</p>
