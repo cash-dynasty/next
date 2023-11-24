@@ -185,7 +185,6 @@ export default function Buildings() {
                     ))}
                   </tbody>
                 </table>
-               
               </div>
             </div>
             <button onClick={() => handleClickSave(selectedBuilding.id)}>Zapisz</button>
