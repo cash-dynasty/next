@@ -4,9 +4,9 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default {
-  schema: './src/db/schema_dev.ts',
+  schema: './src/db_dev/schema.ts',
   driver: 'pg',
-  out: './db_dev',
+  out: './src/db_dev',
   dbCredentials: {
     connectionString: process.env.DATABASE_URL_DEV || '',
   },

@@ -8,13 +8,19 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
+    "prepr": "prettier --write . && next lint",
     "email": "email dev --dir src/emails --port 3002",
     "prepare": "husky install",
-    "migration:generate": "drizzle-kit generate:pg --schema=./src/db/schema.ts",
     "db:studio": "drizzle-kit studio --host 127.0.0.1",
+    "db:push": "drizzle-kit push:pg",
+    "db:drop": "drizzle-kit drop",
+    "db:generate": "drizzle-kit generate:pg",
+    "db:introspect": "drizzle-kit introspect:pg",
     "db:studio:dev": "drizzle-kit studio --host 127.0.0.1 --config ./drizzle-dev.config.ts",
     "db:push:dev": "drizzle-kit push:pg --config ./drizzle-dev.config.ts",
-    "db:migration:generate:dev": "drizzle-kit generate:pg --config ./drizzle-dev.config.ts"
+    "db:drop:dev": "drizzle-kit drop --config ./drizzle-dev.config.ts",
+    "db:generate:dev": "drizzle-kit generate:pg --config ./drizzle-dev.config.ts",
+    "db:introspect:dev": "drizzle-kit introspect:pg --config ./drizzle-dev.config.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -75,13 +81,13 @@
     "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2",
-    "utf-8-validate": "^5.0.10",
-    "husky": "^8.0.0"
+    "utf-8-validate": "^5.0.10"
   }
 }

@@ -41,12 +41,8 @@
           "name": "Building_propertyId_Property_id_fk",
           "tableFrom": "Building",
           "tableTo": "Property",
-          "columnsFrom": [
-            "propertyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["propertyId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -54,12 +50,8 @@
           "name": "Building_configBuildingId_Config_Building_id_fk",
           "tableFrom": "Building",
           "tableTo": "Config_Building",
-          "columnsFrom": [
-            "configBuildingId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["configBuildingId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -105,9 +97,7 @@
       "indexes": {
         "Config_Building_id_key": {
           "name": "Config_Building_id_key",
-          "columns": [
-            "id"
-          ],
+          "columns": ["id"],
           "isUnique": true
         }
       },
@@ -154,9 +144,7 @@
       "indexes": {
         "Config_BuildingRequirement_id_key": {
           "name": "Config_BuildingRequirement_id_key",
-          "columns": [
-            "id"
-          ],
+          "columns": ["id"],
           "isUnique": true
         }
       },
@@ -165,12 +153,8 @@
           "name": "Config_BuildingRequirement_configBuildingId_Config_Building_id_fk",
           "tableFrom": "Config_BuildingRequirement",
           "tableTo": "Config_Building",
-          "columnsFrom": [
-            "configBuildingId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["configBuildingId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -210,9 +194,7 @@
       "indexes": {
         "Config_RequiredBuilding_id_key": {
           "name": "Config_RequiredBuilding_id_key",
-          "columns": [
-            "id"
-          ],
+          "columns": ["id"],
           "isUnique": true
         }
       },
@@ -221,12 +203,8 @@
           "name": "Config_RequiredBuilding_buildingId_Config_Building_id_fk",
           "tableFrom": "Config_RequiredBuilding",
           "tableTo": "Config_Building",
-          "columnsFrom": [
-            "buildingId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["buildingId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -234,12 +212,8 @@
           "name": "Config_RequiredBuilding_configBuildingRequirementId_Config_BuildingRequirement_id_fk",
           "tableFrom": "Config_RequiredBuilding",
           "tableTo": "Config_BuildingRequirement",
-          "columnsFrom": [
-            "configBuildingRequirementId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["configBuildingRequirementId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -303,12 +277,8 @@
           "name": "ConfirmationToken_ownerId_User_id_fk",
           "tableFrom": "ConfirmationToken",
           "tableTo": "User",
-          "columnsFrom": [
-            "ownerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["ownerId"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         }
@@ -360,17 +330,12 @@
       "indexes": {
         "_conversations_AB_unique": {
           "name": "_conversations_AB_unique",
-          "columns": [
-            "A",
-            "B"
-          ],
+          "columns": ["A", "B"],
           "isUnique": true
         },
         "_conversations_B_index": {
           "name": "_conversations_B_index",
-          "columns": [
-            "B"
-          ],
+          "columns": ["B"],
           "isUnique": false
         }
       },
@@ -379,12 +344,8 @@
           "name": "_conversations_A_Conversation_id_fk",
           "tableFrom": "_conversations",
           "tableTo": "Conversation",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -392,12 +353,8 @@
           "name": "_conversations_B_User_id_fk",
           "tableFrom": "_conversations",
           "tableTo": "User",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -448,12 +405,8 @@
           "name": "Message_fromId_User_id_fk",
           "tableFrom": "Message",
           "tableTo": "User",
-          "columnsFrom": [
-            "fromId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["fromId"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         },
@@ -461,12 +414,8 @@
           "name": "Message_conversationId_Conversation_id_fk",
           "tableFrom": "Message",
           "tableTo": "Conversation",
-          "columnsFrom": [
-            "conversationId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["conversationId"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         }
@@ -540,9 +489,7 @@
       "indexes": {
         "Player_userId_key": {
           "name": "Player_userId_key",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": true
         }
       },
@@ -551,12 +498,8 @@
           "name": "Player_userId_User_id_fk",
           "tableFrom": "Player",
           "tableTo": "User",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -673,12 +616,8 @@
           "name": "Property_ownerId_Player_id_fk",
           "tableFrom": "Property",
           "tableTo": "Player",
-          "columnsFrom": [
-            "ownerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["ownerId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -779,16 +718,12 @@
       "indexes": {
         "User_email_key": {
           "name": "User_email_key",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         },
         "User_username_key": {
           "name": "User_username_key",
-          "columns": [
-            "username"
-          ],
+          "columns": ["username"],
           "isUnique": true
         }
       },
