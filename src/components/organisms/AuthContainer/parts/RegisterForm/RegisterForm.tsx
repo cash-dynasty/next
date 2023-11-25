@@ -18,7 +18,6 @@ type FormData = yup.InferType<typeof schema>
 
 const schema = yup
   .object({
-    username: yup.string().required(),
     password: yup.string().required(),
     email: yup.string().email().required(),
   })
@@ -38,15 +37,13 @@ export const RegisterForm = ({ onClick }: RegisterFormProps) => {
   const { executeRecaptcha } = useGoogleReCaptcha()
 
   const onSubmit = async (data: FormData) => {
-    console.log('onSubmit', data)
-    const { username, password, email } = data
+    const { password, email } = data
     if (!executeRecaptcha) {
       console.log('Execute recaptcha not yet available')
       return
     }
     const gReCaptchaToken = await executeRecaptcha('register')
     await registerAccount({
-      username,
       password,
       email,
       gReCaptchaToken,
@@ -63,18 +60,18 @@ export const RegisterForm = ({ onClick }: RegisterFormProps) => {
           <TextInput
             leftIcon="e-mail"
             fullWidth
-            {...register('email')}
             placeholder="Adres email"
             label="Adres email"
+            {...register('email')}
           />
           <TextInput
             leftIcon="password"
             type="password"
             rightIcon
             fullWidth
-            {...register('password')}
             placeholder="Hasło"
             label="Hasło"
+            {...register('password')}
           />
           <Button
             fullWidth

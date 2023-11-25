@@ -29,7 +29,7 @@
       "@hooks": ["./src/hooks"],
       "@api/*": ["./src/api/*"],
       "@types": ["./src/types"],
-      "@db": ["src/db/*"]
+      "@db": ["./src/db/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

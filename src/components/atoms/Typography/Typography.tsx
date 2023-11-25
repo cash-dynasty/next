@@ -19,15 +19,15 @@ const VARIANTS_MAPPING = {
 }
 
 export const Typography = ({ children, variant, size }: TypographyProps) => {
-  if (variant === 'heading') {
+  if (variant === 'h1') {
     return <h1 className={`text-${size} font-bold`}>{children}</h1>
   }
 
-  if (variant === 'paragraph') {
+  if (variant === 'body1') {
     return <p className={`text-${size} font-normal`}>{children}</p>
   }
 
-  if (variant === 'body') {
+  if (variant === 'body2') {
     return <p className={`text-${size} font-medium`}>{children}</p>
   }
 

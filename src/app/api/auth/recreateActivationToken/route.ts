@@ -63,7 +63,6 @@ export async function POST(request: Request) {
           mailTo: email,
           confirmationToken: createdToken.token,
           validFor: createdToken.validFor,
-          username: oldToken.owner.username,
         }),
       )
       .then((res) => {

@@ -1,8 +1,9 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { prisma } from '@/utils/db'
+import { db } from '@/db'
+import { user as dbUser } from '@/db/schema'
+import { eq } from 'drizzle-orm'
 import * as bcrypt from 'bcrypt'
-import { normalizeText } from '@/utils/textFormatters'
 
 export const options: NextAuthOptions = {
   providers: [
@@ -11,44 +12,37 @@ export const options: NextAuthOptions = {
       type: 'credentials',
       name: 'Credentials',
       credentials: {
-        username: {
-          label: 'Username:',
-          type: 'text',
-          placeholder: 'Your username',
-        },
-        password: {
-          label: 'Password:',
-          type: 'password',
-          placeholder: 'Your secret password',
-        },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials) return null
-        const user = await prisma.user.findFirst({
-          where: {
-            OR: [
-              {
-                username: {
-                  equals: normalizeText(credentials.username),
-                },
-              },
-              {
-                email: {
-                  equals: normalizeText(credentials.username),
-                },
-              },
-            ],
-          },
-        })
+        const user = await db
+          .selectDistinct({
+            id: dbUser.id,
+            email: dbUser.email,
+            role: dbUser.role,
+            password: dbUser.password,
+            isActive: dbUser.isActive,
+          })
+          .from(dbUser)
+          .where(eq(dbUser.email, credentials.email))
+          .limit(1)
 
         if (user) {
-          const checkPassword = await bcrypt.compare(credentials.password, user.password)
+          if (!user[0].isActive) {
+            throw new Error(
+              JSON.stringify({ message: 'Account is not active', code: 'account_inactive' }),
+            )
+          }
+          const checkPassword = await bcrypt.compare(credentials.password, user[0].password)
           if (checkPassword) {
-            return user
+            return { id: user[0].id, email: user[0].email, role: user[0].role }
           }
         }
-
-        return null
+        throw new Error(
+          JSON.stringify({ message: 'Credentials incorrect', code: 'wrong_credentials' }),
+        )
       },
     }),
   ],
@@ -61,9 +55,8 @@ export const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
+        token.id = +user.id
         token.role = user.role
-        token.username = user.username
         token.email = user.email
       }
       return token
@@ -73,7 +66,6 @@ export const options: NextAuthOptions = {
       if (session?.user) {
         session.user.id = token.id
         session.user.role = token.role
-        session.user.username = token.username
         session.user.email = token.email
       }
       return session
