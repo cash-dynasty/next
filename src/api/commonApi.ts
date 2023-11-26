@@ -14,7 +14,6 @@ const injectedRtkApi = api.injectEndpoints({
           mailTo: queryArg.mailTo,
           confirmationToken: queryArg.confirmationToken,
           validFor: queryArg.validFor,
-          username: queryArg.username,
         },
       }),
     }),
@@ -25,8 +24,7 @@ const injectedRtkApi = api.injectEndpoints({
 export type SendConfirmationMailApiArg = {
   mailTo: string
   confirmationToken: string
-  validFor: Date
-  username: string
+  validFor: Date | string
 }
 export type SendConfirmationMailApiResponse = {
   status: number

@@ -1,16 +1,16 @@
 import { cn } from '@/utils/styles'
 import { Message as MessageType, User } from '@prisma/client'
 import dayjs from 'dayjs'
-import { useSession } from 'next-auth/react'
+// import { useSession } from 'next-auth/react'
 
 type MessageProps = {
   message: MessageType & { from: { username: User['username'] } }
 }
 
-export const Message = ({ message: { createdAt, fromId, message, from } }: MessageProps) => {
-  const { data } = useSession()
-  const isAuthor = fromId === data?.user.id
-
+export const Message = ({ message: { createdAt, message, from } }: MessageProps) => {
+  // const { data } = useSession()
+  // const isAuthor = fromId === data?.user.id
+  const isAuthor = false
   return (
     <div
       className={cn('p-2 bg-slate-400 mt-2 rounded-md', {

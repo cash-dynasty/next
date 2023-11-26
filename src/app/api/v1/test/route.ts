@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { dbDev } from '@/db_dev'
 import { confirmationToken, player, user } from '@/db_dev/schema'
 import { eq } from 'drizzle-orm'
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   const userQuery = await dbDev
     .insert(user)
     .values({

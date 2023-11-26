@@ -10,7 +10,7 @@ type NicknameContentProp = {
   setSectorShowContent: (SectorShowContent: boolean) => void
 }
 
-export const NicknameContent = ({ setSectorShowContent }: NicknameContentProp) => {
+export const NicknameContent = (props: NicknameContentProp) => {
   const dispatch = useDispatch()
   const [getPlayerAlreadyExist, { data }] = useLazyGetPlayerAlreadyExistQuery()
   const [nickname, setNickname] = useState('')
@@ -20,7 +20,7 @@ export const NicknameContent = ({ setSectorShowContent }: NicknameContentProp) =
     const player = (await getPlayerAlreadyExist({ nickname })).data
     if (player?.canBeCreated) {
       dispatch(setGameStartNickname(nickname))
-      setSectorShowContent(false)
+      props.setSectorShowContent(false)
     } else {
       setIsNicknameValid(false)
     }
