@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { calculateIncomePerSecond } from '@/utils/game'
 import dayjs from 'dayjs'
-import { Player } from '@prisma/client'
+import { TPlayerSelect } from '@/db/schema'
 
-export const useCurrentBalance = (playerData?: Partial<Player>) => {
+export const useCurrentBalance = (playerData?: TPlayerSelect) => {
   const [amount, setAmount] = useState(playerData?.moneyBalance || 0)
 
   useEffect(() => {
-    const incomePerSecond = calculateIncomePerSecond(playerData?.income || 0)
+    const incomePerSecond = calculateIncomePerSecond(playerData?.moneyIncome || 0)
     const interval = setInterval(() => {
       const currentIncomeAmount =
         dayjs().diff(dayjs(playerData?.lastBalanceUpdate), 'second') * incomePerSecond

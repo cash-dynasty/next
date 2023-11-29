@@ -1,6 +1,8 @@
 import { RESPONSES, secureEndpoint } from '@/utils/backend'
-import { prisma } from '@/utils/db'
 import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/db'
+import { player } from '@/db/schema'
+import { eq } from 'drizzle-orm'
 
 export async function GET(
   req: NextRequest,
@@ -10,11 +12,13 @@ export async function GET(
     return RESPONSES.UNAUTHORIZED
   }
 
-  const isPlayerExist = await prisma.player.findFirst({
-    where: {
-      name: nickname,
-    },
-  })
-  console.log(isPlayerExist)
-  return NextResponse.json({ status: 'success', canBeCreated: !isPlayerExist }, { status: 200 })
+  const isPlayerExist = await db
+    .selectDistinct()
+    .from(player)
+    .where(eq(player.nickname, nickname))
+    .execute()
+
+  const nicknameAvailable = !isPlayerExist.length
+
+  return NextResponse.json({ status: 'success', nicknameAvailable }, { status: 200 })
 }

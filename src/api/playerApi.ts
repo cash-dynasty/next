@@ -1,5 +1,5 @@
 import { api } from './api'
-import { Player } from '@prisma/client'
+import { TPlayerSelect } from '@/db/schema'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,16 +22,16 @@ const injectedRtkApi = api.injectEndpoints({
 // getPlayerInfo
 export type GetPlayerInfoApiResponse = {
   status: number
-  playerData: Partial<Player>
+  player: TPlayerSelect
 }
 export type GetPlayerInfoApiArg = void
 
 // getPlayerAlreadyExist
 export type GetPlayerAlreadyExistApiResponse = {
   status: number
-  canBeCreated: boolean
+  nicknameAvailable: boolean
 }
-export type GetPlayerAlreadyExistApiArg = { nickname: Player['name'] }
+export type GetPlayerAlreadyExistApiArg = { nickname: TPlayerSelect['nickname'] }
 
 export const playerApi = injectedRtkApi
 
