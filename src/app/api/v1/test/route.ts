@@ -32,7 +32,11 @@ export async function POST() {
   const response = await dbDev.query.user.findMany({
     where: eq(user.id, userQuery[0].id),
     with: {
-      player: true,
+      player: {
+        columns: {
+          nickname: false,
+        },
+      },
       confirmationToken: true,
     },
   })

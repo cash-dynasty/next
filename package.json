@@ -49,6 +49,7 @@
     "node-schedule": "^2.1.1",
     "pg": "^8.11.3",
     "postcss": "8.4.29",
+    "ramda": "^0.29.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-email": "1.9.4",

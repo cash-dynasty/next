@@ -16,7 +16,7 @@ export const sector = pgEnum('Sector', ['IT', 'MEDIC', 'FINANCE', 'ARMY'])
 
 export const user = pgTable('user', {
   id: serial('id').primaryKey(),
-  email: text('email').notNull(),
+  email: text('email').notNull().unique(),
   password: varchar('password', { length: 256 }).notNull(),
   role: role('role').default('USER').notNull(),
   isActive: boolean('isActive').default(false).notNull(),
@@ -34,7 +34,7 @@ export const userRelations = relations(user, ({ one, many }) => ({
 
 export const player = pgTable('player', {
   id: serial('id').primaryKey(),
-  nickname: text('nickname').notNull(),
+  nickname: text('nickname').notNull().unique(),
   moneyBalance: doublePrecision('money_balance').default(0).notNull(),
   moneyIncome: doublePrecision('money_income').default(0).notNull(),
   lastBalanceUpdate: timestamp('last_balance_update', { precision: 3, mode: 'string' })
@@ -98,17 +98,23 @@ export const buildingRelations = relations(building, ({ one }) => ({
 
 export const cBuilding = pgTable('c_building', {
   id: serial('id').primaryKey(),
-  name: text('name').notNull(),
+  codeName: text('code_name').default('building').notNull(),
+  name: text('name').notNull().unique(),
   description: text('description'),
   sector: sector('sector').notNull(),
   maxLevel: integer('max_level').notNull(),
 })
 
+export type TCBuilding = typeof cBuilding.$inferSelect & {
+  buildingUpgradeRequirement?: (typeof cBuildingUpgradeRequirement.$inferSelect &
+    { requiredBuilding: typeof cRequiredBuilding.$inferSelect }[])[]
+}
+
 export const cBuildingRelations = relations(cBuilding, ({ many }) => ({
   buildingUpgradeRequirement: many(cBuildingUpgradeRequirement),
-  requiredBuilding: many(cRequiredBuilding, {
-    relationName: 'requiredBuilding',
-  }),
+  // requiredBuilding: many(cRequiredBuilding, {
+  //   relationName: 'requiredBuilding',
+  // }),
 }))
 
 export const cBuildingUpgradeRequirement = pgTable('c_building_upgrade_requirement', {
@@ -120,20 +126,31 @@ export const cBuildingUpgradeRequirement = pgTable('c_building_upgrade_requireme
 
 export const cBuildingUpgradeRequirementRelations = relations(
   cBuildingUpgradeRequirement,
-  ({ one }) => ({
+  ({ one, many }) => ({
     building: one(cBuilding, {
       fields: [cBuildingUpgradeRequirement.buildingId],
       references: [cBuilding.id],
     }),
+    requiredBuilding: many(cRequiredBuilding, {
+      relationName: 'requiredBuildingForUpgrade',
+    }),
   }),
 )
+
+export type TCBuildingUpgradeRequirementSelect = typeof cBuildingUpgradeRequirement.$inferSelect & {
+  requiredBuilding?: (typeof cRequiredBuilding.$inferSelect)[]
+}
+export type TCBuildingUpgradeRequirementInsert = typeof cBuildingUpgradeRequirement.$inferInsert
 
 export const cRequiredBuilding = pgTable('c_required_building', {
   id: serial('id').primaryKey(),
   buildingId: integer('building_id').notNull(),
-  requiredBuildingId: integer('required_building_id').notNull(),
+  // requiredBuildingId: integer('required_building_id').notNull(),
   requiredBuildingLevel: integer('required_building_level').notNull(),
+  buildingUpgradeRequirementId: integer('building_upgrade_requirement_id').notNull(),
 })
+
+export type TCRequiredBuildingSelect = typeof cRequiredBuilding.$inferSelect
 
 export const cRequiredBuildingRelations = relations(cRequiredBuilding, ({ one }) => ({
   building: one(cBuilding, {
@@ -141,9 +158,14 @@ export const cRequiredBuildingRelations = relations(cRequiredBuilding, ({ one })
     fields: [cRequiredBuilding.buildingId],
     references: [cBuilding.id],
   }),
-  requiredBuilding: one(cBuilding, {
-    relationName: 'requiredBuilding',
-    fields: [cRequiredBuilding.requiredBuildingId],
-    references: [cBuilding.id],
+  // requiredBuilding: one(cBuilding, {
+  //   relationName: 'requiredBuilding',
+  //   fields: [cRequiredBuilding.requiredBuildingId],
+  //   references: [cBuilding.id],
+  // }),
+  buildingUpgradeRequirement: one(cBuildingUpgradeRequirement, {
+    relationName: 'requiredBuildingForUpgrade',
+    fields: [cRequiredBuilding.buildingUpgradeRequirementId],
+    references: [cBuildingUpgradeRequirement.id],
   }),
 }))
