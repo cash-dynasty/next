@@ -1,1 +1,0 @@
-export { SectorContent } from './SectorContent'

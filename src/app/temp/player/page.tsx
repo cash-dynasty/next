@@ -11,7 +11,7 @@ import { useCurrentBalance } from '@hooks'
 export default function Player() {
   // const [buildings, setBuildings] = useState(start)
   const { data, isLoading, isError, refetch } = useGetPlayerInfoQuery()
-  const { currentBalance } = useCurrentBalance(data?.playerData)
+  const { currentBalance } = useCurrentBalance(data?.player)
 
   const handleTest = async () => {
     await axios
@@ -62,7 +62,7 @@ export default function Player() {
       ) : (
         <div className="max-h-96 overflow-y-scroll">
           {
-            data?.playerData && <pre>{JSON.stringify(data.playerData, null, 2)}</pre>
+            data?.player && <pre>{JSON.stringify(data.player, null, 2)}</pre>
             // Object.entries(data?.playerData).map(([key, value]) => (
             //   <p key={key}>
             //     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -73,7 +73,7 @@ export default function Player() {
           }
         </div>
       )}
-      <p>Przychód na sekundę: {calculateIncomePerSecond(data?.playerData.income || 0)}</p>
+      <p>Przychód na sekundę: {calculateIncomePerSecond(data?.player.moneyIncome || 0)}</p>
       <p>Aktualny stan konta: ${currentBalance}</p>
       <Button label={'Zarabiaj'} onClick={handleClick} />
       {/*{Object.entries(buildings).map(([name, properties]) => (*/}

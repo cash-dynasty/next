@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { NicknameContent, SectorContent } from '@/components'
+import { NicknameContent, SectorSelectContent } from '@/components'
 
 export default function Start() {
   const [showSectorContent, setSectorShowContent] = useState(true)
@@ -10,7 +10,7 @@ export default function Start() {
       {showSectorContent ? (
         <NicknameContent setSectorShowContent={setSectorShowContent} />
       ) : (
-        <SectorContent />
+        <SectorSelectContent />
       )}
     </div>
   )

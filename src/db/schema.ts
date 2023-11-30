@@ -45,6 +45,9 @@ export const player = pgTable('player', {
   userId: integer('user_id').notNull(),
 })
 
+export type TPlayerSelect = typeof player.$inferSelect
+export type TPlayerInsert = typeof player.$inferInsert
+
 export const confirmationToken = pgTable('confirmation_token', {
   id: serial('id').primaryKey(),
   token: text('token').notNull(),

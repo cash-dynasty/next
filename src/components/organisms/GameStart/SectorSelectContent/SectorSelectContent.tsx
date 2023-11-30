@@ -6,12 +6,13 @@ import { Sector } from '@prisma/client'
 import { useGameStartMutation } from '@/api'
 import { cn } from '@/utils/styles'
 import { handleRTKErrors } from '@/utils/api'
+import { sector as sectorDrizz } from '@/db/schema'
 
-export const SectorContent = () => {
+export const SectorSelectContent = () => {
   const { sector: selectedSector } = useSelector(selectors.selectGameStart)
   const { nickname, sector } = useSelector(selectors.selectGameStart)
 
-  const sectors: Sector[] = ['IT', 'ARMY', 'FINANCE', 'MEDIC']
+  const sectors = sectorDrizz.enumValues
 
   const dispatch = useDispatch()
   const [gameStart, { isSuccess, isError, error }] = useGameStartMutation()
@@ -21,6 +22,7 @@ export const SectorContent = () => {
   }
 
   const handleStartGame = () => {
+    console.log(nickname, sector)
     if (nickname && sector) {
       gameStart({
         nickname,
