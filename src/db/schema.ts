@@ -45,6 +45,10 @@ export const player = pgTable('player', {
   userId: integer('user_id').notNull(),
 })
 
+export const playerRelations = relations(player, ({ many }) => ({
+  property: many(property),
+}))
+
 export type TPlayerSelect = typeof player.$inferSelect
 export type TPlayerInsert = typeof player.$inferInsert
 
@@ -87,6 +91,8 @@ export const building = pgTable('building', {
   propertyId: integer('property_id').notNull(),
   configBuildingId: integer('config_building_id').notNull(),
 })
+
+export type TBuildingsSelect = typeof building.$inferSelect
 
 export const buildingRelations = relations(building, ({ one }) => ({
   property: one(property, {

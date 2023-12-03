@@ -39,7 +39,7 @@ export const NicknameContent = (props: NicknameContentProp) => {
 
   if (isLoading) return <p>Loading...</p>
 
-  if (!isLoading && playerInfo?.player.id) {
+  if (!isLoading && playerInfo?.player?.id) {
     const navigateToGameScreen = () => router.push('/game')
 
     setTimeout(navigateToGameScreen, 5000)

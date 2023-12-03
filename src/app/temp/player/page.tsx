@@ -1,5 +1,5 @@
 'use client'
-import { useGetPlayerInfoQuery } from '@/api'
+import { useGetBuildingsQuery, useGetPlayerInfoQuery } from '@/api'
 // import { CurrentBalance } from '@molecules'
 import axios from 'axios'
 import React from 'react'
@@ -10,6 +10,9 @@ import { useCurrentBalance } from '@hooks'
 
 export default function Player() {
   // const [buildings, setBuildings] = useState(start)
+  const { data: buildingsData } = useGetBuildingsQuery({
+    propertyId: 100001,
+  })
   const { data, isLoading, isError, refetch } = useGetPlayerInfoQuery()
   const { currentBalance } = useCurrentBalance(data?.player)
 
@@ -62,7 +65,7 @@ export default function Player() {
       ) : (
         <div className="max-h-96 overflow-y-scroll">
           {
-            data?.player && <pre>{JSON.stringify(data.player, null, 2)}</pre>
+            data?.player && <pre>{JSON.stringify(buildingsData, null, 2)}</pre>
             // Object.entries(data?.playerData).map(([key, value]) => (
             //   <p key={key}>
             //     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}

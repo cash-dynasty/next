@@ -1,4 +1,5 @@
 import { api } from './api'
+import { TBuildingsSelect } from '@/db/schema'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,6 +11,12 @@ const injectedRtkApi = api.injectEndpoints({
           nickname: queryArg.nickname,
           sector: queryArg.sector,
         },
+      }),
+    }),
+    getBuildings: builder.query<GetBuildingsApiResponse, GetBuildingsApiArg>({
+      query: (queryArg) => ({
+        url: `/game/buildings/${queryArg.propertyId}`,
+        method: 'GET',
       }),
     }),
   }),
@@ -25,6 +32,22 @@ export type GameStartApiArg = {
   nickname: string
 }
 
+//getBuildings
+export type GetBuildingsApiResponse =
+  | {
+      status: number
+      buildings: TBuildingsSelect
+      message: never
+    }
+  | {
+      status: number
+      buildings: never
+      message: string
+    }
+export type GetBuildingsApiArg = {
+  propertyId: number
+}
+
 export const gameApi = injectedRtkApi
 
-export const { useGameStartMutation } = injectedRtkApi
+export const { useGameStartMutation, useGetBuildingsQuery } = injectedRtkApi
