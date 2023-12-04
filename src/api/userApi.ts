@@ -26,7 +26,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/auth/activate`,
-        method: 'POST',
+        method: 'PUT',
         body: {
           email: queryArg.email,
           confirmationToken: queryArg.confirmationToken,

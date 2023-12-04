@@ -1,93 +1,45 @@
-import { NextResponse } from 'next/server'
-import { prisma } from '@/utils/db'
-import { ConfirmationToken } from '@prisma/client'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import { db } from '@/db'
+import { eq } from 'drizzle-orm'
+import { confirmationToken, user } from '@/db/schema'
+import { RESPONSES } from '@/utils/backend'
 
-export async function POST(request: Request) {
-  const { confirmationToken, email } = await request.json()
+dayjs.extend(utc)
 
-  const user = await prisma.user.findFirst({
-    where: {
-      email: email,
-    },
-    include: {
-      confirmationTokenList: {
-        where: {
-          isUsed: false,
-          token: confirmationToken,
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      },
-    },
+export async function PUT(req: Request) {
+  const { confirmationToken: confirmationTokenReq, email } = await req.json()
+
+  const userData = await db.query.user.findFirst({
+    where: eq(user.email, email),
   })
 
-  console.log(user)
+  if (!userData) return RESPONSES.AUTH_USER_NOT_FOUND
+  if (userData.isActive) return RESPONSES.AUTH_USER_ALREADY_ACTIVE
 
-  if (!user) {
-    return NextResponse.json(
-      {
-        status: 'fail',
-        message: 'user_not_found',
-      },
-      { status: 409 },
-    )
-  }
-
-  if (user.isConfirmed) {
-    return NextResponse.json(
-      {
-        status: 'fail',
-        message: 'user_already_confirmed',
-      },
-      { status: 409 },
-    )
-  }
-
-  const tokensList: ConfirmationToken[] = user.confirmationTokenList
-
-  if (!user.confirmationTokenList.length || tokensList[0].token !== confirmationToken) {
-    return NextResponse.json(
-      {
-        status: 'fail',
-        message: 'token_not_found',
-      },
-      { status: 409 },
-    )
-  }
-
-  if (dayjs().isAfter(tokensList[0].validFor)) {
-    return NextResponse.json(
-      {
-        status: 'fail',
-        message: 'token_expired',
-      },
-      { status: 409 },
-    )
-  }
-
-  await prisma.user.update({
-    where: {
-      email: email,
-    },
-    data: {
-      isConfirmed: true,
-      confirmationTokenList: {
-        updateMany: {
-          where: {
-            token: confirmationToken,
-          },
-          data: {
-            isUsed: true,
-            usedAt: new Date(),
-          },
-        },
-      },
-    },
+  const confirmationTokenData = await db.query.confirmationToken.findFirst({
+    where: (confirmationToken, { eq }) =>
+      eq(confirmationToken.userId, userData.id) &&
+      eq(confirmationToken.token, confirmationTokenReq),
   })
 
-  prisma.$disconnect()
+  if (!confirmationTokenData || dayjs(confirmationTokenData.validFor).isBefore(dayjs()))
+    return RESPONSES.AUTH_TOKEN_INCORRECT_OR_EXPIRED
 
-  return NextResponse.json({ status: 'success', message: 'account_activated' }, { status: 200 })
+  await db
+    .update(user)
+    .set({
+      isActive: true,
+    })
+    .where(eq(user.id, userData.id))
+
+  await db
+    .update(confirmationToken)
+    .set({
+      isUsed: true,
+      usedAt: dayjs().format(),
+    })
+    .where(eq(confirmationToken.id, confirmationTokenData.id))
+
+  return RESPONSES.AUTH_ACCOUNT_ACTIVATED
 }
