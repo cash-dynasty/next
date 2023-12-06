@@ -28,7 +28,8 @@
       "@organisms": ["./src/components/organisms"],
       "@hooks": ["./src/hooks"],
       "@api/*": ["./src/api/*"],
-      "@types": ["./src/types"]
+      "@types": ["./src/types"],
+      "@db": ["./src/db/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

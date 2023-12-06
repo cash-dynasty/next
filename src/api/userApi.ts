@@ -14,7 +14,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/auth/register`,
         method: 'POST',
         body: {
-          username: queryArg.username,
           password: queryArg.password,
           email: queryArg.email,
           gReCaptchaToken: queryArg.gReCaptchaToken,
@@ -27,7 +26,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/auth/activate`,
-        method: 'POST',
+        method: 'PUT',
         body: {
           email: queryArg.email,
           confirmationToken: queryArg.confirmationToken,
@@ -62,7 +61,6 @@ export type GetUsersApiArg = void
 
 // registerAccount
 export type RegisterAccountApiArg = {
-  username: string
   password: string
   email: string
   gReCaptchaToken: string
@@ -95,6 +93,7 @@ export type CreateNewActivationTokenApiArg = {
 }
 
 export const userApi = injectedRtkApi
+
 export const {
   useRegisterAccountMutation,
   useConfirmAccountRegistrationMutation,

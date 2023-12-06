@@ -1,0 +1,1 @@
+export { CurrentMoneyIndicator } from './CurrentMoneyIndicator'

@@ -1,52 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { RESPONSES, secureEndpoint } from '@/utils/backend'
+import { db } from '@/db'
 import { getToken } from 'next-auth/jwt'
-import { prisma } from '@/utils/db'
+import { eq } from 'drizzle-orm'
+import { player } from '@/db/schema'
 
 export async function GET(req: NextRequest) {
   const token = await getToken({ req })
-
-  if (!token) {
-    return NextResponse.json({ status: 'fail', data: 'unauthorized' }, { status: 401 })
+  if ((await secureEndpoint(req)) || !token) {
+    return RESPONSES.UNAUTHORIZED
   }
 
-  const playerData = await prisma.player.findUnique({
-    where: {
-      userId: token.id,
-    },
-    include: {
-      properties: {
-        select: {
-          id: true,
-          name: true,
-          sector: true,
-          buildings: {
-            select: {
-              configBuildingId: true,
-              level: true,
-              configBuilding: {
-                select: {
-                  maxLevel: true,
-                  requirements: {
-                    select: {
-                      upgradePrice: true,
-                      requiredBuildings: true,
-                      level: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+  const playerData = await db.query.player.findFirst({
+    where: eq(player.userId, token.id),
+    with: { property: true },
   })
 
-  console.log(playerData)
-
-  if (!playerData) {
-    return NextResponse.json({ status: 'fail', data: 'player not found' }, { status: 409 })
-  }
-
-  return NextResponse.json({ status: 'success', playerData }, { status: 200 })
+  return NextResponse.json({ status: 'success', player: playerData }, { status: 200 })
 }

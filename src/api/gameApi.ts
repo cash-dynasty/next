@@ -1,5 +1,5 @@
 import { api } from './api'
-import { TProperty } from '@/types/property'
+import { TBuildingsSelect, TPropertySelect } from '@/db/schema'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +11,12 @@ const injectedRtkApi = api.injectEndpoints({
           nickname: queryArg.nickname,
           sector: queryArg.sector,
         },
+      }),
+    }),
+    getBuildings: builder.query<GetBuildingsApiResponse, GetBuildingsApiArg>({
+      query: (queryArg) => ({
+        url: `/game/buildings/${queryArg.propertyId}`,
+        method: 'GET',
       }),
     }),
     getProperty: builder.query<GetPropertyApiResponse, GetPropertyApiArg>({
@@ -31,15 +37,32 @@ export type GameStartApiArg = {
   nickname: string
 }
 
+//getBuildings
+export type GetBuildingsApiResponse =
+  | {
+      status: number
+      buildings: TBuildingsSelect
+      message: never
+    }
+  | {
+      status: number
+      buildings: never
+      message: string
+    }
+export type GetBuildingsApiArg = {
+  propertyId: number
+}
+
 //getProperty
 export type GetPropertyApiResponse = {
   status: number
-  property: TProperty
+  property: TPropertySelect
 }
 export type GetPropertyApiArg = {
-  propertyId: string
+  propertyId: number
 }
 
 export const gameApi = injectedRtkApi
 
-export const { useGameStartMutation, useLazyGetPropertyQuery } = injectedRtkApi
+export const { useGameStartMutation, useGetBuildingsQuery, useLazyGetPropertyQuery } =
+  injectedRtkApi

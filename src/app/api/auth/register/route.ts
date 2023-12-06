@@ -1,20 +1,18 @@
 import { NextResponse } from 'next/server'
 import * as bcrypt from 'bcrypt'
-import { Prisma } from '@prisma/client'
 import axios from 'axios'
-import { prisma } from '@/utils/db'
 import crypto from 'crypto'
 import dayjs from 'dayjs'
 import { commonApi } from '@/api'
 import { store } from '@/store/store'
+import { db } from '@/db'
+import { confirmationToken, user } from '@/db/schema'
+
+const secretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY
 
 export async function POST(request: Request) {
-  const { username, password, email, gReCaptchaToken } = await request.json()
-  const secretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY
+  const { password, email, gReCaptchaToken } = await request.json()
   const passwordHash = await bcrypt.hash(password, 10)
-
-  let createdUser = null
-  let createdToken = null
 
   const generateToken = crypto.randomBytes(64).toString('hex')
 
@@ -38,40 +36,34 @@ export async function POST(request: Request) {
     })
 
   try {
-    createdUser = await prisma.user.create({
-      data: { username, password: passwordHash, email },
-    })
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return NextResponse.json({ status: 'fail', message: error.code }, { status: 409 })
-    }
-  }
-
-  try {
-    if (createdUser) {
-      createdToken = await prisma.confirmationToken.create({
-        data: {
-          ownerId: createdUser?.id,
-          token: generateToken,
-          validFor: dayjs().add(24, 'hour').toDate(),
-        },
+    const createdUser = await db
+      .insert(user)
+      .values({
+        email,
+        password: passwordHash,
       })
-    }
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return NextResponse.json({ status: 'fail', message: error.code }, { status: 409 })
-    }
-  }
+      .returning()
 
-  if (createdToken && createdUser) {
+    const createdToken = await db
+      .insert(confirmationToken)
+      .values({
+        token: generateToken,
+        userId: createdUser[0].id,
+        validFor: dayjs().add(24, 'hour').toString(),
+      })
+      .returning()
+
     await store().dispatch(
       commonApi.endpoints.sendConfirmationMail.initiate({
-        confirmationToken: createdToken.token,
-        mailTo: createdUser.email,
-        username: createdUser.username,
-        validFor: createdToken.validFor,
+        confirmationToken: createdToken[0].token,
+        mailTo: createdUser[0].email,
+        validFor: createdToken[0].validFor,
       }),
     )
+  } catch (error) {
+    if (error) {
+      return NextResponse.json({ status: 'fail', message: error }, { status: 409 })
+    }
   }
 
   return NextResponse.json({ status: 'success', message: 'Account created' }, { status: 200 })

@@ -3,27 +3,31 @@ import { useGetPlayerInfoQuery, useLazyGetPropertyQuery } from '@/api'
 import { Button } from '@atoms'
 import { cn } from '@/utils/styles'
 import { TPropertyBuilding } from '@/types/property'
-import { useEffect } from 'react'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+import { useEffect } from 'react'
 
 dayjs.extend(duration)
 
 export default function Headquarter() {
   const { data: playerData, isLoading: isGetPlayerInfoLoading } = useGetPlayerInfoQuery()
-  const [getProperty, { data, isLoading: isGetPropertyLoading }] = useLazyGetPropertyQuery()
-
-  const { property } = data || {}
+  const [
+    getProperty,
+    {
+      data: { property },
+      isLoading: isGetPropertyLoading,
+    },
+  ] = useLazyGetPropertyQuery()
 
   const isLoading = isGetPropertyLoading || isGetPlayerInfoLoading
 
   useEffect(() => {
-    const propertyId = playerData?.playerData.properties[0].id
+    const propertyId = playerData?.player.property[0].id
     if (propertyId) {
       getProperty({ propertyId })
     }
   }, [playerData])
-
+  console.log(playerData)
   const BuildingRow = ({ building }: { building: TPropertyBuilding }) => {
     const isBuildingBuild = building.level > 0
     return (

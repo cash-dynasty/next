@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, TextInput } from '@atoms'
+import { Button, TextInput, Typography } from '@atoms'
 import Link from 'next/link'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
@@ -13,7 +13,7 @@ import { CgFacebook } from 'react-icons/cg'
 
 const schema = yup
   .object({
-    username: yup.string().required(),
+    email: yup.string().required(),
     password: yup.string().required(),
   })
   .required()
@@ -29,8 +29,14 @@ export const LoginForm = ({ onClick }: LoginProps) => {
 
   const handleLogin = async (data: FormData) => {
     console.log(data)
-    const { username, password } = data
-    await signIn('credentials', { username, password })
+    const { email, password } = data
+    await signIn('credentials', {
+      email,
+      password,
+      callbackUrl: '/',
+      redirect: false,
+    })
+    //TODO parse returned json in ERROR field and display toast or message with corresponding error
   }
 
   const { register, handleSubmit } = useForm<FormData>({
@@ -38,13 +44,14 @@ export const LoginForm = ({ onClick }: LoginProps) => {
   })
 
   if (session.status === 'authenticated') {
+    const { email, id, role } = session.data?.user
     return (
       <div className="w-full bg-slate-800 p-8">
         <div className="flex flex-col gap-4 items-center">
           <p className="text-white">Jesteś zalogowany jako</p>
-          <p className="text-white text-xl">{session.data?.user?.username}</p>
-          <p className="text-white text-xl">{session.data?.user?.email}</p>
-          <p className="text-white text-xl">{session.data?.user?.id}</p>
+          <p className="text-white text-xl">{email}</p>
+          <p className="text-white text-xl">{id}</p>
+          <p className="text-white text-xl">{role}</p>
         </div>
       </div>
     )
@@ -58,9 +65,9 @@ export const LoginForm = ({ onClick }: LoginProps) => {
           <TextInput
             leftIcon="person"
             fullWidth
-            placeholder="Nazwa użytkownika"
-            label="Nazwa użytkownika"
-            {...register('username')}
+            placeholder="Adres e-mail"
+            label="Adres e-mail"
+            {...register('email')}
           />
           <TextInput
             leftIcon="password"
@@ -95,6 +102,9 @@ export const LoginForm = ({ onClick }: LoginProps) => {
           </div>
         </div>
       </form>
+      <Typography variant="h1" size="md">
+        test
+      </Typography>
       <div className="flex justify-between items-center gap-3 my-10">
         <p className="h-1 w-full border-t-2 border-primary-100"></p>
         <p className="text-white whitespace-nowrap">lub zaloguj się za pomocą</p>

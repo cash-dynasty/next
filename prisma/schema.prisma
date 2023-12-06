@@ -23,8 +23,8 @@ model User {
   lastSeen              DateTime            @default(now())
   confirmationTokenList ConfirmationToken[]
   messages              Message[]           @relation("message")
-  conversations         Conversation[]      @relation("conversations")
   player                Player?             @relation("player")
+  conversations         Conversation[]      @relation("conversations")
 }
 
 model Conversation {
@@ -85,8 +85,8 @@ model Building {
   property         Property         @relation("building", fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId       String           @db.Uuid
   level            Int              @default(0)
-  configBuilding   Config_Building? @relation(fields: [configBuildingId], references: [id])
   configBuildingId String?
+  configBuilding   Config_Building? @relation(fields: [configBuildingId], references: [id])
 }
 
 model Config_Building {
@@ -95,28 +95,27 @@ model Config_Building {
   description            String
   sector                 Sector
   maxLevel               Int
+  building               Building[]
   requirements           Config_BuildingRequirement[]
   configRequiredBuilding Config_RequiredBuilding[]
-  building               Building[]
 }
 
 model Config_BuildingRequirement {
   id                String                    @id @unique
   level             Int
-  upgradePrice      Float                     @default(0)
-  upgradeDuration   Int                       @default(0)
-  requiredBuildings Config_RequiredBuilding[]
-  configBuilding    Config_Building?          @relation(fields: [configBuildingId], references: [id])
+  upgradePrice      Float
   configBuildingId  String?
+  configBuilding    Config_Building?          @relation(fields: [configBuildingId], references: [id])
+  requiredBuildings Config_RequiredBuilding[]
 }
 
 model Config_RequiredBuilding {
   id                          String                      @id @unique
   buildingId                  String?
-  building                    Config_Building?            @relation(fields: [buildingId], references: [id])
   buildingLevel               Int
-  configBuildingRequirement   Config_BuildingRequirement? @relation(fields: [configBuildingRequirementId], references: [id])
   configBuildingRequirementId String?
+  building                    Config_Building?            @relation(fields: [buildingId], references: [id])
+  configBuildingRequirement   Config_BuildingRequirement? @relation(fields: [configBuildingRequirementId], references: [id])
 }
 
 enum Sector {

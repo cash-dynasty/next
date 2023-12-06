@@ -25,7 +25,7 @@ export const Button = ({
       className={cn(
         'px-4 py-2 text-white font-medium border-2 bg-primary-50 border-primary-100 hover:bg-primary-75 rounded',
         rest.className,
-        { [`w-full`]: fullWidth, ['bg-gray-400']: disabled },
+        { [`w-full`]: fullWidth, ['bg-gray-400 opacity-50 hover:bg-transparent']: disabled },
       )}
       onClick={onClick}
       disabled={disabled}
