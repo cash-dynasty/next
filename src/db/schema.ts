@@ -14,6 +14,7 @@ import { relations } from 'drizzle-orm'
 
 export const role = pgEnum('Role', ['USER', 'ADMIN', 'MODERATOR'])
 export const sector = pgEnum('Sector', ['IT', 'MEDIC', 'FINANCE', 'ARMY'])
+export const moneyTransferOperations = pgEnum('MoneyTransferOperations', ['WITHDRAW', 'DEPOSIT'])
 
 export type ESector = typeof sector.enumValues
 
@@ -53,6 +54,7 @@ export const player = pgTable('player', {
 
 export const playerRelations = relations(player, ({ many }) => ({
   property: many(property),
+  safeboxTransfers: many(safeboxTransfers),
 }))
 
 export type TPlayerSelect = typeof player.$inferSelect
@@ -83,6 +85,7 @@ export const property = pgTable('property', {
   updatedAt: timestamp('updated_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
   ownerId: integer('owner_id').notNull(),
   safeboxAmount: integer('safebox_amount').default(0).notNull(),
+  blockedFundsAmount: integer('blocked_funds_amount').default(0).notNull(),
 })
 
 export type TPropertySelect = typeof property.$inferSelect & {
@@ -96,6 +99,34 @@ export const propertyRelations = relations(property, ({ one, many }) => ({
     references: [player.id],
   }),
   buildings: many(building),
+}))
+
+export const safeboxTransfers = pgTable('safebox_transfers', {
+  id: serial('id').primaryKey(),
+  amount: integer('amount').notNull(),
+  type: moneyTransferOperations('type').notNull(),
+  createdAt: timestamp('created_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
+  isCancelled: boolean('is_cancelled').default(false).notNull(),
+  isProcessed: boolean('is_processed').default(false).notNull(),
+  playerId: integer('player_id').notNull(),
+  propertyId: integer('property_id').notNull(),
+})
+
+export type TSafeboxTransfersSelect = typeof safeboxTransfers.$inferSelect & {
+  player?: TPlayerSelect
+  property?: TPropertySelect
+}
+export type TSafeboxTransfersInsert = typeof safeboxTransfers.$inferInsert
+
+export const safeboxTransfersRelations = relations(safeboxTransfers, ({ one }) => ({
+  player: one(player, {
+    fields: [safeboxTransfers.playerId],
+    references: [player.id],
+  }),
+  property: one(property, {
+    fields: [safeboxTransfers.propertyId],
+    references: [property.id],
+  }),
 }))
 
 export const building = pgTable('building', {
