@@ -9,6 +9,7 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core'
+
 import { relations } from 'drizzle-orm'
 
 export const role = pgEnum('Role', ['USER', 'ADMIN', 'MODERATOR'])
@@ -76,6 +77,7 @@ export const property = pgTable('property', {
   createdAt: timestamp('created_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
   ownerId: integer('owner_id').notNull(),
+  safeboxAmount: integer('safebox_amount').default(0).notNull(),
 })
 
 export const propertyRelations = relations(property, ({ one }) => ({
