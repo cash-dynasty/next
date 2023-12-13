@@ -7,7 +7,7 @@ import React from 'react'
 import { SafeboxContent } from '@/components/organisms/SafeboxContent'
 // import { CurrentBalance } from '@molecules'
 import axios from 'axios'
-import { calculateIncomePerSecond } from '@/utils/game'
+// import { calculateIncomePerSecond } from '@/utils/game'
 import { useCurrentBalance } from '@hooks'
 
 // import { Player as PlayerType } from '@prisma/client'
@@ -80,7 +80,7 @@ export default function Player() {
           }
         </div>
       )}
-      <p>Przychód na sekundę: {calculateIncomePerSecond(data?.player.moneyIncome || 0)}</p>
+      {/* <p>Przychód na sekundę: {calculateIncomePerSecond(data?.player.moneyIncome || 0)}</p> */}
       <p>Aktualny stan konta: ${currentBalance}</p>
       <Button label={'Zarabiaj'} onClick={handleClick} />
       {/*{Object.entries(buildings).map(([name, properties]) => (*/}

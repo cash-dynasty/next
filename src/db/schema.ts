@@ -42,8 +42,6 @@ export const userRelations = relations(user, ({ one, many }) => ({
 export const player = pgTable('player', {
   id: serial('id').primaryKey(),
   nickname: text('nickname').notNull(),
-  moneyBalance: doublePrecision('money_balance').default(0).notNull(),
-  moneyIncome: doublePrecision('money_income').default(0).notNull(),
   lastBalanceUpdate: timestamp('last_balance_update', { precision: 3, mode: 'string' })
     .defaultNow()
     .notNull(),
@@ -54,7 +52,6 @@ export const player = pgTable('player', {
 
 export const playerRelations = relations(player, ({ many }) => ({
   property: many(property),
-  safeboxTransfers: many(safeboxTransfers),
 }))
 
 export type TPlayerSelect = typeof player.$inferSelect
@@ -84,8 +81,10 @@ export const property = pgTable('property', {
   createdAt: timestamp('created_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
   ownerId: integer('owner_id').notNull(),
-  safeboxAmount: integer('safebox_amount').default(0).notNull(),
-  blockedFundsAmount: integer('blocked_funds_amount').default(0).notNull(),
+  safeboxAmount: doublePrecision('safebox_amount').default(0).notNull(),
+  blockedFundsAmount: doublePrecision('blocked_funds_amount').default(0).notNull(),
+  moneyBalance: doublePrecision('money_balance').default(0).notNull(),
+  moneyIncome: doublePrecision('money_income').default(0).notNull(),
 })
 
 export type TPropertySelect = typeof property.$inferSelect & {
@@ -108,21 +107,15 @@ export const safeboxTransfers = pgTable('safebox_transfers', {
   createdAt: timestamp('created_at', { precision: 3, mode: 'string' }).defaultNow().notNull(),
   isCancelled: boolean('is_cancelled').default(false).notNull(),
   isProcessed: boolean('is_processed').default(false).notNull(),
-  playerId: integer('player_id').notNull(),
   propertyId: integer('property_id').notNull(),
 })
 
 export type TSafeboxTransfersSelect = typeof safeboxTransfers.$inferSelect & {
-  player?: TPlayerSelect
   property?: TPropertySelect
 }
 export type TSafeboxTransfersInsert = typeof safeboxTransfers.$inferInsert
 
 export const safeboxTransfersRelations = relations(safeboxTransfers, ({ one }) => ({
-  player: one(player, {
-    fields: [safeboxTransfers.playerId],
-    references: [player.id],
-  }),
   property: one(property, {
     fields: [safeboxTransfers.propertyId],
     references: [property.id],

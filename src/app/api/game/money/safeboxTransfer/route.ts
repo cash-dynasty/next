@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { RESPONSES, secureEndpoint } from '@/utils/backend'
+import { eq, sql } from 'drizzle-orm'
 import { player, property, safeboxTransfers } from '@/db/schema'
 
 import { db } from '@/db'
-import { eq } from 'drizzle-orm'
 import { getToken } from 'next-auth/jwt'
 
 export async function POST(req: NextRequest) {
@@ -16,41 +16,34 @@ export async function POST(req: NextRequest) {
   if (token) {
     const { propertyId, amount, type } = await req.json()
 
-    const playerData = await db.query.player.findFirst({
-      where: eq(player.userId, token.id),
-      with: {
-        property: {
-          where: eq(property.id, propertyId),
+    db.transaction(async (trx) => {
+      const playerData = await trx.query.player.findFirst({
+        where: eq(player.userId, token.id),
+        with: {
+          property: {
+            where: eq(property.id, propertyId),
+          },
         },
-      },
-    })
-
-    if (!playerData) {
-      return RESPONSES.AUTH_USER_NOT_FOUND
-    }
-
-    const safeboxTransferData = await db.insert(safeboxTransfers).values({
-      amount,
-      type,
-      playerId: playerData.id,
-      propertyId,
-    })
-
-    await db
-      .update(property)
-      .set({
-        blockedFundsAmount: playerData.property[0].blockedFundsAmount + amount,
       })
-      .where(eq(property.id, propertyId))
-      .execute()
+      if (!playerData || !playerData.property[0]) {
+        return RESPONSES.AUTH_USER_NOT_FOUND
+      }
 
-    await db
-      .update(player)
-      .set({
-        moneyBalance: playerData.moneyBalance - amount,
+      await trx
+        .update(property)
+        .set({
+          blockedFundsAmount: sql`${property.blockedFundsAmount} + ${amount}`,
+          moneyBalance: sql`${property.moneyBalance} - ${amount}`,
+        })
+        .where(eq(propertyId, playerData.property[0].id))
+        .execute()
+
+      await trx.insert(safeboxTransfers).values({
+        amount,
+        type,
+        propertyId,
       })
-      .where(eq(player.id, playerData.id))
-      .execute()
+    })
   }
 
   return NextResponse.json({ status: 'success', data: 'data_here' }, { status: 200 })
