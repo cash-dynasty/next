@@ -1,5 +1,5 @@
 import { api } from './api'
-import { TBuildingsSelect, TPropertySelect } from '@/db/schema'
+import { ESector, TBuildingsSelect, TPropertySelect } from '@/db/schema'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -33,7 +33,7 @@ export type GameStartApiResponse = {
   message: string
 }
 export type GameStartApiArg = {
-  sector: string
+  sector: ESector
   nickname: string
 }
 

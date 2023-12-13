@@ -6,7 +6,6 @@ import React from 'react'
 import { calculateIncomePerSecond } from '@/utils/game'
 import { Button } from '@atoms'
 import { useCurrentBalance } from '@hooks'
-import { useSession } from 'next-auth/react'
 // import { Player as PlayerType } from '@prisma/client'
 
 export default function Player() {

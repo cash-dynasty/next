@@ -2,22 +2,16 @@
 import { useGetPlayerInfoQuery, useLazyGetPropertyQuery } from '@/api'
 import { Button } from '@atoms'
 import { cn } from '@/utils/styles'
-import { TPropertyBuilding } from '@/types/property'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { useEffect } from 'react'
+import { TBuildingsSelect } from '@/db/schema'
 
 dayjs.extend(duration)
 
 export default function Headquarter() {
   const { data: playerData, isLoading: isGetPlayerInfoLoading } = useGetPlayerInfoQuery()
-  const [
-    getProperty,
-    {
-      data: { property },
-      isLoading: isGetPropertyLoading,
-    },
-  ] = useLazyGetPropertyQuery()
+  const [getProperty, { data, isLoading: isGetPropertyLoading }] = useLazyGetPropertyQuery()
 
   const isLoading = isGetPropertyLoading || isGetPlayerInfoLoading
 
@@ -27,8 +21,9 @@ export default function Headquarter() {
       getProperty({ propertyId })
     }
   }, [playerData])
-  console.log(playerData)
-  const BuildingRow = ({ building }: { building: TPropertyBuilding }) => {
+
+  const BuildingRow = ({ building }: { building: TBuildingsSelect }) => {
+    console.log(building.configBuilding.buildingUpgradeRequirement)
     const isBuildingBuild = building.level > 0
     return (
       <div
@@ -38,17 +33,22 @@ export default function Headquarter() {
         )}
       >
         <p>
-          {building.buildingName} (Poziom {building.level})
+          {building.configBuilding.name} (Poziom {building.level})
         </p>
-        <p>{building?.upgrade?.price}</p>
-        {building.level === building.maxLevel ? (
+        <p>{building?.configBuilding.buildingUpgradeRequirement?.upgradePrice}</p>
+        {building.level === building.configBuilding.maxLevel ? (
           <Button disabled>MAX</Button>
         ) : (
           <Button>
             <p>{isBuildingBuild ? `Poziom ${building.level + 1}` : 'Zbuduj'}</p>
             <p className="text-[12px]">
               (
-              {dayjs.duration(building?.upgrade?.duration || 0, 'seconds').format('H[h] m[m] s[s]')}
+              {dayjs
+                .duration(
+                  building.configBuilding.buildingUpgradeRequirement?.upgradeDuration || 0,
+                  'seconds',
+                )
+                .format('H[h] m[m] s[s]')}
               )
             </p>
           </Button>
@@ -67,8 +67,8 @@ export default function Headquarter() {
           <p>Loading...</p>
         ) : (
           <div className="flex flex-col max-w-3xl gap-1">
-            {property?.buildings?.map((building) => (
-              <BuildingRow key={building.buildingId} building={building} />
+            {data?.property?.buildings?.map((building) => (
+              <BuildingRow key={building.id} building={building} />
             ))}
           </div>
         )}

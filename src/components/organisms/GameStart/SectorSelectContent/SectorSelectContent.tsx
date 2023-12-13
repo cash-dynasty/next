@@ -1,23 +1,22 @@
 'use client'
 import { Button } from '@/components/atoms'
-import { selectors, setGameStartSector } from '@/store/slices/game/game.slice'
+import { selectors, setGameStartSector } from '@/store/slices/game.slice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Sector } from '@prisma/client'
 import { useGameStartMutation } from '@/api'
 import { cn } from '@/utils/styles'
 import { handleRTKErrors } from '@/utils/api'
-import { sector as sectorDrizz } from '@/db/schema'
+import { ESector, sector as sectorDrizzleEnum } from '@/db/schema'
 
 export const SectorSelectContent = () => {
   const { sector: selectedSector } = useSelector(selectors.selectGameStart)
   const { nickname, sector } = useSelector(selectors.selectGameStart)
 
-  const sectors = sectorDrizz.enumValues
+  const sectors = sectorDrizzleEnum.enumValues
 
   const dispatch = useDispatch()
   const [gameStart, { isSuccess, isError, error }] = useGameStartMutation()
 
-  const handleSelectSector = (sector: Sector) => {
+  const handleSelectSector = (sector: ESector) => {
     dispatch(setGameStartSector(sector))
   }
 
@@ -46,16 +45,19 @@ export const SectorSelectContent = () => {
         </p>
       )}
       <div className="grid grid-cols-2 ">
-        {sectors.map((sector, index) => (
+        {sectors.map((sector) => (
           <div
-            key={index}
+            key={sector}
             className={cn(
               'w-[20vh] h-[20vh] bg-[#DE8F74] hover:bg-primary-50 cursor-pointer m-1 flex justify-center items-center font-semibold text-xl text-white rounded',
               {
-                ['bg-primary-50']: selectedSector === sector,
+                ['bg-primary-50']:
+                  selectedSector === (sector as unknown as typeof sectorDrizzleEnum.enumValues),
               },
             )}
-            onClick={() => handleSelectSector(sector)}
+            onClick={() =>
+              handleSelectSector(sector as unknown as typeof sectorDrizzleEnum.enumValues)
+            }
           >
             {sector}
           </div>

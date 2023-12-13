@@ -46,27 +46,7 @@ export async function GET(
     },
   })
 
-  //
-  // const property1: TProperty = {
-  //   ...data,
-  //   buildings: data?.buildings.map((building: TBuilding) => {
-  //     const requirements = building?.configBuilding?.requirements?.find(
-  //       (req) => req.level === building.level + 1,
-  //     )
-  //     return {
-  //       buildingId: building.id,
-  //       level: building.level,
-  //       building: building.configBuildingId,
-  //       buildingName: building?.configBuilding?.name,
-  //       maxLevel: building?.configBuilding?.maxLevel,
-  //       upgrade: {
-  //         price: requirements?.upgradePrice ?? undefined,
-  //         requiredBuildings: requirements?.requiredBuildings ?? undefined,
-  //         duration: requirements?.upgradeDuration,
-  //       },
-  //     }
-  //   }),
-  // }
+  console.log(propertyData)
 
   return NextResponse.json({ status: 'success', property: propertyData }, { status: 200 })
 }
