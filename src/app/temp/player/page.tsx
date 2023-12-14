@@ -1,11 +1,15 @@
 'use client'
+
 import { useGetBuildingsQuery, useGetPlayerInfoQuery } from '@/api'
+
+import { Button } from '@atoms'
+import React from 'react'
+import { SafeboxContent } from '@/components/organisms/SafeboxContent'
 // import { CurrentBalance } from '@molecules'
 import axios from 'axios'
-import React from 'react'
 import { calculateIncomePerSecond } from '@/utils/game'
-import { Button } from '@atoms'
 import { useCurrentBalance } from '@hooks'
+
 // import { Player as PlayerType } from '@prisma/client'
 
 export default function Player() {
@@ -88,6 +92,7 @@ export default function Player() {
       {/*    onClick={() => handleUpgradeBuilding(name)}*/}
       {/*  />*/}
       {/*))}*/}
+      <SafeboxContent />
     </div>
   )
 }
