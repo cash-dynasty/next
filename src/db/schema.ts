@@ -119,6 +119,7 @@ export const property = pgTable('property', {
 
 export type ESector = typeof sector.enumValues
 export type ERole = typeof role.enumValues
+export type EMoneyTransferOperations = typeof moneyTransferOperations.enumValues
 
 export type TUserSelect = typeof user.$inferSelect
 export type TUserInsert = typeof user.$inferInsert

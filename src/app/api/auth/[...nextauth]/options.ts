@@ -1,9 +1,10 @@
-import type { NextAuthOptions } from 'next-auth'
+import * as bcrypt from 'bcrypt'
+
 import CredentialsProvider from 'next-auth/providers/credentials'
+import type { NextAuthOptions } from 'next-auth'
 import { db } from '@/db'
 import { user as dbUser } from '@/db/schema'
 import { eq } from 'drizzle-orm'
-import * as bcrypt from 'bcrypt'
 
 export const options: NextAuthOptions = {
   providers: [
@@ -17,27 +18,19 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials) return null
-        const user = await db
-          .selectDistinct({
-            id: dbUser.id,
-            email: dbUser.email,
-            role: dbUser.role,
-            password: dbUser.password,
-            isActive: dbUser.isActive,
-          })
-          .from(dbUser)
-          .where(eq(dbUser.email, credentials.email))
-          .limit(1)
+        const user = await db.query.user.findFirst({
+          where: eq(dbUser.email, credentials.email),
+        })
 
         if (user) {
-          if (!user[0].isActive) {
+          if (!user.isActive) {
             throw new Error(
               JSON.stringify({ message: 'Account is not active', code: 'account_inactive' }),
             )
           }
-          const checkPassword = await bcrypt.compare(credentials.password, user[0].password)
+          const checkPassword = await bcrypt.compare(credentials.password, user.password)
           if (checkPassword) {
-            return { id: user[0].id, email: user[0].email, role: user[0].role }
+            return { id: user.id, email: user.email, role: user.role }
           }
         }
         throw new Error(
