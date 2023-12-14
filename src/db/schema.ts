@@ -10,6 +10,7 @@ import {
   unique,
   varchar,
 } from 'drizzle-orm/pg-core'
+
 import { relations } from 'drizzle-orm'
 
 export const sector = pgEnum('Sector', ['IT', 'MEDIC', 'FINANCE', 'ARMY'])
@@ -118,6 +119,7 @@ export const property = pgTable('property', {
 })
 
 export type ESector = typeof sector.enumValues
+export type EMoneyTransferOperations = typeof moneyTransferOperations.enumValues
 
 export type TUserSelect = typeof user.$inferSelect
 export type TUserInsert = typeof user.$inferInsert
