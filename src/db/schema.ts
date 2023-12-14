@@ -15,6 +15,7 @@ export const role = pgEnum('Role', ['USER', 'ADMIN', 'MODERATOR'])
 export const sector = pgEnum('Sector', ['IT', 'MEDIC', 'FINANCE', 'ARMY'])
 
 export type ESector = typeof sector.enumValues
+export type ERole = typeof role.enumValues
 
 export const user = pgTable('user', {
   id: serial('id').primaryKey(),
