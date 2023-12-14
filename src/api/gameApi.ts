@@ -1,5 +1,6 @@
+import { EMoneyTransferOperations, TBuildingsSelect } from '@/db/schema'
+
 import { api } from './api'
-import { TBuildingsSelect } from '@/db/schema'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,6 +20,20 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'GET',
       }),
     }),
+    createSafeboxTransfer: builder.mutation<
+      CreateSafeboxTransferApiResponse,
+      CreateSafeboxTransferApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/game/money/safeboxTransfer`,
+        method: 'POST',
+        body: {
+          propertyId: queryArg.propertyId,
+          amount: queryArg.amount,
+          type: queryArg.type,
+        },
+      }),
+    }),
   }),
 })
 
@@ -30,6 +45,14 @@ export type GameStartApiResponse = {
 export type GameStartApiArg = {
   sector: string
   nickname: string
+}
+
+//createSafeboxTransfer
+export type CreateSafeboxTransferApiResponse = void
+export type CreateSafeboxTransferApiArg = {
+  propertyId: number
+  amount: number
+  type: EMoneyTransferOperations
 }
 
 //getBuildings
@@ -50,4 +73,5 @@ export type GetBuildingsApiArg = {
 
 export const gameApi = injectedRtkApi
 
-export const { useGameStartMutation, useGetBuildingsQuery } = injectedRtkApi
+export const { useGameStartMutation, useGetBuildingsQuery, useCreateSafeboxTransferMutation } =
+  injectedRtkApi
