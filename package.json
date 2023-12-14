@@ -15,12 +15,12 @@
     "db:push": "drizzle-kit push:pg",
     "db:drop": "drizzle-kit drop",
     "db:generate": "drizzle-kit generate:pg",
-    "db:introspect": "drizzle-kit introspect:pg",
+    "db:pull": "drizzle-kit introspect:pg",
     "db:studio:dev": "drizzle-kit studio --host 127.0.0.1 --config ./drizzle-dev.config.ts",
     "db:push:dev": "drizzle-kit push:pg --config ./drizzle-dev.config.ts",
     "db:drop:dev": "drizzle-kit drop --config ./drizzle-dev.config.ts",
     "db:generate:dev": "drizzle-kit generate:pg --config ./drizzle-dev.config.ts",
-    "db:introspect:dev": "drizzle-kit introspect:pg --config ./drizzle-dev.config.ts"
+    "db:pull:dev": "drizzle-kit introspect:pg --config ./drizzle-dev.config.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
