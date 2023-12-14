@@ -20,10 +20,8 @@ export async function GET() {
             with: {
               building: {
                 columns: {
-                  id: true,
-                  codeName: true,
-                  name: true,
-                  sector: true,
+                  description: false,
+
                 },
               },
             },

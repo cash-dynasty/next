@@ -99,7 +99,7 @@ export const buildingRelations = relations(building, ({ one }) => ({
 export const cBuilding = pgTable('c_building', {
   id: serial('id').primaryKey(),
   codeName: text('code_name').default('building').notNull(),
-  name: text('name').notNull().unique(),
+  name: text('name'),
   description: text('description'),
   sector: sector('sector').notNull(),
   maxLevel: integer('max_level').notNull(),
@@ -112,9 +112,7 @@ export type TCBuilding = typeof cBuilding.$inferSelect & {
 
 export const cBuildingRelations = relations(cBuilding, ({ many }) => ({
   buildingUpgradeRequirement: many(cBuildingUpgradeRequirement),
-  // requiredBuilding: many(cRequiredBuilding, {
-  //   relationName: 'requiredBuilding',
-  // }),
+
 }))
 
 export const cBuildingUpgradeRequirement = pgTable('c_building_upgrade_requirement', {
@@ -145,7 +143,6 @@ export type TCBuildingUpgradeRequirementInsert = typeof cBuildingUpgradeRequirem
 export const cRequiredBuilding = pgTable('c_required_building', {
   id: serial('id').primaryKey(),
   buildingId: integer('building_id').notNull(),
-  // requiredBuildingId: integer('required_building_id').notNull(),
   requiredBuildingLevel: integer('required_building_level').notNull(),
   buildingUpgradeRequirementId: integer('building_upgrade_requirement_id').notNull(),
 })
@@ -158,11 +155,6 @@ export const cRequiredBuildingRelations = relations(cRequiredBuilding, ({ one })
     fields: [cRequiredBuilding.buildingId],
     references: [cBuilding.id],
   }),
-  // requiredBuilding: one(cBuilding, {
-  //   relationName: 'requiredBuilding',
-  //   fields: [cRequiredBuilding.requiredBuildingId],
-  //   references: [cBuilding.id],
-  // }),
   buildingUpgradeRequirement: one(cBuildingUpgradeRequirement, {
     relationName: 'requiredBuildingForUpgrade',
     fields: [cRequiredBuilding.buildingUpgradeRequirementId],

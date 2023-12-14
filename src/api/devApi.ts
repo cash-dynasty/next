@@ -58,6 +58,26 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    updateRequiredBuildingConfig: builder.mutation({
+      query: (arg) => ({
+        url: `/config/building/requiredBuilding`,
+        method: 'PUT',
+        body: {
+          buildingId: arg.buildingId,
+          requirementId: arg.requirementId,
+        },
+      }),
+    }),
+    updateBuildingUpgradePriceConfig: builder.mutation({
+      query: (arg) => ({
+        url: `/config/building/upgradePrice/update`,
+        method: 'PUT',
+        body: {
+          buildingUpgradeRequirementId: arg.buildingUpgradeRequirementId,
+          upgradePrice: arg.upgradePrice,
+        },
+      }),
+    }),
   }),
 })
 
@@ -96,4 +116,6 @@ export const {
   useCreateBuildingConfigMutation,
   useUpdateBuildingConfigMutation,
   useCreateBuildingRequirementConfigMutation,
+  useUpdateRequiredBuildingConfigMutation,
+  useUpdateBuildingUpgradePriceConfigMutation,
 } = injectedRtkApi

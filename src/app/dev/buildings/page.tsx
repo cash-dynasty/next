@@ -7,6 +7,8 @@ import {
   useCreateBuildingRequirementConfigMutation,
   useGetBuildingsConfigQuery,
   useUpdateBuildingConfigMutation,
+  useUpdateBuildingUpgradePriceConfigMutation,
+  useUpdateRequiredBuildingConfigMutation,
 } from '@api/devApi'
 import {
   TCBuilding,
@@ -21,11 +23,14 @@ export default function Buildings() {
   const [selectedBuilding, setSelectedBuilding] = useState<TCBuilding | null>(null)
   const [isEdit, setIsEdit] = useState(true)
   const [newBuilding, setNewBuilding] = useState<Partial<TCBuilding> | null>(null)
+  const [upgradeLvlPrices, setUpgradeLvlPrices] = useState<{ [key: number]: string }>({})
 
   const { data, refetch } = useGetBuildingsConfigQuery()
   const [createBuilding] = useCreateBuildingConfigMutation()
   const [updateBuilding] = useUpdateBuildingConfigMutation()
   const [createBuildingUpgradeRequirement] = useCreateBuildingRequirementConfigMutation()
+  const [updateRequiredBuildingConfig] = useUpdateRequiredBuildingConfigMutation()
+  const [updateBuildingUpgradePriceConfig] = useUpdateBuildingUpgradePriceConfigMutation()
 
   useEffect(() => {
     if (data && data.buildings) {
@@ -129,6 +134,13 @@ export default function Buildings() {
   }
 
   const handleUpdateBuildingUpgradePrice = (id: number, value: string) => {
+    console.log(id, value)
+
+    setUpgradeLvlPrices((prev) => ({
+      ...prev,
+      [id]: value,
+    }))
+
     setSelectedBuilding((prev: TCBuilding | null) => {
       const buildingPrev = R.clone(prev) as TCBuilding
 
@@ -140,6 +152,16 @@ export default function Buildings() {
       buildingPrev.buildingUpgradeRequirement[updateIndex].upgradePrice = +value
       return buildingPrev || null
     })
+  }
+
+  console.log(upgradeLvlPrices)
+
+  const handleChangeRequiredBuilding = (buildingId: string, requirementId: number) => {
+    updateRequiredBuildingConfig({
+      buildingId: +buildingId,
+      requirementId,
+    })
+    refetch()
   }
 
   const handleAddRequirementLevel = async () => {
@@ -194,6 +216,12 @@ export default function Buildings() {
 
         return buildingPrev || null
       })
+  }
+
+  const getBuildingMaxLevel = (buildingId: number) => {
+    const building = buildings?.find((el) => el.id === buildingId)
+    if (building) return building.maxLevel
+    return undefined
   }
 
   const editForm = () => {
@@ -290,21 +318,38 @@ export default function Buildings() {
                         (el: TCBuildingUpgradeRequirementSelect) => (
                           <tr className="border-b-1 bg-gray-800 border-gray" key={el.level}>
                             <td className="px-6 py-3">{el.level}</td>
-                            <td className="px-6 py-3">
+                            <td className="flex items-center px-6 py-3">
                               <input
                                 // type="number"
                                 value={el.upgradePrice}
                                 maxLength={10}
-                                className="w-[100px]"
+                                className="w-[100px] m-2"
                                 onChange={({ target }) =>
                                   handleUpdateBuildingUpgradePrice(el.id, target.value)
                                 }
                               />
+                              {Object.keys(upgradeLvlPrices).some((id) => el.id === +id) && (
+                                <Button
+                                  label="zapisz"
+                                  onClick={() =>
+                                    updateBuildingUpgradePriceConfig({
+                                      buildingUpgradeRequirementId: el.id,
+                                      upgradePrice: upgradeLvlPrices[el.id],
+                                    })
+                                  }
+                                />
+                              )}
                             </td>
                             <td>
                               <div className="flex flex-col gap-2">
                                 {el.requiredBuilding?.map((rb) => (
-                                  <select key={rb.id} onChange={handleSelectBuilding}>
+                                  <select
+                                    key={rb.id}
+                                    onChange={({ target }) =>
+                                      handleChangeRequiredBuilding(target.value, rb.id)
+                                    }
+                                    defaultValue={rb.building?.id}
+                                  >
                                     {!!buildings &&
                                       buildings.map((b: TCBuilding) => {
                                         return (
@@ -319,7 +364,17 @@ export default function Buildings() {
                             </td>
                             <td>
                               <div className="flex flex-col gap-2">
-                                {el.requiredBuilding?.map((rb) => <select key={rb.id}></select>)}
+                                {el.requiredBuilding?.map((rb) => (
+                                  <select key={rb.id}>
+                                    {Array(getBuildingMaxLevel(rb.buildingId))
+                                      .fill(0)
+                                      .map((_, index) => (
+                                        <option value={index + 1} key={index}>
+                                          {index + 1}
+                                        </option>
+                                      ))}
+                                  </select>
+                                ))}
                               </div>
                             </td>
                             <td className="px-6 py-3">
