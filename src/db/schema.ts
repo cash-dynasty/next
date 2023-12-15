@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import {
   boolean,
   doublePrecision,
@@ -11,8 +12,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 
-import { relations } from 'drizzle-orm'
-
+//DBSTART
 export const sector = pgEnum('Sector', ['IT', 'MEDIC', 'FINANCE', 'ARMY'])
 export const role = pgEnum('Role', ['USER', 'ADMIN', 'MODERATOR'])
 export const moneyTransferOperations = pgEnum('MoneyTransferOperations', ['WITHDRAW', 'DEPOSIT'])
@@ -117,6 +117,7 @@ export const property = pgTable('property', {
   moneyBalance: doublePrecision('money_balance'),
   moneyIncome: doublePrecision('money_income'),
 })
+//DBEND
 
 export type ESector = typeof sector.enumValues
 export type EMoneyTransferOperations = typeof moneyTransferOperations.enumValues
