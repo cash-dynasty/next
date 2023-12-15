@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { RESPONSES, secureEndpoint } from '@/utils/backend'
-import { prisma } from '@/utils/db'
-import { TProperty } from '@/types/property'
-import { TBuilding } from '@/types/building'
+import { db } from '@/db'
+import { eq } from 'drizzle-orm'
+import { property } from '@/db/schema'
 
 export async function GET(
   req: NextRequest,
@@ -10,7 +10,7 @@ export async function GET(
     params: { propertyId },
   }: {
     params: {
-      propertyId: string
+      propertyId: number
     }
   },
 ) {
@@ -18,23 +18,25 @@ export async function GET(
     return RESPONSES.UNAUTHORIZED
   }
 
-  const data = await prisma.property.findFirst({
-    where: {
-      id: propertyId,
-    },
-    include: {
+  const propertyData = await db.query.property.findFirst({
+    where: eq(property.id, propertyId),
+    with: {
       buildings: {
-        include: {
+        columns: {
+          configBuildingId: false,
+          propertyId: false,
+        },
+        with: {
           configBuilding: {
-            include: {
-              requirements: {
-                include: {
-                  requiredBuildings: {
-                    select: {
-                      buildingId: true,
-                      buildingLevel: true,
-                    },
-                  },
+            columns: {
+              sector: false,
+              description: false,
+            },
+            with: {
+              buildingUpgradeRequirement: {
+                with: { building: true },
+                columns: {
+                  buildingId: false,
                 },
               },
             },
@@ -44,25 +46,7 @@ export async function GET(
     },
   })
 
-  const property: TProperty = {
-    ...data,
-    buildings: data?.buildings.map((building: TBuilding) => {
-      const requirements = building?.configBuilding?.requirements?.find(
-        (req) => req.level === building.level + 1,
-      )
-      return {
-        buildingId: building.id,
-        level: building.level,
-        building: building.configBuildingId,
-        buildingName: building?.configBuilding?.name,
-        maxLevel: building?.configBuilding?.maxLevel,
-        upgrade: {
-          price: requirements?.upgradePrice ?? undefined,
-          requiredBuildings: requirements?.requiredBuildings ?? undefined,
-        },
-      }
-    }),
-  }
+  console.log(propertyData)
 
-  return NextResponse.json({ status: 'success', property }, { status: 200 })
+  return NextResponse.json({ status: 'success', property: propertyData }, { status: 200 })
 }

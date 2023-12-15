@@ -1,17 +1,32 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSelector, createSlice } from '@reduxjs/toolkit'
-import {
-  GameState,
-  SetGameStartNicknamePayload,
-  SetGameStartSectorPayload,
-} from './game.slice.types'
 import { RootState } from '@/store/store'
+import { ESector } from '@/db/schema'
 
-const initialState: GameState = {
+type TGameStart = {
+  nickname: string
+  sector: ESector | null
+}
+
+export type SetGameStartNicknamePayload = string
+
+export type SetGameStartSectorPayload = ESector
+
+export type SetSelectedPropertyPayload = {
+  propertyId: string
+}
+
+export type TGameState = {
+  gameStart: TGameStart
+  selectedProperty: string | null
+}
+
+const initialState: TGameState = {
   gameStart: {
     nickname: '',
     sector: null,
   },
+  selectedProperty: null,
 }
 
 export const gameSlice = createSlice({
@@ -24,6 +39,9 @@ export const gameSlice = createSlice({
     setGameStartSector(state, { payload }: PayloadAction<SetGameStartSectorPayload>) {
       state.gameStart.sector = payload
     },
+    setSelectedProperty(state, { payload }: PayloadAction<SetSelectedPropertyPayload>) {
+      state.selectedProperty = payload.propertyId
+    },
   },
 })
 
@@ -31,7 +49,8 @@ export const gameSlice = createSlice({
 const getGame = (state: RootState) => state.game
 export const selectors = {
   selectGameStart: createSelector(getGame, (game) => game.gameStart),
+  selectSelectedProperty: createSelector(getGame, (game) => game.selectedProperty),
 }
-export const { setGameStartNickname, setGameStartSector } = gameSlice.actions
+export const { setSelectedProperty, setGameStartNickname, setGameStartSector } = gameSlice.actions
 
 export default gameSlice.reducer

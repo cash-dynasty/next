@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
 
   const playerData = await db.query.player.findFirst({
     where: eq(player.userId, token.id),
+    with: { property: true },
   })
 
   return NextResponse.json({ status: 'success', player: playerData }, { status: 200 })

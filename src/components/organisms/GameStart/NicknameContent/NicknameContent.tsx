@@ -2,7 +2,7 @@
 
 import { Button, TextInput } from '@atoms'
 import { ChangeEvent, useState } from 'react'
-import { setGameStartNickname } from '@/store/slices/game/game.slice'
+import { setGameStartNickname } from '@/store/slices/game.slice'
 import { useDispatch } from 'react-redux'
 import { useGetPlayerInfoQuery, useLazyGetPlayerAlreadyExistQuery } from '@/api'
 import { useRouter } from 'next/navigation'

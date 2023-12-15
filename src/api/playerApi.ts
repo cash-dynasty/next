@@ -1,5 +1,5 @@
 import { api } from './api'
-import { TPlayerSelect } from '@/db/schema'
+import { TPlayerSelect, TPropertySelect } from '@/db/schema'
 
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,7 +22,7 @@ const injectedRtkApi = api.injectEndpoints({
 // getPlayerInfo
 export type GetPlayerInfoApiResponse = {
   status: number
-  player: TPlayerSelect
+  player: TPlayerSelect & { property: TPropertySelect[] }
 }
 export type GetPlayerInfoApiArg = void
 

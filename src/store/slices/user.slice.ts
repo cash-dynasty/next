@@ -1,9 +1,18 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSelector, createSlice } from '@reduxjs/toolkit'
-import { SetUserPayload, UserState } from './user.slice.types'
 import { RootState } from '@/store/store'
 
-const initialState: UserState = {
+import { TUserSelect } from '@/db/schema'
+
+export type SetUserPayload = {
+  user: TUserSelect
+}
+
+export type TUserState = {
+  user: TUserSelect | null
+}
+
+const initialState: TUserState = {
   user: null,
 }
 
@@ -17,8 +26,8 @@ export const userSlice = createSlice({
   },
 })
 
-// Action creators are generated for each case reducer function
 const getUser = (state: RootState) => state.user
+
 export const selectors = {
   selectUserData: createSelector(getUser, (user) => user),
 }

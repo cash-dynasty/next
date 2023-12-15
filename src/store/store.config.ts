@@ -1,7 +1,7 @@
 import { combineReducers, ThunkMiddleware } from '@reduxjs/toolkit'
 import { commonApi, gameApi, playerApi, userApi } from '@/api'
-import { userSlice } from './slices/user/user.slice'
-import { gameSlice } from './slices/game/game.slice'
+import { userSlice } from './slices/user.slice'
+import { gameSlice } from './slices/game.slice'
 
 export const rootReducer = combineReducers({
   [commonApi.reducerPath]: commonApi.reducer,
