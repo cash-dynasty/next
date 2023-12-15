@@ -41,3 +41,6 @@ next-env.d.ts
 
 # react email
 /.react-email
+
+#drizzle
+src/db/introspects
