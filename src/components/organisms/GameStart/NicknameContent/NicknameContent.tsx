@@ -6,6 +6,8 @@ import { setGameStartNickname } from '@/store/slices/game.slice'
 import { useDispatch } from 'react-redux'
 import { useGetPlayerInfoQuery, useLazyGetPlayerAlreadyExistQuery } from '@/api'
 import { useRouter } from 'next/navigation'
+import { FaArrowRight } from 'react-icons/fa'
+import { IoPersonOutline } from 'react-icons/io5'
 
 type NicknameContentProp = {
   setSectorShowContent: (SectorShowContent: boolean) => void
@@ -56,18 +58,30 @@ export const NicknameContent = (props: NicknameContentProp) => {
   }
 
   return (
-    <div>
-      <div className="w-full mb-2">
-        {!isNicknameValid ? <p>Uzytkownik istnieje</p> : null}
-        <span className="text-white text-sm">Wybierz pseudonim swojego CEO:</span>
-        <TextInput fullWidth placeholder="Pseudonim" onChange={handleNicknameChange} />
-      </div>
+    <div className=" flex flex-col justify-start items-start  w-full min-h-screen absolute  bg-opacity-10 top-0 left-0 z-0 p-32">
+      <div className="flex flex-col">
+        <div className="my-5">
+          {!isNicknameValid ? <p>Uzytkownik istnieje</p> : null}
+          <p className="text-white opacity-50 text-sm tracking-widest">1/2</p>
+          <p className="text-white text-2xl">Nazwa Twojej postaci</p>
+          <span className="text-white opacity-50 text-sm">
+            Wybierz nazwę postaci, która będzie używana jako nazwa właściciela firmy.
+          </span>
+        </div>
+        <div className="mb-5">
+          <TextInput
+            fullWidth
+            placeholder="Pseudonim"
+            onChange={handleNicknameChange}
+            leftIcon={'person'}
+          />
+          <span className="text-white opacity-30 text-xs">Helper text</span>
+        </div>
 
-      <Button
-        label={'Confirm'}
-        onClick={handleConfirmNickname}
-        disabled={nickname.length > 2 ? false : true}
-      />
+        <Button onClick={handleConfirmNickname} disabled={nickname.length > 2 ? false : true}>
+          Dalej <FaArrowRight className="ml-2" />
+        </Button>
+      </div>
     </div>
   )
 }

@@ -23,7 +23,7 @@ export const Button = ({
   return (
     <button
       className={cn(
-        'px-4 py-2 text-white font-medium border-2 bg-primary-50 border-primary-100 hover:bg-primary-75 rounded',
+        'px-4 py-2 text-white font-medium border-1 bg-buttonBg border-borderGray hover:bg-borderGray  flex items-center justify-center',
         rest.className,
         { [`w-full`]: fullWidth, ['bg-gray-400 opacity-50 hover:bg-transparent']: disabled },
       )}
