@@ -19,6 +19,9 @@ const config: Config = {
       3: '3px',
     },
     extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       colors: {
         primary: {
           100: 'rgba(222, 143, 116, 1)',
@@ -33,6 +36,9 @@ const config: Config = {
           50: 'rgba(31, 92, 209, .5)',
           25: 'rgba(31, 92, 209, .25)',
         },
+        borderGray: '#3E3E3E',
+        buttonBg: '#2C2C2C',
+
         // tertiary: {
         //   100: 'rgba(31 , 177, 209, 1)',
         //   75: 'rgba(31 , 177, 209, .75)',

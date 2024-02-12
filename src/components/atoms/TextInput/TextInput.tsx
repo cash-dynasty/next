@@ -57,7 +57,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             {leftIcon === 'e-mail' ? (
               <MdMailOutline className="text-secondary-100 w-6 h-6" />
             ) : leftIcon === 'person' ? (
-              <MdPersonOutline className="text-secondary-100 w-6 h-6" />
+              <MdPersonOutline className="text-white opacity-50 w-6 h-6" />
             ) : (
               leftIcon === 'password' && <MdLockOutline className="text-secondary-100 w-6 h-6" />
             )}
@@ -68,7 +68,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           placeholder={placeholder}
           type={inputType}
           className={cn(
-            'text-white placeholder:text-gray bg-dark border-1 border-transparent focus:outline-none py-2 px-4 rounded tracking-wide',
+            'text-white placeholder:text-borderGray bg-transparent border-1 border-borderGray focus:outline-none py-2 px-4  tracking-wide',
             {
               ['w-full']: fullWidth,
               ['pl-[44px]']: leftIcon,
